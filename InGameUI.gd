@@ -2,6 +2,7 @@ extends Panel
 
 const startTime = 100
 var timer
+var countingDown = true
 var countdownText
 var p1Score
 var p2Score
@@ -13,14 +14,18 @@ func _ready():
 	set_process(true)
 
 func _process(delta):
-	if timer >= 0:
-		var formatTime = "%02d" % timer
-		countdownText.set_text(formatTime)
-		timer -= delta
-	elif !gameOver:
-		gameOver = true
-		print ("OMG GAME OVER")
-		#send endgame trigger
+	if countingDown:
+		if timer >= 0:
+			var formatTime = "%02d" % timer
+			countdownText.set_text(formatTime)
+			timer -= delta
+		elif !gameOver:
+			gameOver = true
+			print ("OMG GAME OVER")
+			#send endgame trigger
+
+func resetTimer():
+	timer = startTime
 
 func p1Scores(amount):
 	p1Score += amount

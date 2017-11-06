@@ -1,30 +1,36 @@
-
 extends Node2D
-
-var ballSpeed = 80
-var upperLimit
-var lowerLimit
-var leftLimit
-var rightLimit
-var centerLimit
-var centerOffset
-var playerSize
-var playerSpeed = 400
-
-
 func _ready():
 	
-	# set player movement limits
-	playerSize = get_node("redPlayer").get_texture().get_size().x
-	var playerOffset = playerSize / 2
+	# set player and ball movement limits
 	var vertOffset = get_node("field/topEdge").get_texture().get_size().y / 2
-	var horizOffset = get_node("rightGoal/yellowGoal").get_texture().get_size().x / 2
-	upperLimit = get_node("field/topEdge").get_global_pos().y + vertOffset + playerOffset
-	lowerLimit = get_node("field/bottomEdge").get_global_pos().y - vertOffset - playerOffset 
-	leftLimit = get_node("leftGoal/yellowGoal").get_global_pos().x + playerOffset + horizOffset
-	rightLimit = get_node("rightGoal/yellowGoal").get_global_pos().x - playerOffset - horizOffset
-	centerLimit = get_node("field/divider").get_global_pos().x
-	centerOffset = playerOffset + get_node("field/divider").get_texture().get_size().x / 2
+	var horizOffset = get_node("field/rightGoal/yellowGoal/Sprite").get_texture().get_size().x / 2
+	var upperLimit = get_node("field/topEdge").get_global_pos().y + vertOffset
+	var lowerLimit = get_node("field/bottomEdge").get_global_pos().y - vertOffset 
+	var leftLimit = get_node("field/leftGoal/yellowGoal/Sprite").get_global_pos().x + horizOffset
+	var rightLimit = get_node("field/rightGoal/yellowGoal/Sprite").get_global_pos().x- horizOffset
+	var centerLimit = get_node("field/divider").get_global_pos().x
+	
+	var p1 = get_node("redPlayer")
+	var p2 = get_node("bluePlayer")
+	p1.setLimits(upperLimit, lowerLimit, leftLimit, centerLimit)
+	p2.setLimits(upperLimit, lowerLimit, centerLimit, rightLimit)
+	get_node("ball").setLimits(upperLimit, lowerLimit)
+	
+	# set keys for both players
+	p1.setKeys("p1_up", "p1_down", "p1_left","p1_right","p1_action")
+	p2.setKeys("p2_up", "p2_down", "p2_left","p2_right","p2_action")
+	
+	p1.setup("p1")
+	p2.setup("p2")
+	
+	var p1RedGoal = get_node("field/leftGoal/redGoal")
+	var p1YellowGoal = get_node("field/leftGoal/yellowGoal")
+	var p2RedGoal = get_node("field/rightGoal/redGoal")
+	var p2YellowGoal = get_node("field/rightGoal/yellowGoal")
+	p1RedGoal.setup(3,"p1Red")
+	p2RedGoal.setup(3,"p2Red")
+	p1YellowGoal.setup(1,"p1Yellow")
+	p2YellowGoal.setup(1,"p2Yellow")
 	
 	# fix screen size if monitor is too small (hello laptop...)
 	var monSize = OS.get_screen_size()
@@ -40,44 +46,6 @@ func _process(delta):
 	if Input.is_action_pressed("ui_cancel"):
 		get_tree().quit()
 	
-#	# Get ball position and pad rectangles
-#	var ball_pos = get_node("ball").get_pos()
-#	var left_rect = Rect2(get_node("left").get_pos() - pad_size*0.5, pad_size)
-#	var right_rect = Rect2(get_node("right").get_pos() - pad_size*0.5, pad_size)
-#	
-#	# Integrate new ball postion
-#	ball_pos += direction*ball_speed*delta
-#	
-#	# Flip when touching roof or floor
-#	if ((ball_pos.y < 0 and direction.y < 0) or (ball_pos.y > screen_size.y and direction.y > 0)):
-#		direction.y = -direction.y
-#	
-#	# Flip, change direction and increase speed when touching pads
-#	if ((left_rect.has_point(ball_pos) and direction.x < 0) or (right_rect.has_point(ball_pos) and direction.x > 0)):
-#		direction.x = -direction.x
-#		ball_speed *= 1.1
-#		direction.y = randf()*2.0 - 1
-#		direction = direction.normalized()
-#	
-#	# Check gameover
-#	if (ball_pos.x < 0 or ball_pos.x > screen_size.x):
-#		ball_pos = screen_size*0.5
-#		ball_speed = INITIAL_BALL_SPEED
-#		direction = Vector2(-1, 0)
-#	
-#	get_node("ball").set_pos(ball_pos)
-#	
-	# Move player one
-	var left_pos = get_node("redPlayer").get_pos()
-	
-	if (left_pos.y > upperLimit and Input.is_action_pressed("ui_up")):
-		left_pos.y += -playerSpeed*delta
-	if (left_pos.y < lowerLimit and Input.is_action_pressed("ui_down")):
-		left_pos.y += playerSpeed*delta
-	if (left_pos.x > leftLimit and Input.is_action_pressed("ui_left")):
-		left_pos.x += -playerSpeed*delta
-	if (left_pos.x < centerLimit -centerOffset and Input.is_action_pressed("ui_right")):
-		left_pos.x += playerSpeed*delta
-	
-	get_node("redPlayer").set_pos(left_pos)
+
+
 
