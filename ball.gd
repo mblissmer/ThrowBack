@@ -25,10 +25,13 @@ func _process(delta):
 			for result in results:
 				if result.name == ignored:
 					continue
-				if result.name == "p1" or result.name == "p2":
+				if result.areaType == "player":
 					caught = true
 					result.caughtBall = true
 					break
+				if result.areaType == "goal":
+					caught = true
+					result.score()
 #			if results[0].name == "p1":
 #				direction.x = -direction.x
 #				speed *= 1.1

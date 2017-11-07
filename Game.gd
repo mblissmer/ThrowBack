@@ -1,5 +1,9 @@
 extends Node2D
+
+var scoreboard
+
 func _ready():
+	scoreboard = get_node("InGameUI")
 	
 	# set player and ball movement limits
 	var vertOffset = get_node("field/topEdge").get_texture().get_size().y / 2
@@ -20,6 +24,7 @@ func _ready():
 	p1.setKeys("p1_up", "p1_down", "p1_left","p1_right","p1_action")
 	p2.setKeys("p2_up", "p2_down", "p2_left","p2_right","p2_action")
 	
+	# misc setup
 	p1.setup("p1")
 	p2.setup("p2")
 	
@@ -27,10 +32,10 @@ func _ready():
 	var p1YellowGoal = get_node("field/leftGoal/yellowGoal")
 	var p2RedGoal = get_node("field/rightGoal/redGoal")
 	var p2YellowGoal = get_node("field/rightGoal/yellowGoal")
-	p1RedGoal.setup(3,"p1Red")
-	p2RedGoal.setup(3,"p2Red")
-	p1YellowGoal.setup(1,"p1Yellow")
-	p2YellowGoal.setup(1,"p2Yellow")
+	p1RedGoal.setup(3,"p1","red")
+	p2RedGoal.setup(3,"p2","red")
+	p1YellowGoal.setup(1,"p1","yellow")
+	p2YellowGoal.setup(1,"p2","yellow")
 	
 	# fix screen size if monitor is too small (hello laptop...)
 	var monSize = OS.get_screen_size()
@@ -46,6 +51,11 @@ func _process(delta):
 	if Input.is_action_pressed("ui_cancel"):
 		get_tree().quit()
 	
+func score(player, value):
+	if player == "p1":
+		scoreboard.p1Scores(value)
+	elif player == "p2":
+		scoreboard.p2Scores(value)
 
 
 

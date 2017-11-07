@@ -1,6 +1,7 @@
 extends Area2D
 
 var name = ""
+var areaType = "player"
 var ball
 var caughtBall = false
 var chargeShot = false

@@ -4,13 +4,14 @@ const startTime = 100
 var timer
 var countingDown = true
 var countdownText
-var p1Score
-var p2Score
+var p1Score = 0
+var p2Score = 0
 var gameOver = false
 
 func _ready():
 	timer = startTime
 	countdownText = get_node("countDown")
+	updateScoreDisplay()
 	set_process(true)
 
 func _process(delta):
@@ -29,10 +30,15 @@ func resetTimer():
 
 func p1Scores(amount):
 	p1Score += amount
-	var formatScore = "%02d" % p1Score
-	get_node("p1Score").set_text(formatScore)
+	updateScoreDisplay()
+
 
 func p2Scores(amount):
 	p2Score += amount
-	var formatScore = "%02d" % p2Score
+	updateScoreDisplay()
+	
+func updateScoreDisplay():
+	var formatScore = "%02d" % p1Score
 	get_node("p1Score").set_text(formatScore)
+	var formatScore = "%02d" % p2Score
+	get_node("p2Score").set_text(formatScore)
