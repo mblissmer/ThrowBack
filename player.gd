@@ -11,6 +11,7 @@ const ballRotMinSpeed = 1
 const ballRotMaxSpeed = 10
 var ballRotCurSpeed = 1
 var ballRotSpeedUpMult = 2
+var shotAngle
 var up
 var down
 var left
@@ -61,7 +62,16 @@ func _process(delta):
 				ballRotationAngle -= PI*2
 			ballPos.x += (cos(ballRotationAngle)*playerOffset)
 			ballPos.y += (sin(ballRotationAngle)*playerOffset)
+			shotAngle = (ball.get_pos() - get_pos()).normalized()
+			if name == "p1":
+				shotAngle.x = abs(shotAngle.x)
+			elif name == "p2":
+				shotAngle.x = -abs(shotAngle.x)
+#			print(shotAngle)
 		ball.set_pos(ballPos)
+		
+
+	update()
 		
 func setKeys(u, d, l, r, a):
 	up = u
@@ -80,10 +90,17 @@ func setup(n):
 	name = n
 	
 func launchBall():
+	
 	var dirx = 1.0
 	if name == "p2":
 		dirx = -1.0
-	var dir = Vector2(dirx, randf()*2.0 - 1)
-	dir = dir.normalized()
+#	var dir = Vector2(dirx, randf()*2.0 - 1)
+	var dir = shotAngle
+#	dir = dir.normalized()
 	caughtBall = false
-	ball.launch(dir, charge, name)
+	ball.launch(dir, charge, name) #asdf
+	
+func _draw():
+	if caughtBall and chargeShot:
+		var startPos = ball.get_pos() - get_pos()
+		draw_line(startPos,shotAngle * 200,Color(255,255,255), 5)

@@ -1,4 +1,4 @@
-extends Panel
+extends Control
 
 const startTime = 100
 var timer

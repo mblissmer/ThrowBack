@@ -8,7 +8,6 @@ var root
 
 func _ready():
 	root = get_node("/root/Game")
-	print (get_path())
 	
 func setup(val,p,n):
 	value = val
@@ -17,3 +16,4 @@ func setup(val,p,n):
 	
 func score():
 	root.score(player, value)
+	print(value)

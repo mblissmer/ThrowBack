@@ -1,7 +1,8 @@
 extends Area2D
 var upperLimit = 0
 var lowerLimit = 0
-var direction = Vector2(-0.5, -0.5)
+const initialDirection = Vector2(1,0)
+var direction = initialDirection
 const baseSpeed = 200
 var speed = baseSpeed
 var caught = false
@@ -11,6 +12,10 @@ func _ready():
 	set_process(true)
 
 func _process(delta):
+	if ignored != "":
+		if get_overlapping_areas().size() == 0:
+			ignored = ""
+	
 	# Get ball position
 	if not caught:
 		var pos = get_pos()
@@ -30,13 +35,9 @@ func _process(delta):
 					result.caughtBall = true
 					break
 				if result.areaType == "goal":
+					ignored = result.name
 					caught = true
 					result.score()
-#			if results[0].name == "p1":
-#				direction.x = -direction.x
-#				speed *= 1.1
-#				direction.y = randf()*2.0 - 1
-#				direction = direction.normalized()
 		
 		set_pos(pos)
 	
@@ -46,7 +47,16 @@ func setLimits(upper, lower):
 	lowerLimit = lower - offset
 	
 func launch(dir, sp, player):
-	direction = dir
+	if dir == Vector2(0,0):
+		if player == "p2":
+			direction = -initialDirection
+		elif player == "p1":
+			direction = initialDirection
+		else:
+			var mult = rand_range(-1,1)
+			direction = initialDirection * sign(mult)
+	else: 
+		direction = dir
 	speed = baseSpeed * sp
 	ignored = player
 	caught = false
