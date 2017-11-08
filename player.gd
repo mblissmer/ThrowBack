@@ -3,7 +3,7 @@ extends Area2D
 var name = ""
 var areaType = "player"
 var ball
-var caughtBall = false
+var caught = false
 var chargeShot = false
 var charge = 1
 var ballRotationAngle = PI
@@ -12,6 +12,8 @@ const ballRotMaxSpeed = 10
 var ballRotCurSpeed = 1
 var ballRotSpeedUpMult = 2
 var shotAngle
+var collectTimer = 0
+var ballRelativeCaughtPos
 var up
 var down
 var left
@@ -23,8 +25,10 @@ var leftLimit
 var rightLimit
 var playerOffset
 var speed = 400
+var particles
 
 func _ready():
+	particles = get_node("Particles2D")
 	ball = get_node("../ball")
 	playerOffset = get_node("Sprite").get_texture().get_size().x / 1.5
 	set_process(true)
@@ -43,8 +47,13 @@ func _process(delta):
 		pos.x += speed*delta
 	set_pos(pos)
 	
-	if caughtBall:
+	if caught:
 		var ballPos = pos
+		if not chargeShot and collectTimer < 0.5:
+			collectTimer += delta
+			var perc = collectTimer / 0.5
+			var newStartPos = ballRelativeCaughtPos + pos 
+			ballPos = newStartPos + ((pos - newStartPos) * perc)
 		if Input.is_action_pressed(action):
 			chargeShot = true
 			charge += delta
@@ -67,7 +76,6 @@ func _process(delta):
 				shotAngle.x = abs(shotAngle.x)
 			elif name == "p2":
 				shotAngle.x = -abs(shotAngle.x)
-#			print(shotAngle)
 		ball.set_pos(ballPos)
 		
 
@@ -86,21 +94,25 @@ func setLimits(u, d, l, r):
 	leftLimit = l + playerOffset
 	rightLimit = r - playerOffset
 	
-func setup(n):
+func setup(n, path):
 	name = n
+	var sprite = load(path)
+	get_node("Sprite").set_texture(sprite)
+	get_node("Particles2D").set_texture(sprite)
 	
+func caughtBall():
+	caught = true
+	ballRelativeCaughtPos = ball.get_pos() - get_pos()
+
 func launchBall():
-	
 	var dirx = 1.0
 	if name == "p2":
 		dirx = -1.0
-#	var dir = Vector2(dirx, randf()*2.0 - 1)
 	var dir = shotAngle
-#	dir = dir.normalized()
-	caughtBall = false
-	ball.launch(dir, charge, name) #asdf
+	caught = false
+	ball.launch(dir, charge, name)
 	
 func _draw():
-	if caughtBall and chargeShot:
+	if caught and chargeShot:
 		var startPos = ball.get_pos() - get_pos()
 		draw_line(startPos,shotAngle * 200,Color(255,255,255), 5)

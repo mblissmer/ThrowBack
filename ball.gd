@@ -2,13 +2,15 @@ extends Area2D
 var upperLimit = 0
 var lowerLimit = 0
 const initialDirection = Vector2(1,0)
-var direction = initialDirection
+var direction = Vector2(0,0)
 const baseSpeed = 200
 var speed = baseSpeed
 var caught = false
 var ignored = ""
+var particles
 
 func _ready():
+	particles = get_node("Particles2D")
 	set_process(true)
 
 func _process(delta):
@@ -32,13 +34,14 @@ func _process(delta):
 					continue
 				if result.areaType == "player":
 					caught = true
-					result.caughtBall = true
+					particles.set_emitting(false)
+					result.caughtBall()
 					break
 				if result.areaType == "goal":
 					ignored = result.name
 					caught = true
-					result.score()
-		
+					get_parent().score(result.player, result.value)
+					return
 		set_pos(pos)
 	
 func setLimits(upper, lower):
@@ -59,4 +62,5 @@ func launch(dir, sp, player):
 		direction = dir
 	speed = baseSpeed * sp
 	ignored = player
+	particles.set_emitting(true)
 	caught = false
