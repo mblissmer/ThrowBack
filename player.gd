@@ -6,13 +6,14 @@ var ball
 var caught = false
 var chargeShot = false
 var charge = 1
+const minCharge = 1
+const maxCharge = 2
+var chargeUpSpeed = 2
 var ballRotationAngle = PI
-const ballRotMinSpeed = 1
-const ballRotMaxSpeed = 10
-var ballRotCurSpeed = 1
-var ballRotSpeedUpMult = 2
 var shotAngle
+var collecting = false
 var collectTimer = 0
+var collectSpeed = 0.2
 var ballRelativeCaughtPos
 var up
 var down
@@ -36,7 +37,25 @@ func _ready():
 func _process(delta):
 	# Move player
 	var pos = get_pos()
+	set_pos(movement(pos, delta))
 	
+	if caught:
+		var ballPos = pos
+		if collecting:
+			ballPos = collectBall(ballPos, delta)
+		if Input.is_action_pressed(action):
+			pressCharge()
+		elif chargeShot and not Input.is_action_pressed(action):
+			releaseCharge()
+			return
+		if chargeShot:
+			ballPos = chargingShot(ballPos, delta)
+		ball.set_pos(ballPos)
+	
+	update()
+	
+
+func movement(pos, delta):
 	if (pos.y > upperLimit and Input.is_action_pressed(up)):
 		pos.y += -speed*delta
 	if (pos.y < lowerLimit and Input.is_action_pressed(down)):
@@ -45,42 +64,8 @@ func _process(delta):
 		pos.x += -speed*delta
 	if (pos.x < rightLimit and Input.is_action_pressed(right)):
 		pos.x += speed*delta
-	set_pos(pos)
-	
-	if caught:
-		var ballPos = pos
-		if not chargeShot and collectTimer < 0.5:
-			collectTimer += delta
-			var perc = collectTimer / 0.5
-			var newStartPos = ballRelativeCaughtPos + pos 
-			ballPos = newStartPos + ((pos - newStartPos) * perc)
-		if Input.is_action_pressed(action):
-			chargeShot = true
-			charge += delta
-		elif chargeShot and not Input.is_action_pressed(action):
-			launchBall()
-			charge = 1
-			chargeShot = false
-			ballRotCurSpeed = ballRotMinSpeed
-			return
-		if chargeShot:
-			if ballRotCurSpeed < ballRotMaxSpeed:
-				ballRotCurSpeed += delta * ballRotSpeedUpMult
-			ballRotationAngle += ballRotCurSpeed * delta
-			if ballRotationAngle > PI*2:
-				ballRotationAngle -= PI*2
-			ballPos.x += (cos(ballRotationAngle)*playerOffset)
-			ballPos.y += (sin(ballRotationAngle)*playerOffset)
-			shotAngle = (ball.get_pos() - get_pos()).normalized()
-			if name == "p1":
-				shotAngle.x = abs(shotAngle.x)
-			elif name == "p2":
-				shotAngle.x = -abs(shotAngle.x)
-		ball.set_pos(ballPos)
-		
+	return pos
 
-	update()
-		
 func setKeys(u, d, l, r, a):
 	up = u
 	down = d
@@ -102,6 +87,7 @@ func setup(n, path):
 	
 func caughtBall():
 	caught = true
+	collecting = true
 	ballRelativeCaughtPos = ball.get_pos() - get_pos()
 
 func launchBall():
@@ -112,6 +98,43 @@ func launchBall():
 	caught = false
 	ball.launch(dir, charge, name)
 	
+func collectBall(ballPos, delta):
+	collectTimer += delta
+	var perc = collectTimer / collectSpeed
+	var newStartPos = ballRelativeCaughtPos + ballPos 
+	ballPos = newStartPos + ((ballPos - newStartPos) * perc)
+	if collectTimer >= collectSpeed:
+		cancelCollect()
+	return ballPos
+	
+func cancelCollect():
+	collecting = false
+	collectTimer = 0
+	
+func pressCharge():
+	cancelCollect()
+	chargeShot = true
+
+func releaseCharge():
+	launchBall()
+	charge = minCharge
+	chargeShot = false
+	
+func chargingShot(ballPos, delta):
+	if charge < maxCharge:
+		charge += delta * chargeUpSpeed
+	ballRotationAngle += charge * delta
+	if ballRotationAngle > PI*2:
+		ballRotationAngle -= PI*2
+	ballPos.x += (cos(ballRotationAngle)*playerOffset)
+	ballPos.y += (sin(ballRotationAngle)*playerOffset)
+	shotAngle = (ball.get_pos() - get_pos()).normalized()
+	if name == "p1":
+		shotAngle.x = abs(shotAngle.x)
+	elif name == "p2":
+		shotAngle.x = -abs(shotAngle.x)
+	return ballPos
+
 func _draw():
 	if caught and chargeShot:
 		var startPos = ball.get_pos() - get_pos()

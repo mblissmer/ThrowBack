@@ -21,6 +21,30 @@
      id="defs2">
     <linearGradient
        inkscape:collect="always"
+       id="linearGradient924">
+      <stop
+         style="stop-color:#ff0081;stop-opacity:1"
+         offset="0"
+         id="stop920" />
+      <stop
+         id="stop928"
+         offset="0.22321449"
+         style="stop-color:#f6d5ff;stop-opacity:1" />
+      <stop
+         style="stop-color:#42c6ff;stop-opacity:1"
+         offset="0.49330381"
+         id="stop930" />
+      <stop
+         id="stop932"
+         offset="0.7633931"
+         style="stop-color:#f6d5ff;stop-opacity:1" />
+      <stop
+         style="stop-color:#ff0081;stop-opacity:1"
+         offset="1"
+         id="stop922" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
        id="linearGradient970">
       <stop
          style="stop-color:#fc68fd;stop-opacity:1;"
@@ -307,6 +331,15 @@
        fx="80.753387"
        fy="-369.13388"
        r="22.461763" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient924"
+       id="linearGradient926"
+       x1="-316.24222"
+       y1="-176.13696"
+       x2="-316.24222"
+       y2="162.52966"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -315,9 +348,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="-501.54481"
-     inkscape:cy="-731.47998"
+     inkscape:zoom="0.35"
+     inkscape:cx="8.8840682"
+     inkscape:cy="542.21356"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -776,6 +809,17 @@
        id="rect4623"
        style="fill:#f6d5ff;fill-opacity:1;stroke:none;stroke-width:0.00322406;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        transform="scale(-1,1)"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <rect
+       y="-176.13696"
+       x="-336.65292"
+       height="338.66663"
+       width="46.002834"
+       id="rect918"
+       style="fill:url(#linearGradient926);fill-opacity:1;stroke:none;stroke-width:0.15636602;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       transform="rotate(-90)"
+       inkscape:export-filename="C:\Users\mblissmer\Desktop\rect918.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
   </g>

@@ -3,7 +3,7 @@ var upperLimit = 0
 var lowerLimit = 0
 const initialDirection = Vector2(1,0)
 var direction = Vector2(0,0)
-const baseSpeed = 200
+const baseSpeed = 300
 var speed = baseSpeed
 var caught = false
 var ignored = ""
@@ -40,7 +40,7 @@ func _process(delta):
 				if result.areaType == "goal":
 					ignored = result.name
 					caught = true
-					get_parent().score(result.player, result.value)
+					get_parent().score(result.player, result.value, result.name, pos)
 					return
 		set_pos(pos)
 	

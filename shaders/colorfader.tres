@@ -1,0 +1,18 @@
+[gd_resource type="CanvasItemShader" format=1]
+
+[resource]
+
+_code = {
+"fragment": "float fade = UV.x;
+float red = abs(sin(TIME)) + fade;
+vec4 curCol = vec4(red,1,1,1);
+
+vec4 col = COLOR * curCol;
+COLOR = col;",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+

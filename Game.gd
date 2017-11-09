@@ -7,6 +7,7 @@ var ball
 var mainMenu
 var quarterScreenX
 var halfScreenY
+var goalExplosion
 
 func _ready():
 	ball = preload("res://ball.tscn").instance()
@@ -14,6 +15,7 @@ func _ready():
 	p2 = preload("res://player.tscn").instance()
 	scoreboard = preload("res://InGameUI.tscn").instance()
 	mainMenu = preload("res://MainMenu.tscn").instance()
+	goalExplosion = preload("res://ScoreExplosion.tscn")
 	add_child(mainMenu)
 	
 	quarterScreenX = get_viewport().get_rect().size.x / 4
@@ -52,14 +54,14 @@ func setupPlayersAndBall():
 	p2.setup("p2", "res://sprites/bluePlayer.png")
 
 func setupGoals():
-	var p2RedGoal = get_node("field/leftGoal/redGoal")
-	var p2YellowGoal = get_node("field/leftGoal/yellowGoal")
 	var p1RedGoal = get_node("field/rightGoal/redGoal")
 	var p1YellowGoal = get_node("field/rightGoal/yellowGoal")
-	p2RedGoal.setup(3,"p1","red")
-	p1RedGoal.setup(3,"p2","red")
-	p2YellowGoal.setup(1,"p1","yellow")
-	p1YellowGoal.setup(1,"p2","yellow")
+	var p2RedGoal = get_node("field/leftGoal/redGoal")
+	var p2YellowGoal = get_node("field/leftGoal/yellowGoal")
+	p2RedGoal.setup(3,"p2","red")
+	p1RedGoal.setup(3,"p1","red")
+	p2YellowGoal.setup(1,"p2","yellow")
+	p1YellowGoal.setup(1,"p1","yellow")
 	
 func setupDisplay():
 	var monSize = OS.get_screen_size()
@@ -68,12 +70,18 @@ func setupDisplay():
 		OS.set_window_size(Vector2(960,768))
 		OS.set_window_position(Vector2(10,10))
 	
-func score(player, value):
+func score(player, value, goalColor, pos):
+	var winner = ""
 	if player == "p1":
-		scoreboard.p1Scores(value)
+		winner = scoreboard.p1Scores(value)
 	elif player == "p2":
-		scoreboard.p2Scores(value)
-	backToOnes(player)
+		winner = scoreboard.p2Scores(value)
+	if winner == "":
+		backToOnes(player)
+	var newExplosion = goalExplosion.instance()
+	add_child(newExplosion)
+	newExplosion.setup(player, pos, goalColor)
+	
 
 func backToOnes(player):
 	p1.set_pos(Vector2(quarterScreenX, halfScreenY))
