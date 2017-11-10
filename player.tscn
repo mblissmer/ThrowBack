@@ -1,12 +1,13 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://sprites/redPlayer.png" type="Texture" id=2]
+[ext_resource path="res://GoalAnnounce.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 
 custom_solver_bias = 0.0
-radius = 10.0
+radius = 10.9254
 
 [node name="player" type="Area2D"]
 
@@ -58,5 +59,10 @@ transform/scale = Vector2( 5, 5 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
+
+[node name="GoalAnnounce" parent="." instance=ExtResource( 3 )]
+
+process/pause_mode = 2
+transform/pos = Vector2( 0, -125 )
 
 

@@ -50,7 +50,6 @@ color/color = Color( 1, 1, 1, 0.0784314 )
 
 [node name="ballSprite" type="Sprite" parent="."]
 
-z/z = 1
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D1" type="CollisionShape2D" parent="."]

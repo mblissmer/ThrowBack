@@ -35,12 +35,14 @@ func _process(delta):
 				if result.areaType == "player":
 					caught = true
 					particles.set_emitting(false)
-					result.caughtBall()
+					result.caughtBall(self)
 					break
 				if result.areaType == "goal":
 					ignored = result.name
 					caught = true
 					get_parent().score(result.player, result.value, result.name, pos)
+					print("score")
+					queue_free()
 					return
 		set_pos(pos)
 	

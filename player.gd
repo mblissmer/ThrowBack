@@ -6,9 +6,9 @@ var ball
 var caught = false
 var chargeShot = false
 var charge = 1
-const minCharge = 1
-const maxCharge = 2
-var chargeUpSpeed = 2
+const minCharge = 4
+const maxCharge = 8
+var chargeUpSpeed = 4
 var ballRotationAngle = PI
 var shotAngle
 var collecting = false
@@ -27,44 +27,13 @@ var rightLimit
 var playerOffset
 var speed = 400
 var particles
+var goalAnnounce
 
 func _ready():
+	goalAnnounce = get_node("GoalAnnounce")
 	particles = get_node("Particles2D")
-	ball = get_node("../ball")
 	playerOffset = get_node("Sprite").get_texture().get_size().x / 1.5
 	set_process(true)
-
-func _process(delta):
-	# Move player
-	var pos = get_pos()
-	set_pos(movement(pos, delta))
-	
-	if caught:
-		var ballPos = pos
-		if collecting:
-			ballPos = collectBall(ballPos, delta)
-		if Input.is_action_pressed(action):
-			pressCharge()
-		elif chargeShot and not Input.is_action_pressed(action):
-			releaseCharge()
-			return
-		if chargeShot:
-			ballPos = chargingShot(ballPos, delta)
-		ball.set_pos(ballPos)
-	
-	update()
-	
-
-func movement(pos, delta):
-	if (pos.y > upperLimit and Input.is_action_pressed(up)):
-		pos.y += -speed*delta
-	if (pos.y < lowerLimit and Input.is_action_pressed(down)):
-		pos.y += speed*delta
-	if (pos.x > leftLimit and Input.is_action_pressed(left)):
-		pos.x += -speed*delta
-	if (pos.x < rightLimit and Input.is_action_pressed(right)):
-		pos.x += speed*delta
-	return pos
 
 func setKeys(u, d, l, r, a):
 	up = u
@@ -84,8 +53,43 @@ func setup(n, path):
 	var sprite = load(path)
 	get_node("Sprite").set_texture(sprite)
 	get_node("Particles2D").set_texture(sprite)
+	ball = get_node("../ball")
+
+
+func _process(delta):
+	var pos = get_pos()
+	set_pos(movement(pos, delta))
+	if caught:
+		hasBall(pos, delta)
+	update()
 	
-func caughtBall():
+
+func movement(pos, delta):
+	if (pos.y > upperLimit and Input.is_action_pressed(up)):
+		pos.y += -speed*delta
+	if (pos.y < lowerLimit and Input.is_action_pressed(down)):
+		pos.y += speed*delta
+	if (pos.x > leftLimit and Input.is_action_pressed(left)):
+		pos.x += -speed*delta
+	if (pos.x < rightLimit and Input.is_action_pressed(right)):
+		pos.x += speed*delta
+	return pos
+
+func hasBall(pos, delta):
+	var ballPos = pos
+	if collecting:
+		ballPos = collectBall(ballPos, delta)
+	if Input.is_action_pressed(action):
+		pressCharge()
+	elif chargeShot and not Input.is_action_pressed(action):
+		releaseCharge()
+		return
+	if chargeShot:
+		ballPos = chargingShot(ballPos, delta)
+	ball.set_pos(ballPos)
+	
+func caughtBall(newball):
+	ball = newball
 	caught = true
 	collecting = true
 	ballRelativeCaughtPos = ball.get_pos() - get_pos()
@@ -96,7 +100,7 @@ func launchBall():
 		dirx = -1.0
 	var dir = shotAngle
 	caught = false
-	ball.launch(dir, charge, name)
+	ball.launch(dir, charge/2, name)
 	
 func collectBall(ballPos, delta):
 	collectTimer += delta
@@ -139,3 +143,6 @@ func _draw():
 	if caught and chargeShot:
 		var startPos = ball.get_pos() - get_pos()
 		draw_line(startPos,shotAngle * 200,Color(255,255,255), 5)
+		
+func goalPopup():
+	goalAnnounce.showMe()

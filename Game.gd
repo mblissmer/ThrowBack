@@ -10,9 +10,9 @@ var halfScreenY
 var goalExplosion
 
 func _ready():
-	ball = preload("res://ball.tscn").instance()
 	p1 = preload("res://player.tscn").instance()
 	p2 = preload("res://player.tscn").instance()
+	ball = preload("res://ball.tscn")
 	scoreboard = preload("res://InGameUI.tscn").instance()
 	mainMenu = preload("res://MainMenu.tscn").instance()
 	goalExplosion = preload("res://ScoreExplosion.tscn")
@@ -23,27 +23,36 @@ func _ready():
 	setupDisplay()
 
 func createGame():
-	add_child(ball)
 	add_child(p1)
 	add_child(p2)
 	add_child(scoreboard)
-	setupPlayersAndBall()
+	setupPlayers()
 	setupGoals()
 	backToOnes("")
 	
-func setupPlayersAndBall():
+func newBall():
+	var newball = ball.instance()
+	var vertOffset = get_node("field/topEdge").get_texture().get_size().y / 2
+	var upperLimit = get_node("field/topEdge").get_global_pos().y + vertOffset
+	var lowerLimit = get_node("field/bottomEdge").get_global_pos().y - vertOffset 
+	newball.setLimits(upperLimit, lowerLimit)
+	newball.set_pos(Vector2(quarterScreenX * 2, halfScreenY))
+	add_child(newball)
+	return newball
+	
+
+func setupPlayers():
 	# set player and ball movement limits
 	var vertOffset = get_node("field/topEdge").get_texture().get_size().y / 2
 	var horizOffset = get_node("field/rightGoal/yellowGoal/Sprite").get_texture().get_size().x / 2
-	var upperLimit = get_node("field/topEdge").get_global_pos().y + vertOffset
-	var lowerLimit = get_node("field/bottomEdge").get_global_pos().y - vertOffset 
 	var leftLimit = get_node("field/leftGoal/yellowGoal/Sprite").get_global_pos().x + horizOffset
 	var rightLimit = get_node("field/rightGoal/yellowGoal/Sprite").get_global_pos().x- horizOffset
 	var centerLimit = get_node("field/divider").get_global_pos().x
+	var upperLimit = get_node("field/topEdge").get_global_pos().y + vertOffset
+	var lowerLimit = get_node("field/bottomEdge").get_global_pos().y - vertOffset 
 	
 	p1.setLimits(upperLimit, lowerLimit, leftLimit, centerLimit)
 	p2.setLimits(upperLimit, lowerLimit, centerLimit, rightLimit)
-	ball.setLimits(upperLimit, lowerLimit)
 	
 	# set keys for both players
 	p1.setKeys("p1_up", "p1_down", "p1_left","p1_right","p1_action")
@@ -73,10 +82,13 @@ func setupDisplay():
 func score(player, value, goalColor, pos):
 	var winner = ""
 	if player == "p1":
+		p1.goalPopup()
 		winner = scoreboard.p1Scores(value)
 	elif player == "p2":
+		p2.goalPopup()
 		winner = scoreboard.p2Scores(value)
 	if winner == "":
+		print("backtoones")
 		backToOnes(player)
 	var newExplosion = goalExplosion.instance()
 	add_child(newExplosion)
@@ -86,8 +98,9 @@ func score(player, value, goalColor, pos):
 func backToOnes(player):
 	p1.set_pos(Vector2(quarterScreenX, halfScreenY))
 	p2.set_pos(Vector2(quarterScreenX * 3, halfScreenY))
-	ball.set_pos(Vector2(quarterScreenX * 2, halfScreenY))
-	ball.launch(Vector2(0,0),1,player)
+	newBall().launch(Vector2(0,0),1,player)
+	p1.ball = get_node("newball")
+	p2.ball = get_node("newball")
 	scoreboard.newMatch()
 	get_tree().set_pause(true)
 

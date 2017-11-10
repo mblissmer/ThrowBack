@@ -1,7 +1,7 @@
 extends Control
 
-const scoreLimit = 5
-const startTime = 15
+const scoreLimit = 10
+const startTime = 60
 var timer = startTime
 var countingDown = false
 var countdownText
