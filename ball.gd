@@ -41,7 +41,6 @@ func _process(delta):
 					ignored = result.name
 					caught = true
 					get_parent().score(result.player, result.value, result.name, pos)
-					print("score")
 					queue_free()
 					return
 		set_pos(pos)

@@ -22,11 +22,11 @@ func _ready():
 	halfScreenY = 600
 	setupDisplay()
 
-func createGame():
+func createGame(playerCount):
 	add_child(p1)
 	add_child(p2)
 	add_child(scoreboard)
-	setupPlayers()
+	setupPlayers(playerCount)
 	setupGoals()
 	backToOnes("")
 	
@@ -38,10 +38,12 @@ func newBall():
 	newball.setLimits(upperLimit, lowerLimit)
 	newball.set_pos(Vector2(quarterScreenX * 2, halfScreenY))
 	add_child(newball)
+	p1.ball = newball
+	p2.ball = newball
 	return newball
 	
 
-func setupPlayers():
+func setupPlayers(playerCount):
 	# set player and ball movement limits
 	var vertOffset = get_node("field/topEdge").get_texture().get_size().y / 2
 	var horizOffset = get_node("field/rightGoal/yellowGoal/Sprite").get_texture().get_size().x / 2
@@ -55,12 +57,15 @@ func setupPlayers():
 	p2.setLimits(upperLimit, lowerLimit, centerLimit, rightLimit)
 	
 	# set keys for both players
-	p1.setKeys("p1_up", "p1_down", "p1_left","p1_right","p1_action")
-	p2.setKeys("p2_up", "p2_down", "p2_left","p2_right","p2_action")
+	p1.setKeys("p1_up", "p1_down", "p1_left","p1_right","p1_action","p1_dash")
+	p2.setKeys("p2_up", "p2_down", "p2_left","p2_right","p2_action","p2_dash")
 	
 	# misc setup
-	p1.setup("p1", "res://sprites/redPlayer.png")
-	p2.setup("p2", "res://sprites/bluePlayer.png")
+	p1.setup("p1", "res://sprites/redPlayer.png", false)
+	if playerCount == 1:
+		p2.setup("p2", "res://sprites/bluePlayer.png", true)
+	else:
+		p2.setup("p2", "res://sprites/bluePlayer.png", false)
 
 func setupGoals():
 	var p1RedGoal = get_node("field/rightGoal/redGoal")
@@ -88,7 +93,6 @@ func score(player, value, goalColor, pos):
 		p2.goalPopup()
 		winner = scoreboard.p2Scores(value)
 	if winner == "":
-		print("backtoones")
 		backToOnes(player)
 	var newExplosion = goalExplosion.instance()
 	add_child(newExplosion)
@@ -99,8 +103,8 @@ func backToOnes(player):
 	p1.set_pos(Vector2(quarterScreenX, halfScreenY))
 	p2.set_pos(Vector2(quarterScreenX * 3, halfScreenY))
 	newBall().launch(Vector2(0,0),1,player)
-	p1.ball = get_node("newball")
-	p2.ball = get_node("newball")
+#	p1.ball = get_node("newball")
+#	p2.ball = get_node("newball")
 	scoreboard.newMatch()
 	get_tree().set_pause(true)
 

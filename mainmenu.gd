@@ -24,9 +24,10 @@ func _on_Settings_pressed():
 
 func _on_2PGame_pressed():
 	fadeOutMenu = true
-	get_parent().createGame()
+	get_parent().createGame(2)
 
 
 func _on_1PGame_pressed():
-	pass # replace with function body
+	fadeOutMenu = true
+	get_parent().createGame(1)
 
