@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 
 const scoreLimit = 10
 const startTime = 60

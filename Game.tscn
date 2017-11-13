@@ -11,4 +11,13 @@ script/script = ExtResource( 1 )
 
 editor/display_folded = false
 
+[node name="BetweenMatches" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 3.0
+one_shot = true
+autostart = false
+
+[connection signal="timeout" from="BetweenMatches" to="." method="_on_Timer_timeout"]
+
 

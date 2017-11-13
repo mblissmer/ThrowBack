@@ -8,8 +8,11 @@ var mainMenu
 var quarterScreenX
 var halfScreenY
 var goalExplosion
+var timer
+var scoringPlayer = ""
 
 func _ready():
+	timer = get_node("BetweenMatches")
 	p1 = preload("res://player.tscn").instance()
 	p2 = preload("res://player.tscn").instance()
 	ball = preload("res://ball.tscn")
@@ -28,7 +31,8 @@ func createGame(playerCount):
 	add_child(scoreboard)
 	setupPlayers(playerCount)
 	setupGoals()
-	backToOnes("")
+	scoringPlayer = ""
+	backToOnes(scoringPlayer)
 	
 func newBall():
 	var newball = ball.instance()
@@ -41,6 +45,11 @@ func newBall():
 	p1.ball = newball
 	p2.ball = newball
 	return newball
+	
+func clearBall():
+	p1.ball = null
+	p2.ball = null
+	
 	
 
 func setupPlayers(playerCount):
@@ -85,27 +94,29 @@ func setupDisplay():
 		OS.set_window_position(Vector2(10,10))
 	
 func score(player, value, goalColor, pos):
+	clearBall()
+	scoringPlayer = player
 	var winner = ""
-	if player == "p1":
+	if scoringPlayer == "p1":
 		p1.goalPopup()
 		winner = scoreboard.p1Scores(value)
-	elif player == "p2":
+	elif scoringPlayer == "p2":
 		p2.goalPopup()
 		winner = scoreboard.p2Scores(value)
 	if winner == "":
-		backToOnes(player)
+		timer.start()
 	var newExplosion = goalExplosion.instance()
 	add_child(newExplosion)
-	newExplosion.setup(player, pos, goalColor)
+	newExplosion.setup(scoringPlayer, pos, goalColor)
 	
 
 func backToOnes(player):
 	p1.set_pos(Vector2(quarterScreenX, halfScreenY))
 	p2.set_pos(Vector2(quarterScreenX * 3, halfScreenY))
 	newBall().launch(Vector2(0,0),1,player)
-#	p1.ball = get_node("newball")
-#	p2.ball = get_node("newball")
 	scoreboard.newMatch()
 	get_tree().set_pause(true)
 
 
+func _on_Timer_timeout():
+	backToOnes(scoringPlayer)

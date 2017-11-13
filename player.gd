@@ -71,7 +71,7 @@ func _process(delta):
 	if not computerControlled:
 		getDirection()
 	if not dashing:
-		if computerControlled:
+		if computerControlled and ball != null:
 			pos = computerMovement(pos, delta)
 		else:
 			pos = movement(pos, delta)
