@@ -65,4 +65,13 @@ _update_shape_index = 0
 process/pause_mode = 2
 transform/pos = Vector2( 0, -125 )
 
+[node name="Timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 0.3
+one_shot = true
+autostart = false
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
 

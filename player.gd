@@ -21,13 +21,17 @@ var left
 var right
 var action
 var dash
+var aimUp
+var aimDown
+var aimLeft
+var aimRight
 var movementDirection = Vector2(0,0)
-var dashCooldown = 1.5
-var dashTimer = 0
+var aimDirection = Vector2(0,0)
 var dashing = false
 var dashDistance = 400
 var dashSpeed = 10
 var dashTarget = Vector2(0,0)
+var dashTimer
 var upperLimit
 var lowerLimit
 var leftLimit
@@ -42,18 +46,23 @@ var computerHoldBallLimit = 1
 var computerHoldBallAngleVariance = 0.5
 
 func _ready():
+	dashTimer = get_node("Timer")
 	goalAnnounce = get_node("GoalAnnounce")
 	particles = get_node("Particles2D")
 	playerOffset = get_node("Sprite").get_texture().get_size().x / 1.5
 	set_process(true)
 
-func setKeys(u, d, l, r, a, j):
+func setKeys(u, d, l, r, a, j, au, ad, al, ar):
 	up = u
 	down = d
 	left = l
 	right = r
 	action = a
 	dash = j
+	aimUp = au
+	aimDown = ad
+	aimLeft = al
+	aimRight = ar
 	
 func setLimits(u, d, l, r):
 	upperLimit = u + playerOffset
@@ -99,7 +108,18 @@ func getDirection():
 		movementDirection.x -= 1
 	if (Input.is_action_pressed(right)):
 		movementDirection.x += 1
-
+		
+func getAim():
+	aimDirection = Vector2(0,0)
+	if (Input.is_action_pressed(aimUp)):
+		aimDirection.y -= 1
+	if (Input.is_action_pressed(aimDown)):
+		aimDirection.y += 1
+	if (Input.is_action_pressed(aimLeft)):
+		aimDirection.x -= 1
+	if (Input.is_action_pressed(aimRight)):
+		aimDirection.x += 1
+		
 func movement(pos, delta):
 	if not dashing:
 		pos += (movementDirection * speed * delta)
@@ -115,11 +135,11 @@ func movement(pos, delta):
 	else: 
 		var motion = dashTarget - pos
 		pos += motion * delta * dashSpeed
-		dashTimer += delta
-		if dashTimer > dashCooldown:
-			dashing = false
-			dashTimer = 0
-			dashTarget = Vector2(0,0)
+		print (dashTimer.get_time_left())
+		print(abs(pos.distance_to(dashTarget)))
+		if abs(pos.distance_to(dashTarget)) < 1 and dashTimer.get_time_left() == 0:
+			print("timer started")
+			dashTimer.start()
 	return pos
 
 func setBallPosition(pos, delta):
@@ -204,3 +224,9 @@ func _draw():
 		
 func goalPopup():
 	goalAnnounce.showMe()
+
+func _on_Timer_timeout():
+	print("timer ended")
+	dashing = false
+#	dashTimer = 0
+	dashTarget = Vector2(0,0)
