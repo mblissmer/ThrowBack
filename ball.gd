@@ -35,7 +35,7 @@ func _process(delta):
 				if result.areaType == "player":
 					caught = true
 					particles.set_emitting(false)
-					result.caughtBall(self)
+					result.catchingBall(self)
 					break
 				if result.areaType == "goal":
 					ignored = result.name

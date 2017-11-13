@@ -3,7 +3,7 @@ extends Area2D
 var name = ""
 var areaType = "player"
 var ball
-var caught = false
+var caughtBall = false
 var chargeShot = false
 var charge = 1
 const minCharge = 4
@@ -22,9 +22,12 @@ var right
 var action
 var dash
 var movementDirection = Vector2(0,0)
-var dashCooldown = 2
+var dashCooldown = 1.5
 var dashTimer = 0
 var dashing = false
+var dashDistance = 400
+var dashSpeed = 10
+var dashTarget = Vector2(0,0)
 var upperLimit
 var lowerLimit
 var leftLimit
@@ -68,18 +71,23 @@ func setup(n, path, cpu):
 
 func _process(delta):
 	var pos = get_pos()
-	if not computerControlled:
+	if computerControlled:
+		pos = computerMovement(pos, delta)
+	else:
 		getDirection()
-	if not dashing:
-		if computerControlled and ball != null:
-			pos = computerMovement(pos, delta)
-		else:
-			pos = movement(pos, delta)
-		set_pos(pos)
-	dash(pos,delta)
-	if caught:
-		hasBall(pos, delta)
+		pos = movement(pos, delta)
+	set_pos(pos)
+	if caughtBall:
+		setBallPosition(pos, delta)
 	update()
+	
+func computerMovement(pos,delta):
+	if not caughtBall and ball != null:
+		var targetY = ball.get_pos().y
+		var targetPos = Vector2(pos.x, targetY)
+		var motion = targetPos - pos
+		pos += motion * delta * 4
+	return pos
 	
 func getDirection():
 	movementDirection = Vector2(0,0)
@@ -92,34 +100,29 @@ func getDirection():
 	if (Input.is_action_pressed(right)):
 		movementDirection.x += 1
 
-func dash(pos,delta):
-	if not dashing and Input.is_action_pressed(dash):
-		dashing = true
-	if dashing:
+func movement(pos, delta):
+	if not dashing:
+		pos += (movementDirection * speed * delta)
+		pos.x = clamp(pos.x, leftLimit, rightLimit)
+		pos.y = clamp(pos.y, upperLimit, lowerLimit)
+		if Input.is_action_pressed(dash):
+			dashing = true
+			if movementDirection == Vector2(0,0):
+				movementDirection.x += 1
+			dashTarget = pos + (movementDirection * dashDistance)
+			dashTarget.x = clamp(dashTarget.x, leftLimit, rightLimit)
+			dashTarget.y = clamp(dashTarget.y, upperLimit, lowerLimit)
+	else: 
+		var motion = dashTarget - pos
+		pos += motion * delta * dashSpeed
 		dashTimer += delta
 		if dashTimer > dashCooldown:
 			dashing = false
-#		var targetY = ball.get_pos().y
-#		var targetPos = Vector2(pos.x, targetY)
-#		var motion = targetPos - pos
-#		pos += motion * delta * 4
+			dashTimer = 0
+			dashTarget = Vector2(0,0)
 	return pos
 
-func movement(pos, delta):
-	pos += (movementDirection * speed * delta)
-	pos.x = clamp(pos.x, leftLimit, rightLimit)
-	pos.y = clamp(pos.y, upperLimit, lowerLimit)
-	return pos
-
-func computerMovement(pos,delta):
-	if not caught:
-		var targetY = ball.get_pos().y
-		var targetPos = Vector2(pos.x, targetY)
-		var motion = targetPos - pos
-		pos += motion * delta * 4
-	return pos
-
-func hasBall(pos, delta):
+func setBallPosition(pos, delta):
 	var ballPos = pos
 	if collecting:
 		ballPos = collectBall(ballPos, delta)
@@ -143,18 +146,18 @@ func hasBall(pos, delta):
 		ballPos = chargingShot(ballPos, delta)
 	ball.set_pos(ballPos)
 	
-func caughtBall(newball):
+func catchingBall(newball):
 	ball = newball
-	caught = true
+	caughtBall = true
 	collecting = true
 	ballRelativeCaughtPos = ball.get_pos() - get_pos()
 
 func launchBall():
-	var dirx = 1.0
-	if name == "p2":
-		dirx = -1.0
+#	var dirx = 1.0
+#	if name == "p2":
+#		dirx = -1.0
 	var dir = shotAngle
-	caught = false
+	caughtBall = false
 	ball.launch(dir, charge/2, name)
 	
 func collectBall(ballPos, delta):
@@ -195,7 +198,7 @@ func chargingShot(ballPos, delta):
 	return ballPos
 
 func _draw():
-	if caught and chargeShot and not computerControlled:
+	if caughtBall and chargeShot and not computerControlled:
 		var startPos = ball.get_pos() - get_pos()
 		draw_line(startPos,shotAngle * 200,Color(255,255,255), 5)
 		
