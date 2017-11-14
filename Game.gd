@@ -19,6 +19,7 @@ func _ready():
 	scoreboard = preload("res://InGameUI.tscn").instance()
 	mainMenu = preload("res://MainMenu.tscn").instance()
 	goalExplosion = preload("res://ScoreExplosion.tscn")
+	setMouse()
 	add_child(mainMenu)
 	
 	quarterScreenX = get_viewport().get_rect().size.x / 4
@@ -50,6 +51,9 @@ func clearBall():
 	p1.ball = null
 	p2.ball = null
 	
+func setMouse():
+	var m = load("res://sprites/cursor.png")
+	Input.set_custom_mouse_cursor(m)
 	
 
 func setupPlayers(playerCount):
@@ -70,11 +74,11 @@ func setupPlayers(playerCount):
 	p2.setKeys("p2_up", "p2_down", "p2_left","p2_right","p2_action","p2_dash", "p2_aim_up", "p2_aim_down", "p2_aim_left", "p2_aim_right")
 	
 	# misc setup
-	p1.setup("p1", "res://sprites/redPlayer.png", false)
+	p1.setup("p1", Color8(255,0,129), false)
 	if playerCount == 1:
-		p2.setup("p2", "res://sprites/bluePlayer.png", true)
+		p2.setup("p2", Color8(66,198,255), true)
 	else:
-		p2.setup("p2", "res://sprites/bluePlayer.png", false)
+		p2.setup("p2", Color8(66,198,255), false)
 
 func setupGoals():
 	var p1RedGoal = get_node("field/rightGoal/redGoal")

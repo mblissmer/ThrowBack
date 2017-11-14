@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const scoreLimit = 10
+const scoreLimit = 1
 const startTime = 60
 var timer = startTime
 var countingDown = false
@@ -11,8 +11,16 @@ var p1Score = 0
 var p2Score = 0
 var gameOver = false
 var newMatchStart = false
+var winnerBanner
+var p1ScoreText
+var p2ScoreText
+var timeLabel
 
 func _ready():
+	p1ScoreText = get_node("p1Score")
+	p2ScoreText = get_node("p2Score")
+	timeLabel = get_node("timeLabel")
+	winnerBanner = get_node("winnerBanner")
 	countdownText = get_node("timer")
 	newGameCount = get_node("newGameCount")
 	updateScoreDisplay()
@@ -69,9 +77,9 @@ func p2Scores(amount):
 	
 func updateScoreDisplay():
 	var formatScore = "%02d" % p1Score
-	get_node("p1Score").set_text(formatScore)
+	p1ScoreText.set_text(formatScore)
 	var formatScore = "%02d" % p2Score
-	get_node("p2Score").set_text(formatScore)
+	p2ScoreText.set_text(formatScore)
 	if p1Score >= scoreLimit:
 		endGame()
 		return "p1"
@@ -83,9 +91,20 @@ func updateScoreDisplay():
 func endGame():
 	countingDown = false
 	if p1Score > p2Score:
-		print("P1 Wins!")
+		p1ScoreText.set_text("WINNER")
+		winnerBanner.set_pos(Vector2(640,15))
+		winnerBanner.set_modulate(Color(Color8(255,0,129)))
+		winnerBanner.show()
+		p2ScoreText.hide()
 	else:
-		print("P2 Wins!")
+		p2ScoreText.set_text("WINNER")
+		winnerBanner.set_pos(Vector2(0,15))
+		winnerBanner.set_modulate(Color(Color8(66,198,255)))
+		winnerBanner.show()
+		p1ScoreText.hide()
+	timeLabel.hide()
+	countdownText.hide()
 
 func newMatch():
 	newMatchStart = true
+	winnerBanner.hide()
