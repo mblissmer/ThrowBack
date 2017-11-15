@@ -10,6 +10,7 @@ var halfScreenY
 var goalExplosion
 var timer
 var scoringPlayer = ""
+var objectsBeforeGame = 3
 
 func _ready():
 	timer = get_node("BetweenMatches")
@@ -19,7 +20,6 @@ func _ready():
 	scoreboard = preload("res://InGameUI.tscn").instance()
 	mainMenu = preload("res://MainMenu.tscn").instance()
 	goalExplosion = preload("res://ScoreExplosion.tscn")
-	setMouse()
 	add_child(mainMenu)
 	
 	quarterScreenX = get_viewport().get_rect().size.x / 4
@@ -27,9 +27,10 @@ func _ready():
 	setupDisplay()
 
 func createGame(playerCount):
-	add_child(p1)
-	add_child(p2)
-	add_child(scoreboard)
+	if get_child_count() == 3:
+		add_child(p1)
+		add_child(p2)
+		add_child(scoreboard)
 	setupPlayers(playerCount)
 	setupGoals()
 	scoringPlayer = ""
@@ -51,10 +52,7 @@ func clearBall():
 	p1.ball = null
 	p2.ball = null
 	
-func setMouse():
-	var m = load("res://sprites/cursor.png")
-	Input.set_custom_mouse_cursor(m)
-	
+
 
 func setupPlayers(playerCount):
 	# set player and ball movement limits
@@ -102,23 +100,28 @@ func score(player, value, goalColor, pos):
 	scoringPlayer = player
 	var winner = ""
 	if scoringPlayer == "p1":
-		p1.goalPopup()
+		p1.goalActions()
 		winner = scoreboard.p1Scores(value)
 	elif scoringPlayer == "p2":
-		p2.goalPopup()
+		p2.goalActions()
 		winner = scoreboard.p2Scores(value)
-	if winner == "":
-		timer.start()
 	var newExplosion = goalExplosion.instance()
 	add_child(newExplosion)
 	newExplosion.setup(scoringPlayer, pos, goalColor)
+	if winner == "":
+		timer.start()
+	else:
+		print("show main menu")
+		mainMenu.show()
+		print(mainMenu.is_visible())
+		get_tree().set_pause(true)
 	
 
 func backToOnes(player):
 	p1.set_pos(Vector2(quarterScreenX, halfScreenY))
 	p2.set_pos(Vector2(quarterScreenX * 3, halfScreenY))
 	newBall().launch(Vector2(0,0),1,player)
-	scoreboard.newMatch()
+	scoreboard.newRound()
 	get_tree().set_pause(true)
 
 

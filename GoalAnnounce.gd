@@ -20,7 +20,7 @@ func _process(delta):
 		timer += delta
 		if timer > activeTime:
 			active = false
-			hide()
+			get_parent().goalActionsEnd()
 		
 func showMe():
 	timer = 0

@@ -9,8 +9,6 @@ script/script = ExtResource( 1 )
 
 [node name="field" parent="." instance=ExtResource( 2 )]
 
-editor/display_folded = false
-
 [node name="BetweenMatches" type="Timer" parent="."]
 
 process_mode = 1

@@ -10,7 +10,7 @@ var newGameTimer = 3
 var p1Score = 0
 var p2Score = 0
 var gameOver = false
-var newMatchStart = false
+var newRoundStart = false
 var winnerBanner
 var p1ScoreText
 var p2ScoreText
@@ -30,7 +30,7 @@ func _process(delta):
 	if Input.is_action_pressed("ui_cancel"):
 		get_tree().quit()
 		
-	if newMatchStart:
+	if newRoundStart:
 		CDTimer(delta)
 		
 	if countingDown:
@@ -46,7 +46,7 @@ func CDTimer(delta):
 		newGameCount.set_text("GO!")
 		newGameCount.set_self_opacity(1+newGameTimer)
 		if newGameCount.get_self_opacity() <= 0:
-			newMatchStart = false
+			newRoundStart = false
 			countingDown = true
 			newGameTimer = 3
 			get_tree().set_pause(false)
@@ -105,6 +105,13 @@ func endGame():
 	timeLabel.hide()
 	countdownText.hide()
 
-func newMatch():
-	newMatchStart = true
+func newRound():
+	newRoundStart = true
 	winnerBanner.hide()
+	
+func zeroScores():
+	p1Score = 0
+	p2Score = 0
+	timer = startTime
+	updateScoreDisplay()
+	

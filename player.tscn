@@ -1,14 +1,21 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
-[ext_resource path="res://sprites/player.png" type="Texture" id=2]
-[ext_resource path="res://GoalAnnounce.tscn" type="PackedScene" id=3]
-[ext_resource path="res://mouseMonitor.gd" type="Script" id=4]
+[ext_resource path="res://sprites/fadePlayer.png" type="Texture" id=2]
+[ext_resource path="res://sprites/player.png" type="Texture" id=3]
+[ext_resource path="res://GoalAnnounce.tscn" type="PackedScene" id=4]
+[ext_resource path="res://mouseMonitor.gd" type="Script" id=5]
+[ext_resource path="res://lights.gd" type="Script" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 
 custom_solver_bias = 0.0
 radius = 18.1551
+
+[sub_resource type="ColorRamp" id=2]
+
+offsets = FloatArray( 0, 1 )
+colors = ColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [node name="player" type="Area2D"]
 
@@ -23,7 +30,7 @@ linear_damp = 0.1
 angular_damp = 1.0
 script/script = ExtResource( 1 )
 
-[node name="Particles2D" type="Particles2D" parent="."]
+[node name="Trail" type="Particles2D" parent="."]
 
 process/pause_mode = 2
 visibility/blend_mode = 1
@@ -50,9 +57,38 @@ params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
 color/color = Color( 0.258824, 0.776471, 1, 0.0784314 )
 
+[node name="Glow" type="Particles2D" parent="."]
+
+process/pause_mode = 2
+visibility/blend_mode = 1
+config/amount = 64
+config/lifetime = 1.0
+config/emitting = false
+config/process_mode = 1
+config/local_space = false
+config/texture = ExtResource( 3 )
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 80.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 0.75
+params/final_size = 0.75
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/hue_variation = 1.0
+color/color_ramp = SubResource( 2 )
+
 [node name="Sprite" type="Sprite" parent="."]
 
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 modulate = Color( 0.258824, 0.776471, 1, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -62,7 +98,7 @@ shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
-[node name="GoalAnnounce" parent="." instance=ExtResource( 3 )]
+[node name="GoalAnnounce" parent="." instance=ExtResource( 4 )]
 
 process/pause_mode = 2
 transform/pos = Vector2( 0, -175 )
@@ -76,7 +112,30 @@ autostart = false
 
 [node name="mouseMonitor" type="Node2D" parent="."]
 
-script/script = ExtResource( 4 )
+script/script = ExtResource( 5 )
+
+[node name="Light2D" type="Light2D" parent="."]
+
+enabled = true
+editor_only = false
+texture = ExtResource( 2 )
+offset = Vector2( 0, 0 )
+scale = 2.0
+color = Color( 1, 1, 1, 1 )
+energy = 2.0
+mode = 0
+range/height = 0.0
+range/z_min = -1024
+range/z_max = 1024
+range/layer_min = 0
+range/layer_max = 0
+range/item_mask = 2
+shadow/enabled = false
+shadow/color = Color( 0, 0, 0, 0 )
+shadow/buffer_size = 2048
+shadow/esm_multiplier = 80.0
+shadow/item_mask = 1
+script/script = ExtResource( 6 )
 
 [connection signal="timeout" from="dashTimer" to="." method="_on_dashTimer_timeout"]
 

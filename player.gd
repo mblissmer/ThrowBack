@@ -27,7 +27,6 @@ var dashTarget = Vector2(0,0)
 var dashTimer
 var limits = {}
 var speed = 400
-var particles
 var goalAnnounce
 var computerControlled = false
 var computerHoldBallTimer = 0
@@ -35,13 +34,14 @@ var computerHoldBallLimit = 1
 var computerHoldBallAngleVariance = 0.5
 var mouseMonitor
 var usingMouse = false
+var glow
 
 
 func _ready():
 	mouseMonitor = get_node("mouseMonitor")
 	dashTimer = get_node("dashTimer")
 	goalAnnounce = get_node("GoalAnnounce")
-	particles = get_node("Particles2D")
+	glow = get_node("Glow")
 	limits["playerOffset"] = get_node("Sprite").get_texture().get_size().x * get_scale().x / 1.75
 	set_process(true)
 
@@ -60,8 +60,12 @@ func setup(n, col, cpu):
 	name = n
 	var newcol = Color(col)
 	get_node("Sprite").set_modulate(newcol)
+	var glow = get_node("Glow")
+	glow.set_color_phase_color(0, newcol)
+	newcol.a = 0
+	glow.set_color_phase_color(1,newcol)
 	newcol.a = 0.2
-	get_node("Particles2D").set_color(newcol)
+	get_node("Trail").set_color(newcol)
 	computerControlled = cpu
 	if name == "p1":
 		mouseMonitor.activate(true)
@@ -206,10 +210,14 @@ func chargingShot(ballPos, delta):
 	return ballPos
 
 
-func goalPopup():
+func goalActions():
 	goalAnnounce.showMe()
+	glow.set_emitting(true)
 
-
+func goalActionsEnd():
+	goalAnnounce.hide()
+	glow.set_emitting(false)
+	
 func _on_dashTimer_timeout():
 	dashing = false
 	dashTarget = Vector2(0,0)
