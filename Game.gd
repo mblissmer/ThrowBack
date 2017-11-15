@@ -18,19 +18,16 @@ func _ready():
 	p2 = preload("res://player.tscn").instance()
 	ball = preload("res://ball.tscn")
 	scoreboard = preload("res://InGameUI.tscn").instance()
-	mainMenu = preload("res://MainMenu.tscn").instance()
 	goalExplosion = preload("res://ScoreExplosion.tscn")
-	add_child(mainMenu)
 	
 	quarterScreenX = get_viewport().get_rect().size.x / 4
 	halfScreenY = 600
-	setupDisplay()
+	createGame(variables.playerCount)
 
 func createGame(playerCount):
-	if get_child_count() == 3:
-		add_child(p1)
-		add_child(p2)
-		add_child(scoreboard)
+	add_child(p1)
+	add_child(p2)
+	add_child(scoreboard)
 	setupPlayers(playerCount)
 	setupGoals()
 	scoringPlayer = ""
@@ -52,7 +49,6 @@ func clearBall():
 	p1.ball = null
 	p2.ball = null
 	
-
 
 func setupPlayers(playerCount):
 	# set player and ball movement limits
@@ -88,12 +84,7 @@ func setupGoals():
 	p2YellowGoal.setup(1,"p2","yellow")
 	p1YellowGoal.setup(1,"p1","yellow")
 	
-func setupDisplay():
-	var monSize = OS.get_screen_size()
-	var originalSize = Vector2(1280,1024)
-	if monSize.x < originalSize.x or monSize.y < originalSize.y:
-		OS.set_window_size(Vector2(960,768))
-		OS.set_window_position(Vector2(10,10))
+
 	
 func score(player, value, goalColor, pos):
 	clearBall()
@@ -111,10 +102,7 @@ func score(player, value, goalColor, pos):
 	if winner == "":
 		timer.start()
 	else:
-		print("show main menu")
-		mainMenu.show()
-		print(mainMenu.is_visible())
-		get_tree().set_pause(true)
+		transition.fade_to("res://MainMenu.tscn")
 	
 
 func backToOnes(player):

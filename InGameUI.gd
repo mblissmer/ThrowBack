@@ -11,7 +11,6 @@ var p1Score = 0
 var p2Score = 0
 var gameOver = false
 var newRoundStart = false
-var winnerBanner
 var p1ScoreText
 var p2ScoreText
 var timeLabel
@@ -20,7 +19,6 @@ func _ready():
 	p1ScoreText = get_node("p1Score")
 	p2ScoreText = get_node("p2Score")
 	timeLabel = get_node("timeLabel")
-	winnerBanner = get_node("winnerBanner")
 	countdownText = get_node("timer")
 	newGameCount = get_node("newGameCount")
 	updateScoreDisplay()
@@ -92,22 +90,15 @@ func endGame():
 	countingDown = false
 	if p1Score > p2Score:
 		p1ScoreText.set_text("WINNER")
-		winnerBanner.set_pos(Vector2(640,15))
-		winnerBanner.set_modulate(Color(Color8(255,0,129)))
-		winnerBanner.show()
 		p2ScoreText.hide()
 	else:
 		p2ScoreText.set_text("WINNER")
-		winnerBanner.set_pos(Vector2(0,15))
-		winnerBanner.set_modulate(Color(Color8(66,198,255)))
-		winnerBanner.show()
 		p1ScoreText.hide()
 	timeLabel.hide()
 	countdownText.hide()
 
 func newRound():
 	newRoundStart = true
-	winnerBanner.hide()
 	
 func zeroScores():
 	p1Score = 0
