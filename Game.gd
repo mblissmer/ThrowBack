@@ -101,8 +101,10 @@ func score(player, value, goalColor, pos):
 	newExplosion.setup(scoringPlayer, pos, goalColor)
 	if winner == "":
 		timer.start()
-	else:
-		transition.fade_to("res://MainMenu.tscn")
+	else: 
+		p1.queue_free()
+		p2.queue_free()
+	
 	
 
 func backToOnes(player):

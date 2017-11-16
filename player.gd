@@ -140,15 +140,15 @@ func setBallPosition(pos, delta):
 	if collecting:
 		ballPos = collectBall(ballPos, delta)
 	if computerControlled:
-		if not chargeShot:
-			computerHoldBallLimit = rand_range(0,1.5)
-			pressCharge()
 		if chargeShot:
 			computerHoldBallTimer += delta
 			if computerHoldBallTimer > computerHoldBallLimit and abs(shotAngle.y) < computerHoldBallAngleVariance:
 				releaseCharge()
 				computerHoldBallTimer = 0
 				return
+		else:
+			computerHoldBallLimit = rand_range(0,1.5)
+			pressCharge()
 	else: 
 		if Input.is_action_pressed(actionInputs["shoot"]):
 			pressCharge()

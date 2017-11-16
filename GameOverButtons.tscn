@@ -1,4 +1,6 @@
-[gd_scene format=1]
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://fonts/buttons.tres" type="DynamicFont" id=1]
 
 [node name="RedButtons" type="Control"]
 
@@ -11,7 +13,7 @@ margin/top = 0.0
 margin/right = 640.0
 margin/bottom = 300.0
 
-[node name="Button" type="Button" parent="."]
+[node name="Rematch" type="Button" parent="."]
 
 anchor/right = 1
 focus/ignore_mouse = false
@@ -21,13 +23,16 @@ size_flags/vertical = 2
 margin/left = 100.0
 margin/top = 25.0
 margin/right = 100.0
-margin/bottom = 125.0
+margin/bottom = 126.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
+text = "REMATCH"
 flat = false
 
-[node name="Button1" type="Button" parent="."]
+[node name="Exit" type="Button" parent="."]
 
 anchor/right = 1
 focus/ignore_mouse = false
@@ -38,9 +43,12 @@ margin/left = 100.0
 margin/top = 175.0
 margin/right = 100.0
 margin/bottom = 275.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.964706, 0.835294, 1, 1 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
+text = "EXIT"
 flat = false
 
 

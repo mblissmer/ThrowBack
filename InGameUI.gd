@@ -14,55 +14,60 @@ var newRoundStart = false
 var p1ScoreText
 var p2ScoreText
 var timeLabel
+var postGame
+var midMatch
+var pause
+var midMatchTimer
+var preMatchTimer
 
 func _ready():
-	p1ScoreText = get_node("p1Score")
-	p2ScoreText = get_node("p2Score")
-	timeLabel = get_node("timeLabel")
-	countdownText = get_node("timer")
-	newGameCount = get_node("newGameCount")
+	p1ScoreText = get_node("MidMatch/p1Score")
+	p2ScoreText = get_node("MidMatch/p2Score")
+	timeLabel = get_node("MidMatch/timeLabel")
+	countdownText = get_node("MidMatch/timeDisplay")
+	newGameCount = get_node("PreMatch/newGameCount")
+	midMatch = get_node("MidMatch")
+	postGame = get_node("PostGame")
+	pause = get_node("Pause")
+	midMatchTimer = get_node("MidMatch/Timer")
+	preMatchTimer = get_node("PreMatch/Timer")
 	updateScoreDisplay()
 	set_process(true)
 
 func _process(delta):
-	if Input.is_action_pressed("ui_cancel"):
-		get_tree().quit()
+	if Input.is_action_pressed("ui_cancel") and !pause.is_visible():
+		pauseGame()
 		
-	if newRoundStart:
-		CDTimer(delta)
-		
-	if countingDown:
-		matchTimer(delta)
+	if preMatchTimer.is_active():
+		preMatch()
+	elif midMatchTimer.is_active() or !gameOver:
+		print("pong")
+		activeMatch()
 
+func pauseGame():
+	pause.show()
+	get_tree().set_pause(true)
 
-func CDTimer(delta):
-	newGameTimer -= delta
-	if newGameTimer >= 0:
-		newGameCount.set_self_opacity(1)
-		newGameCount.set_text(str(ceil(newGameTimer)))
+func preMatch():
+	if preMatchTimer.get_time_left() > 1:
+		newGameCount.set_text(str(floor(preMatchTimer.get_time_left())))
 	else:
 		newGameCount.set_text("GO!")
-		newGameCount.set_self_opacity(1+newGameTimer)
-		if newGameCount.get_self_opacity() <= 0:
-			newRoundStart = false
-			countingDown = true
-			newGameTimer = 3
-			get_tree().set_pause(false)
+		newGameCount.set_self_opacity(preMatchTimer.get_time_left())
 
-func matchTimer(delta):
-	if timer >= 0 and gameOver == false:
-		var formatTime = "%02d" % ceil(timer)
+
+func activeMatch():
+	print("ping")
+	if midMatchTimer.get_time_left() > 0:
+		var formatTime = "%02d" % ceil(midMatchTimer.get_time_left())
+		print (midMatchTimer.get_time_left())
 		countdownText.set_text(formatTime)
-		timer -= delta
 	else:
 		if p1Score == p2Score:
 			countdownText.set_text("OT")
 		else:
 			gameOver = true
 			endGame()
-
-func resetTimer():
-	timer = startTime
 
 func p1Scores(amount):
 	p1Score += amount
@@ -89,20 +94,30 @@ func updateScoreDisplay():
 func endGame():
 	countingDown = false
 	if p1Score > p2Score:
-		p1ScoreText.set_text("WINNER")
-		p2ScoreText.hide()
+		postGame.setup(str(p1Score), str(p2Score), "WIN", "LOSE")
 	else:
-		p2ScoreText.set_text("WINNER")
-		p1ScoreText.hide()
-	timeLabel.hide()
-	countdownText.hide()
+		postGame.setup(str(p1Score), str(p2Score), "LOSE", "WIN")
+	postGame.show()
+	midMatch.hide()
+
 
 func newRound():
-	newRoundStart = true
+	preMatchTimer.start()
+	newGameCount.set_self_opacity(1)
+#	newRoundStart = true
 	
-func zeroScores():
-	p1Score = 0
-	p2Score = 0
-	timer = startTime
-	updateScoreDisplay()
+#func zeroScores():
+#	postGame.hide()
+#	p1Score = 0
+#	p2Score = 0
+#	updateScoreDisplay()
+#	midMatch.show()
 	
+
+func _on_PreMatchTimer_timeout():
+	print("start mid match timer")
+	midMatchTimer.start()
+	print (midMatchTimer.is_active())
+#	newRoundStart = false
+#	countingDown = true
+	get_tree().set_pause(false)
