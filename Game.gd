@@ -63,8 +63,8 @@ func setupPlayers(playerCount):
 	p2.setLimits(upperLimit, lowerLimit, centerLimit, rightLimit)
 	
 	# set keys for both players
-	p1.setKeys("p1_up", "p1_down", "p1_left","p1_right","p1_action","p1_dash", "p1_aim_up", "p1_aim_down", "p1_aim_left", "p1_aim_right")
-	p2.setKeys("p2_up", "p2_down", "p2_left","p2_right","p2_action","p2_dash", "p2_aim_up", "p2_aim_down", "p2_aim_left", "p2_aim_right")
+	p1.setKeys("p1_up", "p1_down", "p1_left","p1_right","p1_action","p1_dash")
+	p2.setKeys("p2_up", "p2_down", "p2_left","p2_right","p2_action","p2_dash")
 	
 	# misc setup
 	p1.setup("p1", Color8(255,0,129), false)
@@ -90,10 +90,8 @@ func score(player, value, goalColor, pos):
 	scoringPlayer = player
 	var winner = ""
 	if scoringPlayer == "p1":
-		p1.goalActions()
 		winner = scoreboard.p1Scores(value)
 	elif scoringPlayer == "p2":
-		p2.goalActions()
 		winner = scoreboard.p2Scores(value)
 	var newExplosion = goalExplosion.instance()
 	add_child(newExplosion)

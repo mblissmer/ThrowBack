@@ -3,14 +3,18 @@ extends Area2D
 var name = ""
 var areaType = "player"
 var ball
-var caughtBall = false
-var chargeShot = false
-var charge = 1
-const minCharge = 4
-const maxCharge = 8
-var chargeUpSpeed = 4
-var ballRotationAngle = PI
-var shotAngle
+var canMove = true
+var canMoveTimer
+var hasBall = false
+var releasedActionButton = true
+var releasedDashButton = true
+#var chargeShot = false
+#var charge = 1
+#const minCharge = 4
+#const maxCharge = 8
+#var chargeUpSpeed = 4
+#var ballRotationAngle = PI
+#var shotAngle
 var collecting = false
 var collectTimer = 0
 var collectSpeed = 0.2
@@ -18,37 +22,35 @@ var ballRelativeCaughtPos
 var movementInputs = {}
 var actionInputs = {}
 var aimInputs = {}
+var limits = {}
 var movementDirection = Vector2(0,0)
-var aimDirection = Vector2(0,0)
 var dashing = false
 var dashDistance = 400
 var dashSpeed = 10
 var dashTarget = Vector2(0,0)
 var dashTimer
-var limits = {}
-var speed = 400
-var goalAnnounce
+var reboundTimer
+var speed = 300
 var computerControlled = false
 var computerHoldBallTimer = 0
 var computerHoldBallLimit = 1
 var computerHoldBallAngleVariance = 0.5
-var mouseMonitor
-var usingMouse = false
 var glow
+var powerMeter
 
 
 func _ready():
-	mouseMonitor = get_node("mouseMonitor")
+	canMoveTimer = get_node("CanMoveTimer")
 	dashTimer = get_node("dashTimer")
-	goalAnnounce = get_node("GoalAnnounce")
+	reboundTimer = get_node("ReboundTimer")
 	glow = get_node("Glow")
+	powerMeter = get_node("PowerMeter")
 	limits["playerOffset"] = get_node("Sprite").get_texture().get_size().x * get_scale().x / 1.75
 	set_process(true)
 
-func setKeys(u, d, l, r, a, j, au, ad, al, ar):
+func setKeys(u, d, l, r, a, j):
 	movementInputs = {"up":u,"down":d,"left":l,"right":r}
 	actionInputs = {"shoot":a, "dash":j}
-	aimInputs = {"up":au,"down":ad,"left":al,"right":ar}
 	
 func setLimits(u, d, l, r):
 	limits["upperLimit"] = u + limits["playerOffset"]
@@ -67,28 +69,47 @@ func setup(n, col, cpu):
 	newcol.a = 0.2
 	get_node("Trail").set_color(newcol)
 	computerControlled = cpu
-	if name == "p1":
-		mouseMonitor.activate(true)
 
 
 func _process(delta):
 	var pos = get_pos()
 	if computerControlled:
-		pos = computerMovement(pos, delta)
+		pass
+		#whole separate thing
 	else:
+		resetButtons()
 		getDirection()
-		pos = movement(pos, delta)
-	set_pos(pos)
-	if caughtBall:
+		if dashing:
+			pos = dash(pos, delta)
+		elif canMove:
+			pos = movement(pos, delta)
+	if hasBall:
 		setBallPosition(pos, delta)
+	set_pos(pos)
+###########################################
+#	else:
+		#aim
+#		pass
+#	if computerControlled:
+#		pos = computerMovement(pos, delta)
+#	else:
+#		getDirection()
+#		pos = movement(pos, delta)
+
 	
-func computerMovement(pos,delta):
-	if not caughtBall and ball != null:
-		var targetY = ball.get_pos().y
-		var targetPos = Vector2(pos.x, targetY)
-		var motion = targetPos - pos
-		pos += motion * delta * 4
-	return pos
+func resetButtons():
+	if not Input.is_action_pressed(actionInputs["shoot"]) and not releasedActionButton:
+		releasedActionButton = true
+	if not Input.is_action_pressed(actionInputs["dash"]) and not releasedDashButton:
+		releasedDashButton = true
+		
+#func computerMovement(pos,delta):
+#	if not caughtBall and ball != null:
+#		var targetY = ball.get_pos().y
+#		var targetPos = Vector2(pos.x, targetY)
+#		var motion = targetPos - pos
+#		pos += motion * delta * 4
+#	return pos
 	
 func getDirection():
 	movementDirection = Vector2(0,0)
@@ -101,38 +122,24 @@ func getDirection():
 	if (Input.is_action_pressed(movementInputs["right"])):
 		movementDirection.x += 1
 
-		
-func getAim():
-	aimDirection = Vector2(0,0)
-	if (Input.is_action_pressed(aimInputs["up"])):
-		aimDirection.y -= 1
-	if (Input.is_action_pressed(aimInputs["down"])):
-		aimDirection.y += 1
-	if (Input.is_action_pressed(aimInputs["left"])):
-		aimDirection.x -= 1
-	if (Input.is_action_pressed(aimInputs["right"])):
-		aimDirection.x += 1
-	if abs(aimDirection.x) + abs(aimDirection.y) > 0.2 and usingMouse == true:
-		print ("switch to controller")
-		mouseMonitor.activate(false)
-		
+func dash(pos,delta):
+	var motion = dashTarget - pos
+	pos += motion * delta * dashSpeed
+	if abs(pos.distance_to(dashTarget)) < 1 and dashTimer.get_time_left() == 0:
+		dashTimer.start()
+	return pos
+
 func movement(pos, delta):
-	if not dashing:
-		pos += (movementDirection * speed * delta)
-		pos.x = clamp(pos.x, limits["leftLimit"], limits["rightLimit"])
-		pos.y = clamp(pos.y, limits["upperLimit"], limits["lowerLimit"])
-		if Input.is_action_pressed(actionInputs["dash"]):
-			dashing = true
-			if movementDirection == Vector2(0,0):
-				movementDirection.x += 1
-			dashTarget = pos + (movementDirection * dashDistance)
-			dashTarget.x = clamp(dashTarget.x, limits["leftLimit"], limits["rightLimit"])
-			dashTarget.y = clamp(dashTarget.y, limits["upperLimit"], limits["lowerLimit"])
-	else: 
-		var motion = dashTarget - pos
-		pos += motion * delta * dashSpeed
-		if abs(pos.distance_to(dashTarget)) < 1 and dashTimer.get_time_left() == 0:
-			dashTimer.start()
+	pos += (movementDirection * speed * delta)
+	pos.x = clamp(pos.x, limits["leftLimit"], limits["rightLimit"])
+	pos.y = clamp(pos.y, limits["upperLimit"], limits["lowerLimit"])
+	if Input.is_action_pressed(actionInputs["dash"]):
+		dashing = true
+		if movementDirection == Vector2(0,0):
+			movementDirection.x += 1
+		dashTarget = pos + (movementDirection * dashDistance)
+		dashTarget.x = clamp(dashTarget.x, limits["leftLimit"], limits["rightLimit"])
+		dashTarget.y = clamp(dashTarget.y, limits["upperLimit"], limits["lowerLimit"])
 	return pos
 
 func setBallPosition(pos, delta):
@@ -140,35 +147,61 @@ func setBallPosition(pos, delta):
 	if collecting:
 		ballPos = collectBall(ballPos, delta)
 	if computerControlled:
-		if chargeShot:
-			computerHoldBallTimer += delta
-			if computerHoldBallTimer > computerHoldBallLimit and abs(shotAngle.y) < computerHoldBallAngleVariance:
-				releaseCharge()
-				computerHoldBallTimer = 0
-				return
-		else:
-			computerHoldBallLimit = rand_range(0,1.5)
-			pressCharge()
+#		if chargeShot:
+#			computerHoldBallTimer += delta
+#			if computerHoldBallTimer > computerHoldBallLimit and abs(shotAngle.y) < computerHoldBallAngleVariance:
+#				releaseCharge()
+#				computerHoldBallTimer = 0
+#				return
+#		else:
+#			computerHoldBallLimit = rand_range(0,1.5)
+#			pressCharge()
+		pass
 	else: 
-		if Input.is_action_pressed(actionInputs["shoot"]):
-			pressCharge()
-		elif chargeShot and not Input.is_action_pressed(actionInputs["shoot"]):
-			releaseCharge()
+		if Input.is_action_pressed(actionInputs["shoot"]) and releasedActionButton:
+			releasedActionButton = false
+			shoot()
 			return
-	if chargeShot:
-		ballPos = chargingShot(ballPos, delta)
+#			pressCharge()
+#		elif chargeShot and not Input.is_action_pressed(actionInputs["shoot"]):
+#			releaseCharge()
+#			return
+#	if chargeShot:
+#		ballPos = chargingShot(ballPos, delta)
 	ball.set_pos(ballPos)
 	
-func catchingBall(newball):
+func catchingBall(newball): #alert from ball that we have caught it
+	reboundTimer.start()
 	ball = newball
-	caughtBall = true
+	hasBall = true
+	canMove = false
 	collecting = true
 	ballRelativeCaughtPos = ball.get_pos() - get_pos()
 
-func launchBall():
-	var dir = shotAngle
-	caughtBall = false
-	ball.launch(dir, charge/2, name)
+func shoot():
+	hasBall = false
+	var tl = reboundTimer.get_time_left()
+	if (name == "p1" and movementDirection.x < 0) or (name == "p2" and movementDirection.x > 0):
+		movementDirection.x *= -1
+	var speed = 1 + (tl/10)
+	if tl == 0:
+		speed = 0
+	var pmscale = powerMeter.get_scale().x
+	if pmscale < 1:
+		pmscale += tl/10
+		powerMeter.set_scale(Vector2(pmscale,pmscale))
+		if pmscale >= 1:
+			poweredUp()
+	ball.launch(movementDirection, speed, name)
+	canMoveTimer.start()
+
+func poweredUp():
+	glow.set_emitting(true)
+
+#func launchBall():
+#	var dir = shotAngle
+#	caughtBall = false
+#	ball.launch(shotAngle, charge/2, name)
 	
 func collectBall(ballPos, delta):
 	collectTimer += delta
@@ -183,41 +216,36 @@ func cancelCollect():
 	collecting = false
 	collectTimer = 0
 	
-func pressCharge():
-	cancelCollect()
-	chargeShot = true
-
-func releaseCharge():
-	launchBall()
-	charge = minCharge
-	chargeShot = false
+#func pressCharge():
+#	cancelCollect()
+#	chargeShot = true
+#
+#func releaseCharge():
+#	launchBall()
+#	charge = minCharge
+#	chargeShot = false
 	
-func chargingShot(ballPos, delta):
-	if charge < maxCharge:
-		charge += delta * chargeUpSpeed
-	ballRotationAngle += charge * delta
-	if ballRotationAngle > PI*2:
-		ballRotationAngle -= PI*2
-	ballPos.x += (cos(ballRotationAngle)*limits["playerOffset"])
-	ballPos.y += (sin(ballRotationAngle)*limits["playerOffset"])
-	if name == "p1" and usingMouse:
-		shotAngle = (get_global_mouse_pos() - get_pos()).normalized()
-	elif computerControlled:
-		shotAngle = (ball.get_pos() - get_pos()).normalized()
-		shotAngle.x = -abs(shotAngle.x)
-	else: 
-		shotAngle = aimDirection
-	return ballPos
+#func chargingShot(ballPos, delta):
+#	if charge < maxCharge:
+#		charge += delta * chargeUpSpeed
+#	ballRotationAngle += charge * delta
+#	if ballRotationAngle > PI*2:
+#		ballRotationAngle -= PI*2
+#	ballPos.x += (cos(ballRotationAngle)*limits["playerOffset"])
+#	ballPos.y += (sin(ballRotationAngle)*limits["playerOffset"])
+#	if name == "p1" and usingMouse:
+#		shotAngle = (get_global_mouse_pos() - get_pos()).normalized()
+#	elif computerControlled:
+#		shotAngle = (ball.get_pos() - get_pos()).normalized()
+#		shotAngle.x = -abs(shotAngle.x)
+#	else: 
+#		shotAngle = aimDirection
+#	return ballPos
 
-
-func goalActions():
-	goalAnnounce.showMe()
-	glow.set_emitting(true)
-
-func goalActionsEnd():
-	goalAnnounce.hide()
-	glow.set_emitting(false)
 	
 func _on_dashTimer_timeout():
 	dashing = false
 	dashTarget = Vector2(0,0)
+
+func _on_CanMoveTimer_timeout():
+	canMove = true

@@ -1,29 +1,23 @@
 extends CanvasLayer
 
 const scoreLimit = 1
-const startTime = 60
-var timer = startTime
-var countingDown = false
 var countdownText
 var newGameCount
-var newGameTimer = 3
 var p1Score = 0
 var p2Score = 0
 var gameOver = false
-var newRoundStart = false
 var p1ScoreText
 var p2ScoreText
-var timeLabel
 var postGame
 var midMatch
 var pause
+var canPause = false
 var midMatchTimer
 var preMatchTimer
 
 func _ready():
 	p1ScoreText = get_node("MidMatch/p1Score")
 	p2ScoreText = get_node("MidMatch/p2Score")
-	timeLabel = get_node("MidMatch/timeLabel")
 	countdownText = get_node("MidMatch/timeDisplay")
 	newGameCount = get_node("PreMatch/newGameCount")
 	midMatch = get_node("MidMatch")
@@ -35,7 +29,7 @@ func _ready():
 	set_process(true)
 
 func _process(delta):
-	if Input.is_action_pressed("ui_cancel") and !pause.is_visible():
+	if Input.is_action_pressed("ui_cancel") and !pause.is_visible() and canPause:
 		pauseGame()
 	if preMatchTimer.get_time_left() != 0:
 		preMatch()
@@ -88,7 +82,7 @@ func updateScoreDisplay():
 	return ""
 	
 func endGame():
-	countingDown = false
+	canPause = false
 	if p1Score > p2Score:
 		postGame.setup(str(p1Score), str(p2Score), "WIN", "LOSE")
 	else:
@@ -96,21 +90,12 @@ func endGame():
 	postGame.show()
 	midMatch.hide()
 
-
 func newRound():
 	preMatchTimer.start()
 	newGameCount.set_self_opacity(1)
-#	newRoundStart = true
-	
-#func zeroScores():
-#	postGame.hide()
-#	p1Score = 0
-#	p2Score = 0
-#	updateScoreDisplay()
-#	midMatch.show()
-	
 
 func _on_PreMatchTimer_timeout():
 	newGameCount.set_self_opacity(preMatchTimer.get_time_left())
 	midMatchTimer.start()
 	get_tree().set_pause(false)
+	canPause = true

@@ -3,7 +3,8 @@ var upperLimit = 0
 var lowerLimit = 0
 const initialDirection = Vector2(1,0)
 var direction = Vector2(0,0)
-const baseSpeed = 300
+const baseSpeed = 400
+const maxSpeed = 1000
 var speed = baseSpeed
 var caught = false
 var ignored = ""
@@ -51,6 +52,7 @@ func setLimits(upper, lower):
 	lowerLimit = lower - offset
 	
 func launch(dir, sp, player):
+#	print("speed received: " + str(sp))
 	if dir == Vector2(0,0):
 		if player == "p2":
 			direction = -initialDirection
@@ -61,7 +63,13 @@ func launch(dir, sp, player):
 			direction = initialDirection * sign(mult)
 	else: 
 		direction = dir
-	speed = baseSpeed * sp
+	speed *= sp
+	if speed > maxSpeed:
+		speed = maxSpeed
+	if speed == 0:
+		speed = baseSpeed
+#	print("speed used: " + str(speed))
+#	print("------------------------")
 	ignored = player
 	particles.set_emitting(true)
 	caught = false
