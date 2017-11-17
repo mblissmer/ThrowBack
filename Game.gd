@@ -19,8 +19,7 @@ func _ready():
 	ball = preload("res://ball.tscn")
 	scoreboard = preload("res://InGameUI.tscn").instance()
 	goalExplosion = preload("res://ScoreExplosion.tscn")
-	
-	quarterScreenX = get_viewport().get_rect().size.x / 4
+	quarterScreenX = get_viewport_rect().size.x / 4
 	halfScreenY = 600
 	createGame(variables.playerCount)
 

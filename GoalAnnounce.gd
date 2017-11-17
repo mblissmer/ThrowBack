@@ -7,7 +7,7 @@ var screenHeight
 
 func _ready():
 	hide()
-	screenHeight = get_viewport().get_rect().size.y / 2
+	screenHeight = get_viewport_rect().size.y / 2
 	set_process(true)
 
 func _process(delta):

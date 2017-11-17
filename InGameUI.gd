@@ -37,11 +37,9 @@ func _ready():
 func _process(delta):
 	if Input.is_action_pressed("ui_cancel") and !pause.is_visible():
 		pauseGame()
-		
-	if preMatchTimer.is_active():
+	if preMatchTimer.get_time_left() != 0:
 		preMatch()
-	elif midMatchTimer.is_active() or !gameOver:
-		print("pong")
+	elif midMatchTimer.get_time_left() !=0 or !gameOver:
 		activeMatch()
 
 func pauseGame():
@@ -57,10 +55,8 @@ func preMatch():
 
 
 func activeMatch():
-	print("ping")
 	if midMatchTimer.get_time_left() > 0:
 		var formatTime = "%02d" % ceil(midMatchTimer.get_time_left())
-		print (midMatchTimer.get_time_left())
 		countdownText.set_text(formatTime)
 	else:
 		if p1Score == p2Score:
@@ -115,9 +111,6 @@ func newRound():
 	
 
 func _on_PreMatchTimer_timeout():
-	print("start mid match timer")
+	newGameCount.set_self_opacity(preMatchTimer.get_time_left())
 	midMatchTimer.start()
-	print (midMatchTimer.is_active())
-#	newRoundStart = false
-#	countingDown = true
 	get_tree().set_pause(false)

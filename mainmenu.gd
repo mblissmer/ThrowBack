@@ -1,11 +1,11 @@
 extends Control
 
 func _ready():
-	var monSize = OS.get_screen_size()
-	var originalSize = Vector2(1280,1024)
-	if monSize.x < originalSize.x or monSize.y < originalSize.y:
-		OS.set_window_size(Vector2(960,768))
-		OS.set_window_position(Vector2(10,10))
+#	var monSize = OS.get_screen_size()
+#	var originalSize = Vector2(1280,1024)
+#	if monSize.x < originalSize.x or monSize.y < originalSize.y:
+#		OS.set_window_size(Vector2(960,768))
+#		OS.set_window_position(Vector2(10,10))
 	get_node("MainPage/1PGame").grab_focus()
 
 func _on_Exit_pressed():
