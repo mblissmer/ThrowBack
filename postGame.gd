@@ -19,7 +19,9 @@ func setup(p1score, p2score, p1state, p2state):
 	p2WL.set_text(p2state)
 
 func _on_Rematch_pressed():
+	sounds.beep()
 	transition.fade_to("res://Game.tscn")
 
 func _on_Exit_pressed():
+	sounds.negativeBeep()
 	transition.fade_to("res://MainMenu.tscn")

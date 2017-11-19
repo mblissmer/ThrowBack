@@ -8,7 +8,7 @@ var canMoveTimer
 var hasBall = false
 var releasedActionButton = true
 var releasedDashButton = true
-#var chargeShot = false
+var chargingShot = false
 #var charge = 1
 #const minCharge = 4
 #const maxCharge = 8
@@ -37,12 +37,17 @@ var computerHoldBallLimit = 1
 var computerHoldBallAngleVariance = 0.5
 var glow
 var powerMeter
+var powered = false
+var mustReturnTimer
+var controllerNum
+var yAimClamp = 0.6
 
 
 func _ready():
-	canMoveTimer = get_node("CanMoveTimer")
-	dashTimer = get_node("dashTimer")
-	reboundTimer = get_node("ReboundTimer")
+	canMoveTimer = get_node("Timers/CanMoveTimer")
+	dashTimer = get_node("Timers/dashTimer")
+	reboundTimer = get_node("Timers/ReboundTimer")
+	mustReturnTimer = get_node("Timers/MustReturnTimer")
 	glow = get_node("Glow")
 	powerMeter = get_node("PowerMeter")
 	limits["playerOffset"] = get_node("Sprite").get_texture().get_size().x * get_scale().x / 1.75
@@ -69,6 +74,10 @@ func setup(n, col, cpu):
 	newcol.a = 0.2
 	get_node("Trail").set_color(newcol)
 	computerControlled = cpu
+	if n == "p1":
+		controllerNum = 0
+	elif n == "p2":
+		controllerNum = 1
 
 
 func _process(delta):
@@ -86,15 +95,6 @@ func _process(delta):
 	if hasBall:
 		setBallPosition(pos, delta)
 	set_pos(pos)
-###########################################
-#	else:
-		#aim
-#		pass
-#	if computerControlled:
-#		pos = computerMovement(pos, delta)
-#	else:
-#		getDirection()
-#		pos = movement(pos, delta)
 
 	
 func resetButtons():
@@ -113,14 +113,18 @@ func resetButtons():
 	
 func getDirection():
 	movementDirection = Vector2(0,0)
-	if (Input.is_action_pressed(movementInputs["up"])):
-		movementDirection.y -= 1
-	if (Input.is_action_pressed(movementInputs["down"])):
-		movementDirection.y += 1
-	if (Input.is_action_pressed(movementInputs["left"])):
-		movementDirection.x -= 1
-	if (Input.is_action_pressed(movementInputs["right"])):
-		movementDirection.x += 1
+	var joy = Vector2(Input.get_joy_axis(controllerNum,0), Input.get_joy_axis(controllerNum,1))
+	if abs(joy.x) > variables.joyDZ or abs(joy.y) > variables.joyDZ:
+		movementDirection = Vector2(Input.get_joy_axis(0, 0), Input.get_joy_axis(0,1))
+	else:
+		if (Input.is_action_pressed(movementInputs["up"])):
+			movementDirection.y -= 1
+		if (Input.is_action_pressed(movementInputs["down"])):
+			movementDirection.y += 1
+		if (Input.is_action_pressed(movementInputs["left"])):
+			movementDirection.x -= 1
+		if (Input.is_action_pressed(movementInputs["right"])):
+			movementDirection.x += 1
 
 func dash(pos,delta):
 	var motion = dashTarget - pos
@@ -157,9 +161,11 @@ func setBallPosition(pos, delta):
 #			computerHoldBallLimit = rand_range(0,1.5)
 #			pressCharge()
 		pass
-	else: 
-		if Input.is_action_pressed(actionInputs["shoot"]) and releasedActionButton:
+	elif Input.is_action_pressed(actionInputs["shoot"]) and releasedActionButton:
 			releasedActionButton = false
+#			if powered:
+#				chargingShot = true
+#			else:
 			shoot()
 			return
 #			pressCharge()
@@ -172,6 +178,7 @@ func setBallPosition(pos, delta):
 	
 func catchingBall(newball): #alert from ball that we have caught it
 	reboundTimer.start()
+	mustReturnTimer.start()
 	ball = newball
 	hasBall = true
 	canMove = false
@@ -179,10 +186,17 @@ func catchingBall(newball): #alert from ball that we have caught it
 	ballRelativeCaughtPos = ball.get_pos() - get_pos()
 
 func shoot():
+	mustReturnTimer.stop()
 	hasBall = false
 	var tl = reboundTimer.get_time_left()
+	if abs(movementDirection.y) > yAimClamp:
+		if sign(movementDirection.x) == 0: movementDirection.x +=0.001
+		print(sign(movementDirection.x))
+		movementDirection.x += (abs(movementDirection.y) - yAimClamp) * sign(movementDirection.x)
+	movementDirection.y = clamp(movementDirection.y, -yAimClamp, yAimClamp)
 	if (name == "p1" and movementDirection.x < 0) or (name == "p2" and movementDirection.x > 0):
 		movementDirection.x *= -1
+	movementDirection = movementDirection.normalized()
 	var speed = 1 + (tl/10)
 	if tl == 0:
 		speed = 0
@@ -192,11 +206,12 @@ func shoot():
 		powerMeter.set_scale(Vector2(pmscale,pmscale))
 		if pmscale >= 1:
 			poweredUp()
-	ball.launch(movementDirection, speed, name)
+	ball.launch(movementDirection, speed, name, powered)
 	canMoveTimer.start()
 
 func poweredUp():
 	glow.set_emitting(true)
+	powered = true
 
 #func launchBall():
 #	var dir = shotAngle
@@ -249,3 +264,7 @@ func _on_dashTimer_timeout():
 
 func _on_CanMoveTimer_timeout():
 	canMove = true
+
+
+func _on_MustReturnTimer_timeout():
+	shoot()

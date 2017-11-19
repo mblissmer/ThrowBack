@@ -39,6 +39,7 @@ func _process(delta):
 func pauseGame():
 	pause.show()
 	get_tree().set_pause(true)
+	sounds.negativeBeep()
 
 func preMatch():
 	if preMatchTimer.get_time_left() > 1:
@@ -89,6 +90,7 @@ func endGame():
 		postGame.setup(str(p1Score), str(p2Score), "LOSE", "WIN")
 	postGame.show()
 	midMatch.hide()
+	get_node("PostGame/Buttons/Rematch").grab_focus()
 
 func newRound():
 	preMatchTimer.start()

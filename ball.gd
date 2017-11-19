@@ -51,7 +51,7 @@ func setLimits(upper, lower):
 	upperLimit = upper + offset
 	lowerLimit = lower - offset
 	
-func launch(dir, sp, player):
+func launch(dir, sp, player, charged):
 #	print("speed received: " + str(sp))
 	if dir == Vector2(0,0):
 		if player == "p2":
@@ -63,13 +63,20 @@ func launch(dir, sp, player):
 			direction = initialDirection * sign(mult)
 	else: 
 		direction = dir
-	speed *= sp
-	if speed > maxSpeed:
-		speed = maxSpeed
-	if speed == 0:
-		speed = baseSpeed
-#	print("speed used: " + str(speed))
-#	print("------------------------")
+	
+	if charged:
+		speed = 1500
+		charged(true)
+	else:
+		speed *= sp
+		if speed > maxSpeed:
+			speed = maxSpeed
+		if speed == 0:
+			speed = baseSpeed
 	ignored = player
 	particles.set_emitting(true)
 	caught = false
+	
+func charged(ischarged):
+	get_node("Charged").set_emitting(ischarged)
+	get_node("Light2D").set_enabled(ischarged)

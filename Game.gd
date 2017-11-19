@@ -107,7 +107,7 @@ func score(player, value, goalColor, pos):
 func backToOnes(player):
 	p1.set_pos(Vector2(quarterScreenX, halfScreenY))
 	p2.set_pos(Vector2(quarterScreenX * 3, halfScreenY))
-	newBall().launch(Vector2(0,0),1,player)
+	newBall().launch(Vector2(0,0),1,player,false)
 	scoreboard.newRound()
 	get_tree().set_pause(true)
 
