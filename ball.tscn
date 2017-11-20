@@ -57,7 +57,6 @@ color/color = Color( 1, 1, 1, 0.0784314 )
 [node name="Charged" type="Particles2D" parent="."]
 
 process/pause_mode = 2
-visibility/visible = false
 visibility/blend_mode = 1
 config/amount = 64
 config/lifetime = 0.5

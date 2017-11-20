@@ -9,12 +9,12 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 8.7884 )
+extents = Vector2( 221.779, 8.7884 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 8.71115 )
+extents = Vector2( 216.609, 8.71115 )
 
 [node name="goal" type="Node2D"]
 
@@ -22,10 +22,10 @@ extents = Vector2( 10, 8.71115 )
 
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 0.57, 0, 0, 15, 32, -276 )
+shapes/0/transform = Matrix32( 0.57, 0, 0, 15, 155, -276 )
 shapes/0/trigger = false
 shapes/1/shape = SubResource( 1 )
-shapes/1/transform = Matrix32( 0.57, 0, 0, 15, 32, 276 )
+shapes/1/transform = Matrix32( 0.57, 0, 0, 15, 155, 276 )
 shapes/1/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -40,7 +40,7 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="yellowGoal"]
 
-transform/pos = Vector2( 32, -276 )
+transform/pos = Vector2( 155, -276 )
 transform/scale = Vector2( 0.57, 15 )
 shape = SubResource( 1 )
 trigger = false
@@ -48,7 +48,7 @@ _update_shape_index = 0
 
 [node name="CollisionShape2D1" type="CollisionShape2D" parent="yellowGoal"]
 
-transform/pos = Vector2( 32, 276 )
+transform/pos = Vector2( 155, 276 )
 transform/scale = Vector2( 0.57, 15 )
 shape = SubResource( 1 )
 trigger = false
@@ -107,8 +107,8 @@ script/script = ExtResource( 4 )
 [node name="redGoal" type="Area2D" parent="."]
 
 input/pickable = true
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 0.57, 0, 0, 16, 32, 0 )
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 0.57, 0, 0, 16, 153, -0.59874 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -148,9 +148,9 @@ texture = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="redGoal"]
 
-transform/pos = Vector2( 32, 0 )
+transform/pos = Vector2( 153, -0.59874 )
 transform/scale = Vector2( 0.57, 16 )
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 

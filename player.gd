@@ -3,18 +3,14 @@ extends Area2D
 var name = ""
 var areaType = "player"
 var ball
+var playerDirMultiplier = 1
 var canMove = true
 var canMoveTimer
 var hasBall = false
 var releasedActionButton = true
 var releasedDashButton = true
 var chargingShot = false
-#var charge = 1
-#const minCharge = 4
-#const maxCharge = 8
-#var chargeUpSpeed = 4
 var ballRotationAngle
-#var shotAngle
 var collecting = false
 var collectTimer = 0
 var collectSpeed = 0.2
@@ -31,19 +27,25 @@ var dashTarget = Vector2(0,0)
 var dashTimer
 var reboundTimer
 var speed = 300
+var computerMovmementSpeed = 10
 var computerControlled = false
-var computerHoldBallTimer = 0
-var computerHoldBallLimit = 1
-var computerHoldBallAngleVariance = 0.5
+var computerHoldBallTimer
 var glow
 var powerMeter
 var powered = false
+var poweredTurnDirection
+var poweredAimTangent
+var poweredTurnSpeed = 10
+var poweredOldTangent = 0
+var poweredAim = Vector2(0,0)
+var poweredShotEnabled = false
 var mustReturnTimer
 var controllerNum
 var yAimClamp = 0.6
 
 
 func _ready():
+	computerHoldBallTimer = get_node("Timers/ComputerHoldBallTimer")
 	canMoveTimer = get_node("Timers/CanMoveTimer")
 	dashTimer = get_node("Timers/dashTimer")
 	reboundTimer = get_node("Timers/ReboundTimer")
@@ -78,13 +80,13 @@ func setup(n, col, cpu):
 		controllerNum = 0
 	elif n == "p2":
 		controllerNum = 1
+		playerDirMultiplier = -1
 
 
 func _process(delta):
 	var pos = get_pos()
 	if computerControlled:
-		pass
-		#whole separate thing
+		pos = computerMovement(pos, delta)
 	else:
 		resetButtons()
 		getDirection()
@@ -95,7 +97,7 @@ func _process(delta):
 	if hasBall:
 		setBallPosition(pos, delta)
 	set_pos(pos)
-	update()
+#	update()
 
 	
 func resetButtons():
@@ -104,13 +106,16 @@ func resetButtons():
 	if not Input.is_action_pressed(actionInputs["dash"]) and not releasedDashButton:
 		releasedDashButton = true
 		
-#func computerMovement(pos,delta):
-#	if not caughtBall and ball != null:
-#		var targetY = ball.get_pos().y
-#		var targetPos = Vector2(pos.x, targetY)
-#		var motion = targetPos - pos
-#		pos += motion * delta * 4
-#	return pos
+func computerMovement(pos,delta):
+	if not hasBall and ball != null:
+		var targetY = clamp(ball.get_pos().y,limits["lowerLimit"],limits["upperLimit"])
+		
+#		var targetX = rand_range(limits["leftLimit"] + 100,limits["rightLimit"]-100)
+		var targetPos = Vector2(pos.x, targetY)
+		var motion = targetPos - pos
+		pos += motion * delta * computerMovmementSpeed
+	movementDirection = Vector2(rand_range(-1,1),rand_range(-1,1))
+	return pos
 	
 func getDirection():
 	movementDirection = Vector2(0,0)
@@ -179,37 +184,43 @@ func catchingBall(newball): #alert from ball that we have caught it
 	canMove = false
 	collecting = true
 	ballRelativeCaughtPos = ball.get_pos() - get_pos()
-	ballRotationAngle = atan2(ballRelativeCaughtPos.x, -ballRelativeCaughtPos.y)
-	print (atan2(ballRelativeCaughtPos.x, -ballRelativeCaughtPos.y))
-	print (ballRelativeCaughtPos.angle_to(get_pos()))
-	print (ballRelativeCaughtPos.angle())
-	print (ballRelativeCaughtPos.angle_to_point(get_pos()))
-	print (get_pos().angle_to(ballRelativeCaughtPos))
-	print (get_pos().angle_to_point(ballRelativeCaughtPos))
-	print ("==================================")
+	poweredTurnDirection = sign(ballRelativeCaughtPos.y + 0.001) * playerDirMultiplier
+	poweredAimTangent = ballRelativeCaughtPos.tangent().normalized() * -poweredTurnDirection
+	poweredOldTangent = sign(poweredAimTangent.x)
+	ballRotationAngle = atan2(ballRelativeCaughtPos.y, ballRelativeCaughtPos.x)
+	if computerControlled and !powered:
+		computerHoldBallTimer.set_wait_time(rand_range(0,1.5))
+		computerHoldBallTimer.start()
+
+func getAndCleanAim():
+	var aim = movementDirection
+	if aim == Vector2(0,0):
+		aim = Vector2(playerDirMultiplier,0)
+	if abs(aim.y) > yAimClamp:
+		if sign(aim.x) == 0: aim.x +=0.001
+		aim.x += (abs(aim.y) - yAimClamp) * sign(aim.x)
+	aim.y = clamp(aim.y, -yAimClamp, yAimClamp)
+	aim.x = abs(aim.x) * playerDirMultiplier
+	aim = aim.normalized()
+	return aim
 
 func shoot():
 	mustReturnTimer.stop()
 	hasBall = false
+	var aim = getAndCleanAim()
 	var tl = reboundTimer.get_time_left()
-	if abs(movementDirection.y) > yAimClamp:
-		if sign(movementDirection.x) == 0: movementDirection.x +=0.001
-		movementDirection.x += (abs(movementDirection.y) - yAimClamp) * sign(movementDirection.x)
-	movementDirection.y = clamp(movementDirection.y, -yAimClamp, yAimClamp)
-	if (name == "p1" and movementDirection.x < 0) or (name == "p2" and movementDirection.x > 0):
-		movementDirection.x *= -1
-	movementDirection = movementDirection.normalized()
-	var speed = 1 + (tl/10)
+	var ballspeed = 1 + (tl/10)
+	ball.launch(aim, ballspeed, name, powered)
+	canMoveTimer.start()
 	if tl == 0:
-		speed = 0
+		ballspeed = 0
 	var pmscale = powerMeter.get_scale().x
 	if pmscale < 1:
-		pmscale += tl #/10
+		pmscale += tl /5
 		powerMeter.set_scale(Vector2(pmscale,pmscale))
 		if pmscale >= 1:
 			poweredUp()
-	ball.launch(movementDirection, speed, name, powered)
-	canMoveTimer.start()
+	
 
 func poweredUp():
 	glow.set_emitting(true)
@@ -229,32 +240,27 @@ func cancelCollect():
 	collectTimer = 0
 
 func poweredShot(ballPos, delta):
+	poweredAimTangent = (ball.get_pos()-get_pos()).tangent().normalized() * -poweredTurnDirection
+	ballRotationAngle += delta * poweredTurnDirection * poweredTurnSpeed
 	ballPos.x += (cos(ballRotationAngle)*limits["playerOffset"])
 	ballPos.y += (sin(ballRotationAngle)*limits["playerOffset"])
 	ball.set_pos(ballPos)
-	var pd = 1
-	if name == "p2": pd = -1 
-	var direction = sign(ballRelativeCaughtPos.y + 0.001) * pd
-	ballRotationAngle += delta * direction # * 5
-	
-#func chargingShot(ballPos, delta):
-#	if charge < maxCharge:
-#		charge += delta * chargeUpSpeed
-#	ballRotationAngle += charge * delta
-#	if ballRotationAngle > PI*2:
-#		ballRotationAngle -= PI*2
-#	ballPos.x += (cos(ballRotationAngle)*limits["playerOffset"])
-#	ballPos.y += (sin(ballRotationAngle)*limits["playerOffset"])
-#	if name == "p1" and usingMouse:
-#		shotAngle = (get_global_mouse_pos() - get_pos()).normalized()
-#	elif computerControlled:
-#		shotAngle = (ball.get_pos() - get_pos()).normalized()
-#		shotAngle.x = -abs(shotAngle.x)
-#	else: 
-#		shotAngle = aimDirection
-#	return ballPos
+	if sign(poweredAimTangent.x) != poweredOldTangent:
+		poweredOldTangent = sign(poweredAimTangent.x)
+		if -sign(ball.get_pos().x - get_pos().x) == playerDirMultiplier:
+			poweredAim = getAndCleanAim()
+			poweredShotEnabled = true
+	if poweredShotEnabled:
+		var aimDiffX = abs(poweredAimTangent.x-poweredAim.x)
+		var aimDiffY = abs(poweredAimTangent.y-poweredAim.y)
+		if  aimDiffX < 0.1 and aimDiffY < 0.1:
+			ball.launch(poweredAim, 0, name, powered)
+			canMoveTimer.start()
+			poweredAim = Vector2(0,0)
+			poweredShotEnabled = false
+			mustReturnTimer.stop()
+			hasBall = false
 
-	
 func _on_dashTimer_timeout():
 	dashing = false
 	dashTarget = Vector2(0,0)
@@ -262,9 +268,8 @@ func _on_dashTimer_timeout():
 func _on_CanMoveTimer_timeout():
 	canMove = true
 
-
 func _on_MustReturnTimer_timeout():
 	shoot()
 
-func _draw():
-	draw_circle(ballRelativeCaughtPos, 15, Color(1,0,0))
+func _on_ComputerHoldBallTimer_timeout():
+	shoot()

@@ -1,13 +1,15 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=15 format=1]
 
 [ext_resource path="res://styles/theme.tres" type="Theme" id=1]
 [ext_resource path="res://mainmenu.gd" type="Script" id=2]
 [ext_resource path="res://shaders/colorfader.tres" type="Shader" id=3]
 [ext_resource path="res://fonts/MainMenu.tres" type="DynamicFont" id=4]
 [ext_resource path="res://sprites/controller.png" type="Texture" id=5]
-[ext_resource path="res://fonts/buttons.tres" type="DynamicFont" id=6]
-[ext_resource path="res://fonts/Heading.tres" type="DynamicFont" id=7]
-[ext_resource path="res://sprites/player.png" type="Texture" id=8]
+[ext_resource path="res://sprites/keyboard.png" type="Texture" id=6]
+[ext_resource path="res://fonts/buttons.tres" type="DynamicFont" id=7]
+[ext_resource path="res://fonts/Heading.tres" type="DynamicFont" id=8]
+[ext_resource path="res://fonts/controls.tres" type="DynamicFont" id=9]
+[ext_resource path="res://sprites/player.png" type="Texture" id=10]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -78,7 +80,7 @@ margin/top = -25.0
 margin/right = 0.0
 margin/bottom = 210.0
 custom_fonts/font = ExtResource( 4 )
-text = "throwback"
+text = "ThrowBack"
 align = 1
 percent_visible = 1.0
 lines_skipped = 0
@@ -95,7 +97,7 @@ margin/top = 2.0
 margin/right = 2560.0
 margin/bottom = 1026.0
 
-[node name="TextureFrame" type="TextureFrame" parent="ControlsPage"]
+[node name="controller" type="TextureFrame" parent="ControlsPage"]
 
 anchor/top = 1
 anchor/right = 1
@@ -104,11 +106,27 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 500.0
-margin/right = 0.0
-margin/bottom = 984.0
+margin/left = 400.0
+margin/top = 464.0
+margin/right = 400.0
+margin/bottom = 216.0
 texture = ExtResource( 5 )
+stretch_mode = 4
+
+[node name="keyboard" type="TextureFrame" parent="ControlsPage"]
+
+anchor/top = 1
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 250.0
+margin/top = 724.0
+margin/right = 250.0
+margin/bottom = 567.0
+texture = ExtResource( 6 )
 stretch_mode = 4
 
 [node name="Back" type="Button" parent="ControlsPage"]
@@ -130,7 +148,7 @@ margin/left = 475.0
 margin/top = 200.0
 margin/right = 475.0
 margin/bottom = 100.0
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color = Color( 0.964706, 0.835294, 1, 1 )
 custom_colors/font_color_hover = Color( 0.964706, 0.835294, 1, 1 )
 toggle_mode = false
@@ -149,11 +167,288 @@ size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 150.0
 margin/right = 0.0
-margin/bottom = 14.0
-custom_fonts/font = ExtResource( 7 )
+margin/bottom = 307.0
+custom_fonts/font = ExtResource( 8 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
-text = "CONTROLS"
+text = "Controls"
 align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ControlsLeft" type="Control" parent="ControlsPage"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+
+[node name="Movement1" type="Label" parent="ControlsPage/ControlsLeft"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 475.0
+margin/right = 444.0
+margin/bottom = 539.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
+text = "MOVEMENT"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Movement2" type="Label" parent="ControlsPage/ControlsLeft"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 525.0
+margin/right = 450.0
+margin/bottom = 589.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
+text = "LeftStick/Dpad"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Movement3" type="Label" parent="ControlsPage/ControlsLeft"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 575.0
+margin/right = 195.0
+margin/bottom = 639.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
+text = "WASD"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Movement4" type="Label" parent="ControlsPage/ControlsLeft"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 193.0
+margin/top = 575.0
+margin/right = 211.0
+margin/bottom = 639.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
+text = "/"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Movement5" type="Label" parent="ControlsPage/ControlsLeft"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 211.0
+margin/top = 575.0
+margin/right = 327.0
+margin/bottom = 639.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
+text = "8456"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ControlsRight" type="Control" parent="ControlsPage"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 800.0
+margin/top = 0.0
+margin/right = 840.0
+margin/bottom = 40.0
+
+[node name="Launch1" type="Label" parent="ControlsPage/ControlsRight"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 475.0
+margin/right = 444.0
+margin/bottom = 539.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
+text = "LAUNCH BALL"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Launch2" type="Label" parent="ControlsPage/ControlsRight"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 525.0
+margin/right = 129.0
+margin/bottom = 589.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
+text = "R3/"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Launch3" type="Label" parent="ControlsPage/ControlsRight"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 129.0
+margin/top = 525.0
+margin/right = 267.0
+margin/bottom = 589.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
+text = "LCtrl"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Launch4" type="Label" parent="ControlsPage/ControlsRight"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 267.0
+margin/top = 525.0
+margin/right = 285.0
+margin/bottom = 589.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
+text = "/"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Launch5" type="Label" parent="ControlsPage/ControlsRight"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 285.0
+margin/top = 525.0
+margin/right = 401.0
+margin/bottom = 589.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
+text = "Plus"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Dash1" type="Label" parent="ControlsPage/ControlsRight"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 625.0
+margin/right = 185.0
+margin/bottom = 689.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
+text = "DASH"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Dash2" type="Label" parent="ControlsPage/ControlsRight"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 675.0
+margin/right = 129.0
+margin/bottom = 739.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
+text = "L3/"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Dash3" type="Label" parent="ControlsPage/ControlsRight"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 117.0
+margin/top = 675.0
+margin/right = 264.0
+margin/bottom = 739.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
+text = "Space"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Dash4" type="Label" parent="ControlsPage/ControlsRight"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 264.0
+margin/top = 675.0
+margin/right = 282.0
+margin/bottom = 739.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
+text = "/"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Dash5" type="Label" parent="ControlsPage/ControlsRight"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 282.0
+margin/top = 675.0
+margin/right = 409.0
+margin/bottom = 739.0
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
+text = "Zero"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -186,13 +481,13 @@ margin/left = 325.0
 margin/top = 250.0
 margin/right = 325.0
 margin/bottom = 351.0
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
 custom_colors/font_color_hover = Color( 1, 0, 0.505882, 1 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-text = "1  PLAYER"
+text = "1  Player"
 flat = false
 
 [node name="2PGame" type="Button" parent="MainPage"]
@@ -212,13 +507,13 @@ margin/left = 375.0
 margin/top = 400.0
 margin/right = 375.0
 margin/bottom = 501.0
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
 custom_colors/font_color_hover = Color( 0.258824, 0.776471, 1, 1 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-text = "2  PLAYERS"
+text = "2  Players"
 flat = false
 
 [node name="Controls" type="Button" parent="MainPage"]
@@ -238,13 +533,13 @@ margin/left = 425.0
 margin/top = 550.0
 margin/right = 425.0
 margin/bottom = 651.0
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 custom_colors/font_color_hover = Color( 0.956863, 0.721569, 0.0470588, 1 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-text = "CONTROLS"
+text = "Controls"
 flat = false
 
 [node name="Exit" type="Button" parent="MainPage"]
@@ -264,13 +559,13 @@ margin/left = 475.0
 margin/top = 700.0
 margin/right = 475.0
 margin/bottom = 801.0
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color = Color( 0.964706, 0.835294, 1, 1 )
 custom_colors/font_color_hover = Color( 0.964706, 0.835294, 1, 1 )
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-text = "EXIT"
+text = "Exit"
 flat = false
 
 [node name="redPlayer" type="TextureFrame" parent="MainPage"]
@@ -285,7 +580,7 @@ margin/left = 50.0
 margin/top = 200.0
 margin/right = 204.0
 margin/bottom = 50.0
-texture = ExtResource( 8 )
+texture = ExtResource( 10 )
 modulate = Color( 1, 0, 0.505882, 1 )
 stretch_mode = 3
 
@@ -299,7 +594,7 @@ config/amount = 32
 config/lifetime = 1.0
 config/preprocess = 2.0
 config/process_mode = 1
-config/texture = ExtResource( 8 )
+config/texture = ExtResource( 10 )
 params/direction = 0.0
 params/spread = 180.0
 params/linear_velocity = 50.0
@@ -334,7 +629,7 @@ margin/left = 200.0
 margin/top = 200.0
 margin/right = 49.0
 margin/bottom = 49.0
-texture = ExtResource( 8 )
+texture = ExtResource( 10 )
 modulate = Color( 0.258824, 0.776471, 1, 1 )
 stretch_mode = 3
 
@@ -348,7 +643,7 @@ config/amount = 32
 config/lifetime = 1.0
 config/preprocess = 2.0
 config/process_mode = 1
-config/texture = ExtResource( 8 )
+config/texture = ExtResource( 10 )
 params/direction = 0.0
 params/spread = 180.0
 params/linear_velocity = 50.0
@@ -378,6 +673,27 @@ playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
 autoplay = ""
+
+[node name="CompanyInfo" type="Label" parent="."]
+
+anchor/top = 1
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 50.0
+margin/right = 0.0
+margin/bottom = 25.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "2017 Fair Enough Games. Made for #GitHubGameOff. Thanks for checking it out!"
+align = 1
+valign = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [connection signal="pressed" from="ControlsPage/Back" to="." method="_on_Back_pressed"]
 

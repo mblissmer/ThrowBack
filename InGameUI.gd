@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const scoreLimit = 1
+const scoreLimit = 7
 var countdownText
 var newGameCount
 var p1Score = 0

@@ -5,6 +5,7 @@ const initialDirection = Vector2(1,0)
 var direction = Vector2(0,0)
 const baseSpeed = 400
 const maxSpeed = 1000
+const chargedSpeed = 1200
 var speed = baseSpeed
 var caught = false
 var ignored = ""
@@ -65,9 +66,10 @@ func launch(dir, sp, player, charged):
 		direction = dir
 	
 	if charged:
-		speed = 100 # 1500
+		speed = chargedSpeed
 		charged(true)
 	else:
+		charged(false)
 		speed *= sp
 		if speed > maxSpeed:
 			speed = maxSpeed

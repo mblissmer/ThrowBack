@@ -8,7 +8,7 @@
 [sub_resource type="CircleShape2D" id=1]
 
 custom_solver_bias = 0.0
-radius = 18.1551
+radius = 15.9111
 
 [sub_resource type="ColorRamp" id=2]
 
@@ -58,7 +58,6 @@ color/color = Color( 0.258824, 0.776471, 1, 0.0784314 )
 [node name="Glow" type="Particles2D" parent="."]
 
 process/pause_mode = 2
-visibility/visible = false
 visibility/blend_mode = 1
 config/amount = 64
 config/lifetime = 1.0
@@ -174,10 +173,19 @@ wait_time = 8.0
 one_shot = true
 autostart = false
 
+[node name="ComputerHoldBallTimer" type="Timer" parent="Timers"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
 [connection signal="timeout" from="Timers/dashTimer" to="." method="_on_dashTimer_timeout"]
 
 [connection signal="timeout" from="Timers/CanMoveTimer" to="." method="_on_CanMoveTimer_timeout"]
 
 [connection signal="timeout" from="Timers/MustReturnTimer" to="." method="_on_MustReturnTimer_timeout"]
+
+[connection signal="timeout" from="Timers/ComputerHoldBallTimer" to="." method="_on_ComputerHoldBallTimer_timeout"]
 
 
