@@ -65,7 +65,7 @@ func launch(dir, sp, player, charged):
 		direction = dir
 	
 	if charged:
-		speed = 1500
+		speed = 100 # 1500
 		charged(true)
 	else:
 		speed *= sp

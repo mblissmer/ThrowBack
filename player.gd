@@ -13,12 +13,12 @@ var chargingShot = false
 #const minCharge = 4
 #const maxCharge = 8
 #var chargeUpSpeed = 4
-#var ballRotationAngle = PI
+var ballRotationAngle
 #var shotAngle
 var collecting = false
 var collectTimer = 0
 var collectSpeed = 0.2
-var ballRelativeCaughtPos
+var ballRelativeCaughtPos = Vector2(0,0)
 var movementInputs = {}
 var actionInputs = {}
 var aimInputs = {}
@@ -95,6 +95,7 @@ func _process(delta):
 	if hasBall:
 		setBallPosition(pos, delta)
 	set_pos(pos)
+	update()
 
 	
 func resetButtons():
@@ -148,6 +149,9 @@ func movement(pos, delta):
 
 func setBallPosition(pos, delta):
 	var ballPos = pos
+	if powered:
+		poweredShot(ballPos, delta)
+		return
 	if collecting:
 		ballPos = collectBall(ballPos, delta)
 	if computerControlled:
@@ -163,17 +167,8 @@ func setBallPosition(pos, delta):
 		pass
 	elif Input.is_action_pressed(actionInputs["shoot"]) and releasedActionButton:
 			releasedActionButton = false
-#			if powered:
-#				chargingShot = true
-#			else:
 			shoot()
 			return
-#			pressCharge()
-#		elif chargeShot and not Input.is_action_pressed(actionInputs["shoot"]):
-#			releaseCharge()
-#			return
-#	if chargeShot:
-#		ballPos = chargingShot(ballPos, delta)
 	ball.set_pos(ballPos)
 	
 func catchingBall(newball): #alert from ball that we have caught it
@@ -184,6 +179,14 @@ func catchingBall(newball): #alert from ball that we have caught it
 	canMove = false
 	collecting = true
 	ballRelativeCaughtPos = ball.get_pos() - get_pos()
+	ballRotationAngle = atan2(ballRelativeCaughtPos.x, -ballRelativeCaughtPos.y)
+	print (atan2(ballRelativeCaughtPos.x, -ballRelativeCaughtPos.y))
+	print (ballRelativeCaughtPos.angle_to(get_pos()))
+	print (ballRelativeCaughtPos.angle())
+	print (ballRelativeCaughtPos.angle_to_point(get_pos()))
+	print (get_pos().angle_to(ballRelativeCaughtPos))
+	print (get_pos().angle_to_point(ballRelativeCaughtPos))
+	print ("==================================")
 
 func shoot():
 	mustReturnTimer.stop()
@@ -191,7 +194,6 @@ func shoot():
 	var tl = reboundTimer.get_time_left()
 	if abs(movementDirection.y) > yAimClamp:
 		if sign(movementDirection.x) == 0: movementDirection.x +=0.001
-		print(sign(movementDirection.x))
 		movementDirection.x += (abs(movementDirection.y) - yAimClamp) * sign(movementDirection.x)
 	movementDirection.y = clamp(movementDirection.y, -yAimClamp, yAimClamp)
 	if (name == "p1" and movementDirection.x < 0) or (name == "p2" and movementDirection.x > 0):
@@ -202,7 +204,7 @@ func shoot():
 		speed = 0
 	var pmscale = powerMeter.get_scale().x
 	if pmscale < 1:
-		pmscale += tl/10
+		pmscale += tl #/10
 		powerMeter.set_scale(Vector2(pmscale,pmscale))
 		if pmscale >= 1:
 			poweredUp()
@@ -212,11 +214,6 @@ func shoot():
 func poweredUp():
 	glow.set_emitting(true)
 	powered = true
-
-#func launchBall():
-#	var dir = shotAngle
-#	caughtBall = false
-#	ball.launch(shotAngle, charge/2, name)
 	
 func collectBall(ballPos, delta):
 	collectTimer += delta
@@ -230,15 +227,15 @@ func collectBall(ballPos, delta):
 func cancelCollect():
 	collecting = false
 	collectTimer = 0
-	
-#func pressCharge():
-#	cancelCollect()
-#	chargeShot = true
-#
-#func releaseCharge():
-#	launchBall()
-#	charge = minCharge
-#	chargeShot = false
+
+func poweredShot(ballPos, delta):
+	ballPos.x += (cos(ballRotationAngle)*limits["playerOffset"])
+	ballPos.y += (sin(ballRotationAngle)*limits["playerOffset"])
+	ball.set_pos(ballPos)
+	var pd = 1
+	if name == "p2": pd = -1 
+	var direction = sign(ballRelativeCaughtPos.y + 0.001) * pd
+	ballRotationAngle += delta * direction # * 5
 	
 #func chargingShot(ballPos, delta):
 #	if charge < maxCharge:
@@ -268,3 +265,6 @@ func _on_CanMoveTimer_timeout():
 
 func _on_MustReturnTimer_timeout():
 	shoot()
+
+func _draw():
+	draw_circle(ballRelativeCaughtPos, 15, Color(1,0,0))
