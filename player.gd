@@ -108,9 +108,7 @@ func resetButtons():
 		
 func computerMovement(pos,delta):
 	if not hasBall and ball != null:
-		var targetY = clamp(ball.get_pos().y,limits["lowerLimit"],limits["upperLimit"])
-		
-#		var targetX = rand_range(limits["leftLimit"] + 100,limits["rightLimit"]-100)
+		var targetY = clamp(ball.get_pos().y,limits["upperLimit"],limits["lowerLimit"])
 		var targetPos = Vector2(pos.x, targetY)
 		var motion = targetPos - pos
 		pos += motion * delta * computerMovmementSpeed
