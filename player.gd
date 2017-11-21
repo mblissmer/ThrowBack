@@ -259,6 +259,11 @@ func poweredShot(ballPos, delta):
 			mustReturnTimer.stop()
 			hasBall = false
 
+func newRoundReset():
+	glow.set_emitting(false)
+	powered = false
+	powerMeter.set_scale(Vector2(0,0))
+
 func _on_dashTimer_timeout():
 	dashing = false
 	dashTarget = Vector2(0,0)
@@ -271,3 +276,4 @@ func _on_MustReturnTimer_timeout():
 
 func _on_ComputerHoldBallTimer_timeout():
 	shoot()
+	

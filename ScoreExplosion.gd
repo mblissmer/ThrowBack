@@ -15,23 +15,23 @@ func _process(delta):
 		queue_free()
 
 func setup(player, pos, color):
-	var spritePath = ""
+	var playerColor = Color(1,1,1,1)
 	var dir = 0
 	var goalColor = Color(1,1,1,1)
 	if color == "yellow":
-		goalColor = Color(0,1,1,1)
+		goalColor = variables.ColGoalYellow
 	elif color == "red":
-		goalColor = Color(1,0,0,1)
+		goalColor = variables.ColGoalRed
 	if player == "p1":
-		spritePath = "res://sprites/redPlayer.png"
+		playerColor = variables.ColPlayerRed
 		dir = 180
 	elif player == "p2":
-		spritePath = "res://sprites/bluePlayer.png"
+		playerColor = variables.ColPlayerBlue
 		dir = 0
 	set_pos(pos)
 	set_rotd(dir)
-	var sprite = load(spritePath)
-	playerParticles.set_texture(sprite)
+#	var sprite = load(spritePath)
+	playerParticles.set_color(playerColor)
 	goalParticles.set_color(goalColor)
 	playerParticles.set_emitting(true)
 	ballParticles.set_emitting(true)

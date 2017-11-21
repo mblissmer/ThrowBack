@@ -4,13 +4,11 @@ var scoreboard
 var p1
 var p2
 var ball
-var mainMenu
 var quarterScreenX
 var halfScreenY
 var goalExplosion
 var timer
 var scoringPlayer = ""
-var objectsBeforeGame = 3
 
 func _ready():
 	timer = get_node("BetweenMatches")
@@ -20,7 +18,7 @@ func _ready():
 	scoreboard = preload("res://InGameUI.tscn").instance()
 	goalExplosion = preload("res://ScoreExplosion.tscn")
 	quarterScreenX = get_viewport_rect().size.x / 4
-	halfScreenY = 600
+	halfScreenY = 640
 	createGame(variables.playerCount)
 
 func createGame(playerCount):
@@ -52,13 +50,12 @@ func clearBall():
 func setupPlayers(playerCount):
 	# set player and ball movement limits
 	var vertOffset = get_node("field/topEdge").get_texture().get_size().y / 2
-	var horizOffset = get_node("field/rightGoal/yellowGoal/Sprite").get_texture().get_size().x / 2
-	var leftLimit = get_node("field/leftGoal/yellowGoal/Sprite").get_global_pos().x + horizOffset
-	var rightLimit = get_node("field/rightGoal/yellowGoal/Sprite").get_global_pos().x- horizOffset
+	var horizOffset = get_node("field/rightGoal/Sprite").get_texture().get_size().x / 2
+	var leftLimit = get_node("field/leftGoal/Sprite").get_global_pos().x + horizOffset
+	var rightLimit = get_node("field/rightGoal/Sprite").get_global_pos().x- horizOffset
 	var centerLimit = get_node("field/divider").get_global_pos().x
 	var upperLimit = get_node("field/topEdge").get_global_pos().y + vertOffset
 	var lowerLimit = get_node("field/bottomEdge").get_global_pos().y - vertOffset 
-	
 	p1.setLimits(upperLimit, lowerLimit, leftLimit, centerLimit)
 	p2.setLimits(upperLimit, lowerLimit, centerLimit, rightLimit)
 	

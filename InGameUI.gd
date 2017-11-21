@@ -14,6 +14,10 @@ var pause
 var canPause = false
 var midMatchTimer
 var preMatchTimer
+var goalAnnounces
+var goalColor
+var goalAColTimer
+var goalATimer
 
 func _ready():
 	p1ScoreText = get_node("MidMatch/p1Score")
@@ -25,6 +29,9 @@ func _ready():
 	pause = get_node("Pause")
 	midMatchTimer = get_node("MidMatch/Timer")
 	preMatchTimer = get_node("PreMatch/Timer")
+	goalAnnounces = [get_node("MidMatch/goalAnnounceL"),get_node("MidMatch/goalAnnounceR")]
+	goalAColTimer = get_node("MidMatch/goalAColTimer")
+	goalATimer = get_node("MidMatch/goalATimer")
 	updateScoreDisplay()
 	set_process(true)
 
@@ -62,11 +69,13 @@ func activeMatch():
 
 func p1Scores(amount):
 	p1Score += amount
+	startGoalAnnounce(variables.ColPlayerRed)
 	return updateScoreDisplay()
 
 
 func p2Scores(amount):
 	p2Score += amount
+	startGoalAnnounce(variables.ColPlayerBlue)
 	return updateScoreDisplay()
 	
 func updateScoreDisplay():
@@ -101,3 +110,23 @@ func _on_PreMatchTimer_timeout():
 	midMatchTimer.start()
 	get_tree().set_pause(false)
 	canPause = true
+
+func startGoalAnnounce(col):
+	goalColor = col
+	goalAColTimer.start()
+	goalATimer.start()
+	for g in goalAnnounces:
+		g.show()
+
+func _on_goalAColTimer_timeout():
+	for g in goalAnnounces:
+		if g.get("custom_colors/font_color") == Color(1,1,1,1):
+			g.set("custom_colors/font_color", goalColor)
+		else:
+			g.set("custom_colors/font_color", Color(1,1,1,1))
+
+func _on_goalATimer_timeout():
+	goalAColTimer.stop()
+	for g in goalAnnounces:
+		g.set("custom_colors/font_color", Color(1,1,1,1))
+		g.hide()

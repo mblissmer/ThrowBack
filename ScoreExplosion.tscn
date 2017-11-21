@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://ScoreExplosion.gd" type="Script" id=1]
-[ext_resource path="res://sprites/redPlayer.png" type="Texture" id=2]
+[ext_resource path="res://sprites/player.png" type="Texture" id=2]
 [ext_resource path="res://sprites/ball.png" type="Texture" id=3]
 
 [node name="ScoreExplosion" type="Node2D"]

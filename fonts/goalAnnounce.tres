@@ -4,7 +4,9 @@
 
 [resource]
 
-font/size = 125
+font/size = 200
+extra_spacing/top = -50
+extra_spacing/bottom = -50
 font/use_mipmaps = false
 font/use_filter = false
 font/font = ExtResource( 1 )

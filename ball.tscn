@@ -19,7 +19,7 @@ colors = ColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0 )
 transform/pos = Vector2( 640, 600 )
 input/pickable = true
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1.75, 0, 0, 1.75, 0, 0 )
+shapes/0/transform = Matrix32( 1.8, 0, 0, 1.8, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -109,10 +109,11 @@ shadow/item_mask = 2
 
 visibility/light_mask = 2
 texture = ExtResource( 2 )
+modulate = Color( 0.560784, 0.164706, 0.639216, 1 )
 
 [node name="CollisionShape2D1" type="CollisionShape2D" parent="."]
 
-transform/scale = Vector2( 1.75, 1.75 )
+transform/scale = Vector2( 1.8, 1.8 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0

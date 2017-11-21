@@ -1,34 +1,32 @@
 [gd_scene load_steps=7 format=1]
 
-[ext_resource path="res://sprites/bgColor.png" type="Texture" id=1]
+[ext_resource path="res://sprites/background.png" type="Texture" id=1]
 [ext_resource path="res://sprites/divider.png" type="Texture" id=2]
 [ext_resource path="res://sprites/fadeBlock.png" type="Texture" id=3]
 [ext_resource path="res://lights.gd" type="Script" id=4]
-[ext_resource path="res://sprites/topEdge.png" type="Texture" id=5]
+[ext_resource path="res://sprites/edges.png" type="Texture" id=5]
 [ext_resource path="res://goal.tscn" type="PackedScene" id=6]
 
 [node name="field" type="Node2D"]
 
-transform/pos = Vector2( 640, 600 )
-
 [node name="bgColor" type="Sprite" parent="."]
 
 visibility/light_mask = 3
-transform/pos = Vector2( 0, 30 )
-transform/scale = Vector2( 11, 11 )
 texture = ExtResource( 1 )
+centered = false
 
 [node name="divider" type="Sprite" parent="."]
 
 visibility/light_mask = 2
+transform/pos = Vector2( 960, 640 )
 texture = ExtResource( 2 )
 
 [node name="Light2D1" type="Light2D" parent="divider"]
 
 process/pause_mode = 2
 visibility/blend_mode = 1
-transform/pos = Vector2( -5, 3.87096 )
-transform/scale = Vector2( 1, 15.3776 )
+transform/pos = Vector2( -5, -0.486835 )
+transform/scale = Vector2( 1, 15.6451 )
 enabled = true
 editor_only = false
 texture = ExtResource( 3 )
@@ -54,9 +52,9 @@ script/script = ExtResource( 4 )
 
 process/pause_mode = 2
 visibility/blend_mode = 1
-transform/pos = Vector2( 5, 3.87096 )
+transform/pos = Vector2( 5, -0.379528 )
 transform/rot = 180.0
-transform/scale = Vector2( 1, 15.3776 )
+transform/scale = Vector2( 1, 15.6411 )
 enabled = true
 editor_only = false
 texture = ExtResource( 3 )
@@ -81,7 +79,7 @@ script/script = ExtResource( 4 )
 [node name="topEdge" type="Sprite" parent="."]
 
 visibility/light_mask = 2
-transform/pos = Vector2( 0, -416 )
+transform/pos = Vector2( 960, 210 )
 texture = ExtResource( 5 )
 
 [node name="Light2D" type="Light2D" parent="topEdge"]
@@ -115,16 +113,17 @@ script/script = ExtResource( 4 )
 [node name="bottomEdge" type="Sprite" parent="."]
 
 visibility/light_mask = 2
-transform/pos = Vector2( 0, 416 )
+transform/pos = Vector2( 960, 1080 )
 texture = ExtResource( 5 )
+offset = Vector2( 0, -9 )
 
 [node name="Light2D1" type="Light2D" parent="bottomEdge"]
 
 process/pause_mode = 2
 visibility/blend_mode = 1
-transform/pos = Vector2( 0.918945, 5 )
+transform/pos = Vector2( 0.796951, 5 )
 transform/rot = 270.0
-transform/scale = Vector2( 1, 23.167 )
+transform/scale = Vector2( 1, 35.4889 )
 enabled = true
 editor_only = false
 texture = ExtResource( 3 )
@@ -148,11 +147,11 @@ script/script = ExtResource( 4 )
 
 [node name="rightGoal" parent="." instance=ExtResource( 6 )]
 
-transform/pos = Vector2( 603, 0 )
+transform/pos = Vector2( 1620, 640 )
 
 [node name="leftGoal" parent="." instance=ExtResource( 6 )]
 
-transform/pos = Vector2( -603, 0 )
+transform/pos = Vector2( 300, 640 )
 transform/rot = 180.0
 
 
