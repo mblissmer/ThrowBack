@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=1]
+[gd_scene load_steps=17 format=1]
 
 [ext_resource path="res://styles/theme.tres" type="Theme" id=1]
 [ext_resource path="res://mainmenu.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://fonts/Heading.tres" type="DynamicFont" id=8]
 [ext_resource path="res://fonts/controls.tres" type="DynamicFont" id=9]
 [ext_resource path="res://sprites/player.png" type="Texture" id=10]
+[ext_resource path="res://fonts/Montserrat-Regular.ttf" type="DynamicFontData" id=11]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -52,6 +53,13 @@ tracks/1/keys = {
 "values": [ Vector2( 1280, 0 ), Vector2( 0, 0 ) ]
 }
 
+[sub_resource type="DynamicFont" id=5]
+
+font/size = 22
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 11 )
+
 [node name="MainMenu" type="Control"]
 
 process/pause_mode = 2
@@ -88,6 +96,7 @@ max_lines_visible = -1
 
 [node name="ControlsPage" type="Control" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -686,7 +695,8 @@ size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 50.0
 margin/right = 0.0
-margin/bottom = 25.0
+margin/bottom = 10.0
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "2017 Fair Enough Games. Made for #GitHubGameOff. Thanks for checking it out!"
 align = 1
