@@ -26,7 +26,7 @@ func _process(delta):
 		var pos = get_pos()
 		var sp = speed
 		if powered: sp = chargedSpeed 
-		pos += direction*sp*delta
+		pos += direction * sp * delta
 		
 		# Change direction when touching upper or lower limits
 		if ((pos.y < upperLimit and direction.y < 0) or (pos.y > lowerLimit and direction.y > 0)):
@@ -41,7 +41,7 @@ func _process(delta):
 					caught = true
 					particles.set_emitting(false)
 					result.catchingBall(self)
-					charged(result.powered)
+					chargeChange(result.powered)
 					break
 				if result.areaType == "goal":
 					ignored = result.name
@@ -57,7 +57,6 @@ func setLimits(upper, lower):
 	lowerLimit = lower - offset
 	
 func launch(dir, sp, player, charged):
-#	print("speed received: " + str(sp))
 	if dir == Vector2(0,0):
 		if player == "p2":
 			direction = -initialDirection
@@ -69,9 +68,9 @@ func launch(dir, sp, player, charged):
 	else: 
 		direction = dir
 	if charged:
-		charged(true)
+		chargeChange(true)
 	else:
-		charged(false)
+		chargeChange(false)
 		speed *= sp
 		if speed > maxSpeed:
 			speed = maxSpeed
@@ -81,7 +80,7 @@ func launch(dir, sp, player, charged):
 	particles.set_emitting(true)
 	caught = false
 	
-func charged(ischarged):
+func chargeChange(ischarged):
 	powered = ischarged
 	get_node("Charged").set_emitting(ischarged)
 	get_node("Light2D").set_enabled(ischarged)

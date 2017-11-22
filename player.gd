@@ -200,7 +200,7 @@ func getAndCleanAim():
 	aim.y = clamp(aim.y, -yAimClamp, yAimClamp)
 	aim.x = abs(aim.x) * playerDirMultiplier
 	aim = aim.normalized() # POSSIBLY A PROBLEM LINE HERE, MAKING A LONG COMMENT SO I NOTICE IT LATER
-
+	return aim
 
 func shoot():
 	mustReturnTimer.stop()
