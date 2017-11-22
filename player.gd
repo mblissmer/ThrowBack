@@ -199,8 +199,8 @@ func getAndCleanAim():
 		aim.x += (abs(aim.y) - yAimClamp) * sign(aim.x)
 	aim.y = clamp(aim.y, -yAimClamp, yAimClamp)
 	aim.x = abs(aim.x) * playerDirMultiplier
-	aim = aim.normalized()
-	return aim
+	aim = aim.normalized() # POSSIBLY A PROBLEM LINE HERE, MAKING A LONG COMMENT SO I NOTICE IT LATER
+
 
 func shoot():
 	mustReturnTimer.stop()
@@ -208,10 +208,10 @@ func shoot():
 	var aim = getAndCleanAim()
 	var tl = reboundTimer.get_time_left()
 	var ballspeed = 1 + (tl/10)
-	ball.launch(aim, ballspeed, name, powered)
 	canMoveTimer.start()
 	if tl == 0:
 		ballspeed = 0
+	ball.launch(aim, ballspeed, name, powered)
 	var pmscale = powerMeter.get_scale().x
 	if pmscale < 1:
 		pmscale += tl /5

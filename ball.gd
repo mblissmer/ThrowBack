@@ -5,7 +5,8 @@ const initialDirection = Vector2(1,0)
 var direction = Vector2(0,0)
 const baseSpeed = 400
 const maxSpeed = 1000
-const chargedSpeed = 1200
+const chargedSpeed = 1500
+var powered = false
 var speed = baseSpeed
 var caught = false
 var ignored = ""
@@ -23,7 +24,9 @@ func _process(delta):
 	# Get ball position
 	if not caught:
 		var pos = get_pos()
-		pos += direction*speed*delta
+		var sp = speed
+		if powered: sp = chargedSpeed 
+		pos += direction*sp*delta
 		
 		# Change direction when touching upper or lower limits
 		if ((pos.y < upperLimit and direction.y < 0) or (pos.y > lowerLimit and direction.y > 0)):
@@ -38,6 +41,7 @@ func _process(delta):
 					caught = true
 					particles.set_emitting(false)
 					result.catchingBall(self)
+					charged(result.powered)
 					break
 				if result.areaType == "goal":
 					ignored = result.name
@@ -64,9 +68,7 @@ func launch(dir, sp, player, charged):
 			direction = initialDirection * sign(mult)
 	else: 
 		direction = dir
-	
 	if charged:
-		speed = chargedSpeed
 		charged(true)
 	else:
 		charged(false)
@@ -80,5 +82,6 @@ func launch(dir, sp, player, charged):
 	caught = false
 	
 func charged(ischarged):
+	powered = ischarged
 	get_node("Charged").set_emitting(ischarged)
 	get_node("Light2D").set_enabled(ischarged)

@@ -93,6 +93,8 @@ func score(player, value, goalColor, pos):
 	var newExplosion = goalExplosion.instance()
 	add_child(newExplosion)
 	newExplosion.setup(scoringPlayer, pos, goalColor)
+	p1.newRoundReset()
+	p2.newRoundReset()
 	if winner == "":
 		timer.start()
 	else: 
