@@ -35,7 +35,7 @@ var powerMeter
 var powered = false
 var poweredTurnDirection
 var poweredAimTangent
-var poweredTurnSpeed = 10
+var poweredTurnSpeed = 15
 var poweredOldTangent = 0
 var poweredAim = Vector2(0,0)
 var poweredShotEnabled = false
@@ -157,7 +157,7 @@ func setBallPosition(pos, delta):
 		return
 	if collecting:
 		ballPos = collectBall(ballPos, delta)
-	if computerControlled:
+#	if computerControlled:
 #		if chargeShot:
 #			computerHoldBallTimer += delta
 #			if computerHoldBallTimer > computerHoldBallLimit and abs(shotAngle.y) < computerHoldBallAngleVariance:
@@ -167,8 +167,8 @@ func setBallPosition(pos, delta):
 #		else:
 #			computerHoldBallLimit = rand_range(0,1.5)
 #			pressCharge()
-		pass
-	elif Input.is_action_pressed(actionInputs["shoot"]) and releasedActionButton:
+#		pass
+	if Input.is_action_pressed(actionInputs["shoot"]) and releasedActionButton:
 			releasedActionButton = false
 			shoot()
 			return
@@ -199,7 +199,8 @@ func getAndCleanAim():
 		aim.x += (abs(aim.y) - yAimClamp) * sign(aim.x)
 	aim.y = clamp(aim.y, -yAimClamp, yAimClamp)
 	aim.x = abs(aim.x) * playerDirMultiplier
-	aim = aim.normalized() # POSSIBLY A PROBLEM LINE HERE, MAKING A LONG COMMENT SO I NOTICE IT LATER
+	aim *= 50
+	aim = aim.normalized()
 	return aim
 
 func shoot():
@@ -253,6 +254,7 @@ func poweredShot(ballPos, delta):
 		var aimDiffY = abs(poweredAimTangent.y-poweredAim.y)
 		if  aimDiffX < 0.1 and aimDiffY < 0.1:
 			ball.launch(poweredAim, 0, name, powered)
+			print("=======switch player======")
 			canMoveTimer.start()
 			poweredAim = Vector2(0,0)
 			poweredShotEnabled = false

@@ -45,12 +45,13 @@ func _process(delta):
 
 func pauseGame():
 	pause.show()
+	pause.focus()
 	get_tree().set_pause(true)
 	sounds.negativeBeep()
 
 func preMatch():
-	if preMatchTimer.get_time_left() > 1:
-		newGameCount.set_text(str(floor(preMatchTimer.get_time_left())))
+	if preMatchTimer.get_time_left() > 0:
+		newGameCount.set_text(str(ceil(preMatchTimer.get_time_left())))
 	else:
 		newGameCount.set_text("GO!")
 		newGameCount.set_self_opacity(preMatchTimer.get_time_left())
@@ -79,6 +80,7 @@ func p2Scores(amount):
 	return updateScoreDisplay()
 	
 func updateScoreDisplay():
+	canPause = false
 	var formatScore = "%02d" % p1Score
 	p1ScoreText.set_text(formatScore)
 	var formatScore = "%02d" % p2Score
@@ -92,7 +94,6 @@ func updateScoreDisplay():
 	return ""
 	
 func endGame():
-	canPause = false
 	if p1Score > p2Score:
 		postGame.setup(str(p1Score), str(p2Score), "WIN", "LOSE")
 	else:
@@ -103,6 +104,7 @@ func endGame():
 
 func newRound():
 	preMatchTimer.start()
+	newGameCount.set_text("")
 	newGameCount.set_self_opacity(1)
 
 func _on_PreMatchTimer_timeout():

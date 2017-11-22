@@ -15,6 +15,7 @@ func _on_2PGame_pressed():
 
 func _on_Controls_pressed():
 	get_node("AnimationPlayer").play("MainToControls")
+	get_node("ControlsPage/ControlLines").play("ControlLines")
 	get_node("ControlsPage/Back").grab_focus()
 	sounds.beep()
 
