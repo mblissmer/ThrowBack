@@ -1,6 +1,9 @@
 extends Node
 
 var playerCount = 0
+var difficulty = 0
+const aiSpeeds = [2,5,10]
+const aiReturnSpeeds = [1.5,1,0.5]
 const joyDZ = 0.3
 const ColPlayerRed = Color(1, 0, 0.506)
 const ColPlayerBlue = Color(0.259, 0.776, 1)

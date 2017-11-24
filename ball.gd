@@ -10,10 +10,14 @@ var powered = false
 var speed = baseSpeed
 var caught = false
 var ignored = ""
-var particles
+var effects
 
 func _ready():
-	particles = get_node("Particles2D")
+	effects = {
+		trail = get_node("Particles2D"),
+		glow = 	get_node("Charged"),
+		light = get_node("Light2D")
+	}
 	set_process(true)
 
 func _process(delta):
@@ -39,9 +43,9 @@ func _process(delta):
 					continue
 				if result.areaType == "player":
 					caught = true
-					particles.set_emitting(false)
+					effects.trail.set_emitting(false)
 					result.catchingBall(self)
-					chargeChange(result.powered)
+#					chargeChange(result.powered.isPowered)
 					break
 				if result.areaType == "goal":
 					ignored = result.name
@@ -74,13 +78,13 @@ func launch(dir, sp, player, charged):
 		speed *= sp
 		if speed > maxSpeed:
 			speed = maxSpeed
-		if speed == 0:
+		elif speed == 0:
 			speed = baseSpeed
 	ignored = player
-	particles.set_emitting(true)
+	effects.trail.set_emitting(true)
 	caught = false
 	
 func chargeChange(ischarged):
 	powered = ischarged
-	get_node("Charged").set_emitting(ischarged)
-	get_node("Light2D").set_enabled(ischarged)
+	effects.glow.set_emitting(ischarged)
+	effects.light.set_enabled(ischarged)

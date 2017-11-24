@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://transition.gd" type="Script" id=1]
-[ext_resource path="res://swipe.tres" type="Animation" id=2]
+[ext_resource path="res://animations/swipe.tres" type="Animation" id=2]
 [ext_resource path="res://sprites/block.png" type="Texture" id=3]
 
 [node name="Transition" type="CanvasLayer"]

@@ -1,22 +1,26 @@
 extends Control
+var player
 
 func _ready():
 	get_node("MainPage/1PGame").grab_focus()
+	player = get_node("AnimationPlayer")
 	
 func _on_1PGame_pressed():
 	variables.playerCount = 1
-	transition.fade_to("res://Game.tscn")
+	player.play("oneplayer_swipe")
+	get_node("DifficultyPage/Easy").grab_focus()
+	get_node("MainPage").hideParticles(true)
 	sounds.beep()
 
 func _on_2PGame_pressed():
 	variables.playerCount = 2
-	transition.fade_to("res://Game.tscn")
-	sounds.beep()
+	startGame()
 
 func _on_Controls_pressed():
-	get_node("AnimationPlayer").play("MainToControls")
+	player.play("MainToControls")
 	get_node("ControlsPage/ControlLines").play("ControlLines")
-	get_node("ControlsPage/Back").grab_focus()
+	get_node("ControlsPage/ContBack").grab_focus()
+	get_node("MainPage").hideParticles(true)
 	sounds.beep()
 
 func _on_Exit_pressed():
@@ -29,10 +33,32 @@ func _on_Exit_pressed():
 	yield(t,"timeout")
 	get_tree().quit()
 
-func timeout():
-	pass
-
-func _on_Back_pressed():
-	get_node("AnimationPlayer").play_backwards("MainToControls")
+func _on_ContBack_pressed():
+	player.play_backwards("MainToControls")
 	get_node("MainPage/Controls").grab_focus()
+	get_node("MainPage").hideParticles(false)
 	sounds.beep()
+
+func _on_DifBack_pressed():
+	player.play_backwards("oneplayer_swipe")
+	get_node("MainPage/Controls").grab_focus()
+	get_node("MainPage").hideParticles(false)
+	sounds.beep()
+
+func _on_Easy_pressed():
+	variables.difficulty = 0
+	startGame()
+
+
+func _on_Med_pressed():
+	variables.difficulty = 1
+	startGame()
+
+
+func _on_Hard_pressed():
+	variables.difficulty = 2
+	startGame()
+
+func startGame():
+	sounds.beep()
+	transition.fade_to("res://Game.tscn")
