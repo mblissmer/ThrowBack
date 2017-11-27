@@ -50,8 +50,8 @@ func pauseGame():
 	sounds.negativeBeep()
 
 func preMatch():
-	if preMatchTimer.get_time_left() > 0:
-		newGameCount.set_text(str(ceil(preMatchTimer.get_time_left())))
+	if preMatchTimer.get_time_left()-1 > 0:
+		newGameCount.set_text(str(ceil(preMatchTimer.get_time_left()-1)))
 	else:
 		newGameCount.set_text("GO!")
 		newGameCount.set_self_opacity(preMatchTimer.get_time_left())

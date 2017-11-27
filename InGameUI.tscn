@@ -1,18 +1,19 @@
-[gd_scene load_steps=15 format=1]
+[gd_scene load_steps=16 format=1]
 
 [ext_resource path="res://InGameUI.gd" type="Script" id=1]
-[ext_resource path="res://fonts/timeLabel.tres" type="DynamicFont" id=2]
-[ext_resource path="res://fonts/countdowntimer.tres" type="DynamicFont" id=3]
-[ext_resource path="res://fonts/p1score.tres" type="DynamicFont" id=4]
-[ext_resource path="res://fonts/goalAnnounce.tres" type="DynamicFont" id=5]
-[ext_resource path="res://fonts/newRound.tres" type="DynamicFont" id=6]
-[ext_resource path="res://postGame.gd" type="Script" id=7]
-[ext_resource path="res://fonts/finalScore.tres" type="DynamicFont" id=8]
-[ext_resource path="res://fonts/gameover.tres" type="DynamicFont" id=9]
-[ext_resource path="res://styles/theme.tres" type="Theme" id=10]
-[ext_resource path="res://fonts/buttons.tres" type="DynamicFont" id=11]
-[ext_resource path="res://Pause.tscn" type="PackedScene" id=12]
-[ext_resource path="res://sprites/fadeBlock.png" type="Texture" id=13]
+[ext_resource path="res://sprites/bezel.png" type="Texture" id=2]
+[ext_resource path="res://fonts/timeLabel.tres" type="DynamicFont" id=3]
+[ext_resource path="res://fonts/countdowntimer.tres" type="DynamicFont" id=4]
+[ext_resource path="res://fonts/p1score.tres" type="DynamicFont" id=5]
+[ext_resource path="res://fonts/goalAnnounce.tres" type="DynamicFont" id=6]
+[ext_resource path="res://fonts/newRound.tres" type="DynamicFont" id=7]
+[ext_resource path="res://postGame.gd" type="Script" id=8]
+[ext_resource path="res://fonts/finalScore.tres" type="DynamicFont" id=9]
+[ext_resource path="res://fonts/gameover.tres" type="DynamicFont" id=10]
+[ext_resource path="res://styles/theme.tres" type="Theme" id=11]
+[ext_resource path="res://fonts/buttons.tres" type="DynamicFont" id=12]
+[ext_resource path="res://Pause.tscn" type="PackedScene" id=13]
+[ext_resource path="res://sprites/fadeBlock.png" type="Texture" id=14]
 
 [sub_resource type="ColorRamp" id=1]
 
@@ -27,6 +28,19 @@ offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 script/script = ExtResource( 1 )
+
+[node name="TextureFrame" type="TextureFrame" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1920.0
+margin/bottom = 1080.0
+texture = ExtResource( 2 )
+stretch_mode = 0
 
 [node name="MidMatch" type="Control" parent="."]
 
@@ -47,11 +61,11 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 500.0
+margin/left = 830.0
 margin/top = 0.0
-margin/right = 500.0
+margin/right = 830.0
 margin/bottom = 100.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.964706, 0.835294, 1, 1 )
 text = "TIME"
 align = 1
@@ -66,12 +80,15 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 700.0
-margin/top = 45.0
-margin/right = 700.0
-margin/bottom = 202.0
-custom_fonts/font = ExtResource( 3 )
+margin/left = 830.0
+margin/top = 46.0
+margin/right = 830.0
+margin/bottom = 203.0
+custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0.964706, 0.835294, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/line_spacing = 0
+custom_constants/shadow_as_outline = 500
 text = "99"
 align = 1
 percent_visible = 1.0
@@ -85,11 +102,11 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 0.0
+margin/left = 527.0
 margin/top = -30.0
-margin/right = 640.0
-margin/bottom = 0.0
-custom_fonts/font = ExtResource( 4 )
+margin/right = 1037.0
+margin/bottom = 244.0
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
 text = "00"
 align = 1
@@ -104,11 +121,11 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 640.0
+margin/left = 1037.0
 margin/top = -30.0
-margin/right = 0.0
+margin/right = 528.0
 margin/bottom = 244.0
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
 text = "00"
 align = 1
@@ -133,9 +150,9 @@ size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 220.0
-margin/right = 259.0
+margin/right = 240.0
 margin/bottom = -1.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 text = "G
 O
 A
@@ -156,11 +173,11 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 257.0
+margin/left = 241.0
 margin/top = 220.0
 margin/right = 1.0
 margin/bottom = -1.0
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = ExtResource( 6 )
 text = "G
 O
 A
@@ -212,7 +229,7 @@ margin/left = 400.0
 margin/top = 200.0
 margin/right = 400.0
 margin/bottom = 0.0
-custom_fonts/font = ExtResource( 6 )
+custom_fonts/font = ExtResource( 7 )
 align = 1
 valign = 1
 percent_visible = 1.0
@@ -222,7 +239,7 @@ max_lines_visible = -1
 [node name="Timer" type="Timer" parent="PreMatch"]
 
 process_mode = 1
-wait_time = 3.0
+wait_time = 4.0
 one_shot = true
 autostart = false
 
@@ -239,7 +256,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 1920.0
 margin/bottom = 1080.0
-script/script = ExtResource( 7 )
+script/script = ExtResource( 8 )
 
 [node name="p1FinalScore" type="Label" parent="PostGame"]
 
@@ -253,7 +270,7 @@ margin/left = 340.0
 margin/top = 330.0
 margin/right = 960.0
 margin/bottom = 200.0
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
 text = "00"
 align = 1
@@ -275,7 +292,7 @@ margin/left = 960.0
 margin/top = 330.0
 margin/right = 340.0
 margin/bottom = 200.0
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
 text = "00"
 align = 1
@@ -295,7 +312,7 @@ margin/left = 0.0
 margin/top = -35.0
 margin/right = 0.0
 margin/bottom = 0.0
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.988235, 0.407843, 0.992157, 1 )
 text = "GAME   OVER"
 align = 1
@@ -313,7 +330,7 @@ margin/left = 340.0
 margin/top = 200.0
 margin/right = 960.0
 margin/bottom = 474.0
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
 text = "WIN"
 align = 1
@@ -333,7 +350,7 @@ margin/left = 960.0
 margin/top = 200.0
 margin/right = 340.0
 margin/bottom = 474.0
-custom_fonts/font = ExtResource( 9 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
 text = "LOSE"
 align = 1
@@ -366,12 +383,12 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-theme/theme = ExtResource( 10 )
+theme/theme = ExtResource( 11 )
 margin/left = 50.0
 margin/top = 25.0
 margin/right = 50.0
 margin/bottom = 126.0
-custom_fonts/font = ExtResource( 11 )
+custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0.988235, 0.407843, 0.992157, 1 )
 custom_colors/font_color_hover = Color( 0.988235, 0.407843, 0.992157, 1 )
 toggle_mode = false
@@ -391,12 +408,12 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-theme/theme = ExtResource( 10 )
+theme/theme = ExtResource( 11 )
 margin/left = 125.0
 margin/top = 175.0
 margin/right = 125.0
 margin/bottom = 275.0
-custom_fonts/font = ExtResource( 11 )
+custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0.964706, 0.835294, 1, 1 )
 custom_colors/font_color_hover = Color( 0.964706, 0.835294, 1, 1 )
 toggle_mode = false
@@ -405,7 +422,7 @@ shortcut = null
 text = "EXIT"
 flat = false
 
-[node name="Pause" parent="." instance=ExtResource( 12 )]
+[node name="Pause" parent="." instance=ExtResource( 13 )]
 
 visibility/visible = false
 margin/left = 640.0
@@ -423,7 +440,7 @@ config/emitting = false
 config/process_mode = 1
 config/half_extents = Vector2( 250, 0 )
 config/local_space = false
-config/texture = ExtResource( 13 )
+config/texture = ExtResource( 14 )
 params/direction = 0.0
 params/spread = 10.0
 params/linear_velocity = 200.0

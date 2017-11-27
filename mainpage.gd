@@ -2,6 +2,8 @@ extends Control
 
 const upperLimit = 300
 const lowerLimit = 1000
+var leftLimit
+var rightLimit
 const yAimClamp = 0.6
 const playerSpeedDiv = 1200
 var redPlayer
@@ -29,6 +31,10 @@ func _ready():
 	newXDir = sign(rand_range(-1,1))
 	returnBall()
 	set_process(true)
+	var playerOffset = get_node("redPlayer/Sprite").get_texture().get_size().x / 2
+	var ballOffset = get_node("ball/ballSprite").get_texture().get_size().x / 2
+	leftLimit = redPlayer.object.get_pos().x + playerOffset + ballOffset
+	rightLimit = bluePlayer.object.get_pos().x - playerOffset - ballOffset
 
 func _process(delta):
 	var ballPos = ball.object.get_pos()
@@ -36,6 +42,11 @@ func _process(delta):
 	if ((ballPos.y < upperLimit and ball.direction.y < 0) or (ballPos.y > lowerLimit and ball.direction.y > 0)):
 		ball.direction.y = -ball.direction.y
 	ball.object.set_pos(ballPos)
+	
+	if ((ballPos.x < leftLimit and newXDir == -1) or (ballPos.x > rightLimit and newXDir == 1)):
+		newXDir *= -1
+		returnBall()
+		
 	if sign(ball.direction.x) == 1 and !bluePlayer.canMove:
 		redPlayer.canMove = false
 		bluePlayer.canMove = true
@@ -62,17 +73,7 @@ func computerMovement(pos,delta):
 	pos += motion * delta * playerSpeed
 	return pos
 
-func _on_redPlayer_area_enter( area ):
-	redPlayer.canMove = false
-	newXDir = 1
-	print("red")
-	returnBall()
-	
-func _on_bluePlayer_area_enter( area ):
-	bluePlayer.canMove = false
-	newXDir = -1
-	print("blue")
-	returnBall()
+
 
 #
 func returnBall():

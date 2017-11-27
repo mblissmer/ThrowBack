@@ -3,7 +3,7 @@
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://sprites/fadePlayer.png" type="Texture" id=2]
 [ext_resource path="res://sprites/player.png" type="Texture" id=3]
-[ext_resource path="res://sprites/ball.png" type="Texture" id=4]
+[ext_resource path="res://sprites/openCircle.png" type="Texture" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -90,6 +90,11 @@ visibility/light_mask = 1025
 texture = ExtResource( 3 )
 modulate = Color( 0.258824, 0.776471, 1, 1 )
 
+[node name="Shield" type="Sprite" parent="."]
+
+texture = ExtResource( 4 )
+modulate = Color( 0, 0, 0, 1 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 transform/scale = Vector2( 5, 5 )
@@ -99,6 +104,7 @@ _update_shape_index = 0
 
 [node name="Light2D" type="Light2D" parent="."]
 
+transform/pos = Vector2( -0.397217, 0 )
 enabled = true
 editor_only = false
 texture = ExtResource( 2 )
@@ -180,31 +186,6 @@ process_mode = 1
 wait_time = 1.0
 one_shot = true
 autostart = false
-
-[node name="LaunchParticles" type="Particles2D" parent="."]
-
-config/amount = 128
-config/lifetime = 0.5
-config/emitting = false
-config/process_mode = 1
-config/explosiveness = 0.25
-config/texture = ExtResource( 4 )
-params/direction = 0.0
-params/spread = 180.0
-params/linear_velocity = 160.0
-params/spin_velocity = 0.0
-params/orbit_velocity = 0.0
-params/gravity_direction = 0.0
-params/gravity_strength = 0.0
-params/radial_accel = 0.0
-params/tangential_accel = 0.0
-params/damping = 50.0
-params/initial_angle = 0.0
-params/initial_size = 0.1
-params/final_size = 0.1
-params/hue_variation = 0.0
-params/anim_speed_scale = 1.0
-params/anim_initial_pos = 0.0
 
 [connection signal="timeout" from="Timers/dashTimer" to="." method="_on_dashTimer_timeout"]
 

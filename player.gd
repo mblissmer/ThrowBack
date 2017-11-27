@@ -26,6 +26,7 @@ var timers
 var dash
 var collect
 var particles
+var shield
 
 
 func _ready():
@@ -57,9 +58,15 @@ func _ready():
 		speed = 0.2,
 	}
 	particles = {
-		glow = get_node("Glow"),
-		launch = get_node("LaunchParticles")
+		glow = get_node("Glow")
 	}
+	shield = {
+		object = get_node("Shield"),
+		canUse = true,
+		locked = false
+	}
+	shield.object.hide()
+	
 	set_process(true)
 
 func setKeys(u, d, l, r, a, j):
@@ -117,6 +124,7 @@ func _process(delta):
 			pos = dash(pos, delta)
 		elif canMove:
 			pos = movement(pos, delta)
+		shield()
 	if hasBall:
 		setBallPosition(pos, delta)
 	set_pos(pos)
@@ -126,11 +134,10 @@ func _process(delta):
 func resetButtons():
 	if not Input.is_action_pressed(actionInputs["shoot"]) and not actionInputs.shootReleased:
 		actionInputs.shootReleased = true
-		particles.launch.set_emitting(false)
+		if not powered.isPowered:
+			shield.canUse = true
 	if not Input.is_action_pressed(actionInputs["dash"]) and not actionInputs.dashReleased:
 		actionInputs.dashReleased = true
-	if Input.is_action_pressed(actionInputs["shoot"]) and actionInputs.shootReleased:
-		particles.launch.set_emitting(true)
 		
 func computerMovement(pos,delta):
 	if not hasBall and ball != null:
@@ -176,6 +183,13 @@ func movement(pos, delta):
 		dash.target.y = clamp(dash.target.y, limits["upperLimit"], limits["lowerLimit"])
 	return pos
 
+func shield():
+	if not shield.locked:
+		if Input.is_action_pressed(actionInputs["shoot"]) and shield.canUse:
+			shield.object.show()
+		elif shield.object.is_visible():
+			shield.object.hide()
+
 func setBallPosition(pos, delta):
 	var ballPos = pos
 	if powered.isPowered:
@@ -210,16 +224,17 @@ func getAndCleanAim():
 	var aim = movementDirection
 	if aim == Vector2(0,0):
 		aim = Vector2(playerDirMultiplier,0)
-	aim.x = abs(aim.x) * playerDirMultiplier
 	aim *= 50
 	aim = aim.normalized()
 	if abs(aim.y) > yAimClamp:
 		if sign(aim.x) == 0: aim.x +=0.001
 		aim.x += (abs(aim.y) - yAimClamp) * sign(aim.x)
 	aim.y = clamp(aim.y, -yAimClamp, yAimClamp)
+	aim.x = abs(aim.x) * playerDirMultiplier
 	return aim
 
 func shoot():
+	shield.canUse = false
 	timers.mustReturn.stop()
 	hasBall = false
 	var aim = getAndCleanAim()
@@ -234,12 +249,17 @@ func shoot():
 		pmscale += tl /5
 		powered.meter.set_scale(Vector2(pmscale,pmscale))
 		if pmscale >= 1:
-			poweredUp()
+			poweredUp(true)
 	
 
-func poweredUp():
-	particles.glow.set_emitting(true)
-	powered.isPowered = true
+func poweredUp(power):
+	particles.glow.set_emitting(power)
+	powered.isPowered = power
+	shield.locked = power
+	if power:
+		shield.object.show()
+	else:
+		shield.object.hide()
 	
 func collectBall(ballPos, delta):
 	collect.timer += delta
@@ -280,8 +300,7 @@ func poweredShot(ballPos, delta):
 				aimDiffs.clear()
 
 func newRoundReset():
-	particles.glow.set_emitting(false)
-	powered.isPowered = false
+	poweredUp(false)
 	powered.meter.set_scale(Vector2(0,0))
 
 func _on_dashTimer_timeout():

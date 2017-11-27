@@ -7,7 +7,7 @@
 [node name="Transition" type="CanvasLayer"]
 
 process/pause_mode = 2
-layer = 128
+layer = 100
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
