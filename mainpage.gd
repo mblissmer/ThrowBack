@@ -65,11 +65,13 @@ func computerMovement(pos,delta):
 func _on_redPlayer_area_enter( area ):
 	redPlayer.canMove = false
 	newXDir = 1
+	print("red")
 	returnBall()
 	
 func _on_bluePlayer_area_enter( area ):
 	bluePlayer.canMove = false
 	newXDir = -1
+	print("blue")
 	returnBall()
 
 #

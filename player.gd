@@ -16,7 +16,6 @@ var limits = {}
 var movementDirection = Vector2(0,0)
 var speed = 300
 var computerControlled = false
-var glow
 var mustReturnTimer
 var controllerNum
 var yAimClamp = 0.6
@@ -26,6 +25,7 @@ var powered
 var timers
 var dash
 var collect
+var particles
 
 
 func _ready():
@@ -56,7 +56,10 @@ func _ready():
 		timer = 0,
 		speed = 0.2,
 	}
-	glow = get_node("Glow")
+	particles = {
+		glow = get_node("Glow"),
+		launch = get_node("LaunchParticles")
+	}
 	set_process(true)
 
 func setKeys(u, d, l, r, a, j):
@@ -84,9 +87,9 @@ func setup(n, col, comp):
 	name = n
 	var newcol = Color(col)
 	get_node("Sprite").set_modulate(newcol)
-	glow.set_color_phase_color(0, newcol)
+	particles.glow.set_color_phase_color(0, newcol)
 	newcol.a = 0
-	glow.set_color_phase_color(1,newcol)
+	particles.glow.set_color_phase_color(1,newcol)
 	newcol.a = 0.2
 	get_node("Trail").set_color(newcol)
 	if comp:
@@ -123,8 +126,11 @@ func _process(delta):
 func resetButtons():
 	if not Input.is_action_pressed(actionInputs["shoot"]) and not actionInputs.shootReleased:
 		actionInputs.shootReleased = true
+		particles.launch.set_emitting(false)
 	if not Input.is_action_pressed(actionInputs["dash"]) and not actionInputs.dashReleased:
 		actionInputs.dashReleased = true
+	if Input.is_action_pressed(actionInputs["shoot"]) and actionInputs.shootReleased:
+		particles.launch.set_emitting(true)
 		
 func computerMovement(pos,delta):
 	if not hasBall and ball != null:
@@ -232,7 +238,7 @@ func shoot():
 	
 
 func poweredUp():
-	glow.set_emitting(true)
+	particles.glow.set_emitting(true)
 	powered.isPowered = true
 	
 func collectBall(ballPos, delta):
@@ -274,7 +280,7 @@ func poweredShot(ballPos, delta):
 				aimDiffs.clear()
 
 func newRoundReset():
-	glow.set_emitting(false)
+	particles.glow.set_emitting(false)
 	powered.isPowered = false
 	powered.meter.set_scale(Vector2(0,0))
 
