@@ -1,0 +1,28 @@
+[gd_resource type="CanvasItemShaderGraph" format=1]
+
+[resource]
+
+_code = {
+"fragment": "vec3 nd1sl2=vec3(UV,0);
+vec3 nd9sl0=vec3(0.258824,0.776471,1);
+float nd9sl1=1;
+float nd2sl0=TIME;
+vec3 nd3sl0=vec3(1,0,0.505882);
+float nd3sl1=1;
+float nd4sl0=TIME;
+float nd5sl0=sin(nd2sl0);
+float nd6sl0=sin(nd4sl0);
+vec3 nd11sl0=mix(nd9sl0,nd3sl0,nd5sl0);
+vec3 nd7sl0=nd11sl0+nd1sl2;
+COLOR.rgb=nd7sl0;
+",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+_data = {
+"shaders": [ [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ], [ 0, 33, Vector2( 696.752, -60.56 ), null, null, [ 0, 7, 0 ], 1, 0, Vector2( 327, 59 ), null, null, [  ], 2, 5, Vector2( 258, -11 ), null, null, [  ], 3, 3, Vector2( 294, -141 ), Color( 1, 0, 0.505882, 1 ), null, [  ], 4, 5, Vector2( 32.224, 232.48 ), null, null, [  ], 5, 14, Vector2( 342, -41 ), 0, null, [ 0, 2, 0, 2147483647, 0, null ], 6, 14, Vector2( 127.776, 224.936 ), 0, null, [ 0, 4, 0, 2147483647, 0, null ], 7, 8, Vector2( 581, -49 ), 0, null, [ 0, 11, 0, 1, 1, 2, 2147483647, 0, null, 2147483647, 1, null ], 9, 3, Vector2( 360.672, -140.808 ), Color( 0.258824, 0.776471, 1, 1 ), null, [  ], 11, 23, Vector2( 464, -96 ), null, null, [ 0, 9, 0, 1, 3, 0, 2, 5, 0, 2147483647, 0, null, 2147483647, 1, null, 2147483647, 2, null ] ], [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ] ]
+}
+

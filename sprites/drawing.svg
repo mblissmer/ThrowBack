@@ -1417,9 +1417,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994952"
-     inkscape:cx="6107.8635"
-     inkscape:cy="644.44094"
+     inkscape:zoom="0.49497476"
+     inkscape:cx="6127.3728"
+     inkscape:cy="1765.4999"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -6241,5 +6241,41 @@
            id="rect6227" />
       </g>
     </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.96132469px;line-height:1.25;font-family:'Khmer UI';-inkscape-font-specification:'Khmer UI';letter-spacing:0px;word-spacing:0px;fill:#f4225a;fill-opacity:1;stroke:none;stroke-width:0.37403309"
+       x="109.59592"
+       y="1592.8586"
+       id="text5364"
+       transform="rotate(-90)"><tspan
+         sodipodi:role="line"
+         id="tspan5362"
+         x="109.59592"
+         y="1592.8586"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Monoton;-inkscape-font-specification:Monoton;fill:#f4225a;fill-opacity:1;stroke-width:0.37403309">3 points</tspan></text>
+    <text
+       transform="rotate(-90)"
+       id="text5372"
+       y="1592.8586"
+       x="192.44946"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.96132469px;line-height:1.25;font-family:'Khmer UI';-inkscape-font-specification:'Khmer UI';letter-spacing:0px;word-spacing:0px;fill:#f4b80c;fill-opacity:1;stroke:none;stroke-width:0.37403309"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Monoton;-inkscape-font-specification:Monoton;fill:#f4b80c;fill-opacity:1;stroke-width:0.37403309"
+         y="1592.8586"
+         x="192.44946"
+         id="tspan5370"
+         sodipodi:role="line">1point</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.96132469px;line-height:1.25;font-family:'Khmer UI';-inkscape-font-specification:'Khmer UI';letter-spacing:0px;word-spacing:0px;fill:#f4b80c;fill-opacity:1;stroke:none;stroke-width:0.37403309"
+       x="42.243992"
+       y="1592.8586"
+       id="text5376"
+       transform="rotate(-90)"><tspan
+         sodipodi:role="line"
+         id="tspan5374"
+         x="42.243992"
+         y="1592.8586"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Monoton;-inkscape-font-specification:Monoton;fill:#f4b80c;fill-opacity:1;stroke-width:0.37403309">1point</tspan></text>
   </g>
 </svg>

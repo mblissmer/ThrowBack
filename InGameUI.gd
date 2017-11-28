@@ -47,7 +47,6 @@ func pauseGame():
 	pause.show()
 	pause.focus()
 	get_tree().set_pause(true)
-	sounds.negativeBeep()
 
 func preMatch():
 	if preMatchTimer.get_time_left()-1 > 0:
@@ -103,6 +102,7 @@ func endGame():
 	get_node("PostGame/Buttons/Rematch").grab_focus()
 
 func newRound():
+	get_node("GoalLabels/AnimationPlayer").play("goal_labels")
 	preMatchTimer.start()
 	newGameCount.set_text("")
 	newGameCount.set_self_opacity(1)

@@ -11,13 +11,7 @@ float fade = UV.x;
 float perc = abs(sin(TIME/2)) + fade;
 
 col = mix(c1, c2, perc);
-COLOR = vec4(col,COLOR.a);
-//float fade = UV.x;
-//float red = abs(sin(TIME)) + fade;
-//vec4 curCol = vec4(red,1,1,1);
-
-//vec4 col = COLOR * curCol;
-//COLOR = col;",
+COLOR = vec4(col,COLOR.a);",
 "fragment_ofs": 0,
 "light": "",
 "light_ofs": 0,
