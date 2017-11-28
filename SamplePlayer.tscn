@@ -1,78 +1,71 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=12 format=1]
 
-[ext_resource path="res://sounds/beep.wav" type="Sample" id=1]
-[ext_resource path="res://sounds/beep-amb-verb.wav" type="Sample" id=2]
-[ext_resource path="res://sounds/beep-chromatic-fifths.wav" type="Sample" id=3]
-[ext_resource path="res://sounds/beep-lower-slower.wav" type="Sample" id=4]
-[ext_resource path="res://sounds/beep-slower-lower-amb-verb.wav" type="Sample" id=5]
-[ext_resource path="res://sounds/fifths-up-beep.wav" type="Sample" id=6]
-[ext_resource path="res://sounds/negative-beep.wav" type="Sample" id=7]
-[ext_resource path="res://sounds/octaves-up-beep.wav" type="Sample" id=8]
-[ext_resource path="res://sounds/tri-tone-up-beep.wav" type="Sample" id=9]
-[ext_resource path="res://sounds/up-flutter-beep.wav" type="Sample" id=10]
-[ext_resource path="res://SamplePlayer.gd" type="Script" id=11]
+[ext_resource path="res://sounds/Explosion.wav" type="Sample" id=1]
+[ext_resource path="res://sounds/Hit_Hurt16.wav" type="Sample" id=2]
+[ext_resource path="res://sounds/Laser_Shoot54.wav" type="Sample" id=3]
+[ext_resource path="res://sounds/Pickup_Coin5.wav" type="Sample" id=4]
+[ext_resource path="res://sounds/Powerup18.wav" type="Sample" id=5]
+[ext_resource path="res://sounds/Powerup3.wav" type="Sample" id=6]
+[ext_resource path="res://sounds/Powerup8.wav" type="Sample" id=7]
+[ext_resource path="res://sounds/beep.wav" type="Sample" id=8]
+[ext_resource path="res://sounds/negative-beep.wav" type="Sample" id=9]
+[ext_resource path="res://SamplePlayer.gd" type="Script" id=10]
 
 [sub_resource type="SampleLibrary" id=1]
 
-samples/beep = {
+samples/Explosion = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 1 )
 }
-samples/beep-amb-verb = {
+samples/Hit_Hurt16 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 2 )
 }
-samples/beep-chromatic-fifths = {
+samples/Laser_Shoot54 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 3 )
 }
-samples/beep-lower-slower = {
+samples/Pickup_Coin5 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 4 )
 }
-samples/beep-slower-lower-amb-verb = {
+samples/Powerup18 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 5 )
 }
-samples/fifths-up-beep = {
+samples/Powerup3 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 6 )
 }
-samples/negative-beep = {
+samples/Powerup8 = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 7 )
 }
-samples/octaves-up-beep = {
+samples/beep = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 8 )
 }
-samples/tri-tone-up-beep = {
+samples/negative-beep = {
 "db": 0.0,
 "pitch": 1.0,
 "priority": 0,
 "sample": ExtResource( 9 )
-}
-samples/up-flutter-beep = {
-"db": 0.0,
-"pitch": 1.0,
-"priority": 0,
-"sample": ExtResource( 10 )
 }
 
 [node name="SamplePlayer" type="SamplePlayer"]
@@ -92,6 +85,6 @@ default/filter/gain = 1.0
 default/reverb_room = 2
 default/reverb_send = 0.0
 default/chorus_send = 0.0
-script/script = ExtResource( 11 )
+script/script = ExtResource( 10 )
 
 
