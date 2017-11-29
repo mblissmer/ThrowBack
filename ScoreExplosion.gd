@@ -30,7 +30,6 @@ func setup(player, pos, color):
 		dir = 0
 	set_pos(pos)
 	set_rotd(dir)
-#	var sprite = load(spritePath)
 	playerParticles.set_color(playerColor)
 	goalParticles.set_color(goalColor)
 	playerParticles.set_emitting(true)

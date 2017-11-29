@@ -20,6 +20,10 @@ func _ready():
 	quarterScreenX = get_viewport_rect().size.x / 4
 	halfScreenY = 640
 	createGame(variables.playerCount)
+#	set_process(true)
+#
+#func _process(delta):
+#	print("Paused: " + str(get_tree().is_paused()))
 
 func createGame(playerCount):
 	add_child(p1)
@@ -64,11 +68,11 @@ func setupPlayers(playerCount):
 	p2.setKeys("p2_up","p2_down","p2_left","p2_right","p2_action","p2_dash")
 	
 	# misc setup
-	p1.setup("p1", Color8(255,0,129), false)
+	p1.setup("p1", variables.ColPlayerRed, false)
 	if playerCount == 1:
-		p2.setup("p2", Color8(66,198,255), true)
+		p2.setup("p2", variables.ColPlayerBlue, true)
 	else:
-		p2.setup("p2", Color8(66,198,255), false)
+		p2.setup("p2", variables.ColPlayerBlue, false)
 
 func setupGoals():
 	var p1RedGoal = get_node("field/rightGoal/redGoal")
@@ -83,6 +87,7 @@ func setupGoals():
 
 	
 func score(player, value, goalColor, pos):
+	get_tree().set_pause(true)
 	clearBall()
 	scoringPlayer = player
 	var winner = ""
@@ -95,13 +100,16 @@ func score(player, value, goalColor, pos):
 	newExplosion.setup(scoringPlayer, pos, goalColor)
 	p1.newRoundReset()
 	p2.newRoundReset()
-	if winner == "":
+	if winner == "" and scoreboard.midMatchTimer.get_time_left() != 0:
 		timer.start()
 	else: 
 		p1.queue_free()
 		p2.queue_free()
 	
-	
+func timeOut():
+	p1.queue_free()
+	p2.queue_free()
+	get_node("ball").queue_free()
 
 func backToOnes(player):
 	p1.set_pos(Vector2(quarterScreenX, halfScreenY))

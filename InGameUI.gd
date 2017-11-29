@@ -32,6 +32,7 @@ func _ready():
 	goalAnnounces = [get_node("MidMatch/goalAnnounceL"),get_node("MidMatch/goalAnnounceR")]
 	goalAColTimer = get_node("MidMatch/goalAColTimer")
 	goalATimer = get_node("MidMatch/goalATimer")
+	countdownText.set_text(str(midMatchTimer.get_wait_time()))
 	updateScoreDisplay()
 	set_process(true)
 
@@ -55,43 +56,35 @@ func preMatch():
 		newGameCount.set_text("GO!")
 		newGameCount.set_self_opacity(preMatchTimer.get_time_left())
 
-
 func activeMatch():
 	if midMatchTimer.get_time_left() > 0:
 		var formatTime = "%02d" % ceil(midMatchTimer.get_time_left())
 		countdownText.set_text(formatTime)
-	else:
-		if p1Score == p2Score:
-			countdownText.set_text("OT")
-		else:
-			gameOver = true
-			endGame()
 
 func p1Scores(amount):
 	p1Score += amount
 	startGoalAnnounce(variables.ColPlayerRed)
 	return updateScoreDisplay()
 
-
 func p2Scores(amount):
 	p2Score += amount
 	startGoalAnnounce(variables.ColPlayerBlue)
 	return updateScoreDisplay()
-	
+
 func updateScoreDisplay():
 	canPause = false
 	var formatScore = "%02d" % p1Score
 	p1ScoreText.set_text(formatScore)
 	var formatScore = "%02d" % p2Score
 	p2ScoreText.set_text(formatScore)
-	if p1Score >= scoreLimit:
+	if p1Score >= scoreLimit or (midMatchTimer.get_time_left() == 0 and p1Score > p2Score):
 		endGame()
 		return "p1"
-	elif p2Score >= scoreLimit:
+	elif p2Score >= scoreLimit or (midMatchTimer.get_time_left() == 0 and p2Score > p1Score):
 		endGame()
 		return "p2"
 	return ""
-	
+
 func endGame():
 	if p1Score > p2Score:
 		postGame.setup(str(p1Score), str(p2Score), "WIN", "LOSE")
@@ -109,12 +102,13 @@ func newRound():
 
 func _on_PreMatchTimer_timeout():
 	newGameCount.set_self_opacity(preMatchTimer.get_time_left())
-	midMatchTimer.start()
-	get_tree().set_pause(false)
+	if midMatchTimer.get_time_left() == 0:
+		midMatchTimer.start()
 	canPause = true
+	get_tree().set_pause(false)
 
 func startGoalAnnounce(col):
-	goalColor = col
+	goalColor = col 
 	goalAColTimer.start()
 	goalATimer.start()
 	for g in goalAnnounces:
@@ -132,3 +126,11 @@ func _on_goalATimer_timeout():
 	for g in goalAnnounces:
 		g.set("custom_colors/font_color", Color(1,1,1,1))
 		g.hide()
+
+func _on_MidMatchTimer_timeout():
+	if p1Score == p2Score:
+		countdownText.set_text("OT")
+	else:
+		gameOver = true
+		get_parent().timeOut()
+		endGame()

@@ -41,7 +41,7 @@ tracks/0/path = NodePath("RedLabels:rect/pos")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
-"times": FloatArray( 0, 0.5, 2.5, 3 ),
+"times": FloatArray( 0.1, 0.5, 2.5, 2.9 ),
 "transitions": FloatArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 200, 620 ), Vector2( 260, 620 ), Vector2( 260, 620 ), Vector2( 200, 620 ) ]
@@ -51,7 +51,7 @@ tracks/1/path = NodePath("BlueLabels:rect/pos")
 tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = {
-"times": FloatArray( 0, 0.5, 2.5, 3 ),
+"times": FloatArray( 0.1, 0.5, 2.5, 2.9 ),
 "transitions": FloatArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1750, 660 ), Vector2( 1650, 660 ), Vector2( 1650, 660 ), Vector2( 1750, 660 ) ]
@@ -70,6 +70,16 @@ tracks/2/keys = {
 "args": [ false ],
 "method": "flashing"
 } ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:visibility/visible")
+tracks/3/interp = 1
+tracks/3/imported = false
+tracks/3/keys = {
+"times": FloatArray( 0, 0.1, 2.9, 3 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
 }
 
 [node name="InGameUI" type="CanvasLayer"]
@@ -97,7 +107,6 @@ stretch_mode = 0
 [node name="MidMatch" type="Control" parent="."]
 
 process/pause_mode = 1
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -142,7 +151,7 @@ custom_colors/font_color = Color( 0.964706, 0.835294, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/line_spacing = 0
 custom_constants/shadow_as_outline = 500
-text = "99"
+text = "x"
 align = 1
 percent_visible = 1.0
 lines_skipped = 0
@@ -189,7 +198,7 @@ max_lines_visible = -1
 [node name="Timer" type="Timer" parent="MidMatch"]
 
 process_mode = 1
-wait_time = 99.0
+wait_time = 90.0
 one_shot = true
 autostart = false
 
@@ -521,6 +530,7 @@ color/color_ramp = SubResource( 1 )
 [node name="GoalLabels" type="Control" parent="."]
 
 process/pause_mode = 2
+visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -540,7 +550,7 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 200.0
 margin/top = 620.0
-margin/right = 243.0
+margin/right = 245.0
 margin/bottom = 660.0
 
 [node name="Red3" type="Label" parent="GoalLabels/RedLabels"]
@@ -681,6 +691,8 @@ process_mode = 1
 wait_time = 0.1
 one_shot = false
 autostart = false
+
+[connection signal="timeout" from="MidMatch/Timer" to="." method="_on_MidMatchTimer_timeout"]
 
 [connection signal="timeout" from="MidMatch/goalATimer" to="." method="_on_goalATimer_timeout"]
 

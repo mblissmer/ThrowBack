@@ -92,19 +92,18 @@ func setLimits(u, d, l, r):
 	
 func setup(n, col, comp):
 	name = n
-	var newcol = Color(col)
-	get_node("Sprite").set_modulate(newcol)
-	particles.glow.set_color_phase_color(0, newcol)
-	newcol.a = 0
-	particles.glow.set_color_phase_color(1,newcol)
-	newcol.a = 0.2
-	get_node("Trail").set_color(newcol)
+	get_node("Sprite").set_modulate(col)
+	particles.glow.set_color_phase_color(0, col)
+	col.a = 0
+	particles.glow.set_color_phase_color(1,col)
+	col.a = 1
+	get_node("Trail").set_color(col)
 	if comp:
 		computerControlled = true
 		cpu = {
 			holdBallTimer = get_node("Timers/ComputerHoldBallTimer"),
 			movementSpeed = variables.aiSpeeds[variables.difficulty],
-			returnDelayMax = variables.aiReturnSpeeds[variables.difficulty],
+			returnDelayMax = variables.aiReturnSpeeds[variables.difficulty]
 		}
 	if n == "p1":
 		controllerNum = 0
@@ -301,10 +300,15 @@ func poweredShot(ballPos, delta):
 func newRoundReset():
 	poweredUp(false)
 	powered.meter.set_scale(Vector2(0,0))
+	shield.canUse = true
+	resetDash()
 
-func _on_dashTimer_timeout():
+func resetDash():
 	dash.isDashing = false
 	dash.target = Vector2(0,0)
+
+func _on_dashTimer_timeout():
+	resetDash()
 
 func _on_CanMoveTimer_timeout():
 	canMove = true

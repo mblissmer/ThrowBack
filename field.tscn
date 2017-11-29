@@ -80,16 +80,17 @@ script/script = ExtResource( 4 )
 [node name="topEdge" type="Sprite" parent="."]
 
 visibility/light_mask = 2
-transform/pos = Vector2( 960, 208 )
+transform/pos = Vector2( 961.618, 208 )
+transform/scale = Vector2( 0.780523, 1 )
 texture = ExtResource( 5 )
 
 [node name="Light2D" type="Light2D" parent="topEdge"]
 
 process/pause_mode = 2
 visibility/blend_mode = 1
-transform/pos = Vector2( 3.00763, 5 )
+transform/pos = Vector2( -1.30774, 5.11598 )
 transform/rot = 90.0
-transform/scale = Vector2( 1, 23.167 )
+transform/scale = Vector2( 1, 35.3406 )
 enabled = true
 editor_only = false
 texture = ExtResource( 3 )
@@ -114,7 +115,8 @@ script/script = ExtResource( 4 )
 [node name="bottomEdge" type="Sprite" parent="."]
 
 visibility/light_mask = 2
-transform/pos = Vector2( 960, 1080 )
+transform/pos = Vector2( 964.978, 1080 )
+transform/scale = Vector2( 0.751751, 1 )
 texture = ExtResource( 5 )
 offset = Vector2( 0, -9 )
 
@@ -122,9 +124,9 @@ offset = Vector2( 0, -9 )
 
 process/pause_mode = 2
 visibility/blend_mode = 1
-transform/pos = Vector2( 0.796951, 5 )
+transform/pos = Vector2( -47.9802, -18.5231 )
 transform/rot = 270.0
-transform/scale = Vector2( 1, 35.4889 )
+transform/scale = Vector2( 1, 34.0634 )
 enabled = true
 editor_only = false
 texture = ExtResource( 3 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=1]
+[gd_scene load_steps=23 format=1]
 
 [ext_resource path="res://styles/theme.tres" type="Theme" id=1]
 [ext_resource path="res://mainmenu.gd" type="Script" id=2]
@@ -30,12 +30,7 @@ shader/shading_mode = 0
 offsets = FloatArray( 0, 1 )
 colors = ColorArray( 1, 0, 0.505882, 1, 1, 0, 0.505882, 1 )
 
-[sub_resource type="ColorRamp" id=3]
-
-offsets = FloatArray( 0, 1 )
-colors = ColorArray( 0.258824, 0.776471, 1, 1, 0.258824, 0.776471, 1, 1 )
-
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 
 length = 0.5
 loop = false
@@ -109,12 +104,12 @@ script/script = ExtResource( 5 )
 
 [node name="redPlayer" type="Node2D" parent="MainPage"]
 
+editor/display_folded = true
 transform/pos = Vector2( 170, 650 )
 
 [node name="Trail" type="Particles2D" parent="MainPage/redPlayer"]
 
 process/pause_mode = 2
-visibility/blend_mode = 1
 config/amount = 256
 config/lifetime = 1.0
 config/process_mode = 1
@@ -131,7 +126,7 @@ params/radial_accel = 0.0
 params/tangential_accel = 0.0
 params/damping = 0.0
 params/initial_angle = 0.0
-params/initial_size = 0.75
+params/initial_size = 1.0
 params/final_size = 0.0
 params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
@@ -158,7 +153,6 @@ transform/pos = Vector2( 1750, 650 )
 [node name="Trail" type="Particles2D" parent="MainPage/bluePlayer"]
 
 process/pause_mode = 2
-visibility/blend_mode = 1
 config/amount = 256
 config/lifetime = 1.0
 config/process_mode = 1
@@ -175,13 +169,12 @@ params/radial_accel = 0.0
 params/tangential_accel = 0.0
 params/damping = 0.0
 params/initial_angle = 0.0
-params/initial_size = 0.75
+params/initial_size = 1.0
 params/final_size = 0.0
 params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
-color/color = Color( 0.258824, 0.776471, 1, 0.0784314 )
-color/color_ramp = SubResource( 3 )
+color/color = Color( 0.258824, 0.776471, 1, 1 )
 
 [node name="Sprite" type="Sprite" parent="MainPage/bluePlayer"]
 
@@ -197,13 +190,11 @@ modulate = Color( 0, 0, 0, 1 )
 
 [node name="ball" type="Node2D" parent="MainPage"]
 
-editor/display_folded = true
 transform/pos = Vector2( 960, 650 )
 
 [node name="Particles2D" type="Particles2D" parent="MainPage/ball"]
 
 process/pause_mode = 2
-visibility/blend_mode = 1
 config/amount = 256
 config/lifetime = 1.0
 config/process_mode = 1
@@ -994,7 +985,7 @@ playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/about_swipe = ExtResource( 18 )
-anims/controls_swipe = SubResource( 4 )
+anims/controls_swipe = SubResource( 3 )
 anims/oneplayer_swipe = ExtResource( 19 )
 playback/active = true
 playback/speed = 1.0
