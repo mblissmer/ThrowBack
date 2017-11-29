@@ -60,8 +60,8 @@ func setupPlayers(playerCount):
 	p2.setLimits(upperLimit, lowerLimit, centerLimit, rightLimit)
 	
 	# set keys for both players
-	p1.setKeys("p1_up", "p1_down", "p1_left","p1_right","p1_action","p1_dash")
-	p2.setKeys("p2_up", "p2_down", "p2_left","p2_right","p2_action","p2_dash")
+	p1.setKeys("p1_up","p1_down","p1_left","p1_right","p1_action","p1_dash")
+	p2.setKeys("p2_up","p2_down","p2_left","p2_right","p2_action","p2_dash")
 	
 	# misc setup
 	p1.setup("p1", Color8(255,0,129), false)

@@ -17,3 +17,8 @@ Matt / Fair Enough Games
 ---------------------------
 Current Issues:
 * (NEEDS PLAY TESTING) All movement speeds, ball speed, scoring, literally every variable.
+* fix glow across top bar
+* make point displays hide after fading into goals
+* change initial tail size to 1, maybe?
+* glow on top looks bigger than glow on bottom
+* don't restart timer. 99 sec for whole game, not per round

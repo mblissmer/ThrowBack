@@ -97,7 +97,6 @@ max_lines_visible = -1
 
 [node name="MainPage" type="Control" parent="."]
 
-editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -293,7 +292,7 @@ anchor/right = 1
 focus_neighbour/left = NodePath(".")
 focus_neighbour/top = NodePath("../2PGame")
 focus_neighbour/right = NodePath(".")
-focus_neighbour/bottom = NodePath("../Exit")
+focus_neighbour/bottom = NodePath("../About")
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -317,7 +316,7 @@ flat = false
 visibility/light_mask = 0
 anchor/right = 1
 focus_neighbour/left = NodePath(".")
-focus_neighbour/top = NodePath("../2PGame")
+focus_neighbour/top = NodePath("../Controls")
 focus_neighbour/right = NodePath(".")
 focus_neighbour/bottom = NodePath("../Exit")
 focus/ignore_mouse = false
@@ -343,7 +342,7 @@ flat = false
 visibility/light_mask = 0
 anchor/right = 1
 focus_neighbour/left = NodePath(".")
-focus_neighbour/top = NodePath("../Controls")
+focus_neighbour/top = NodePath("../About")
 focus_neighbour/right = NodePath(".")
 focus_neighbour/bottom = NodePath(".")
 focus/ignore_mouse = false

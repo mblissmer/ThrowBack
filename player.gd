@@ -128,7 +128,6 @@ func _process(delta):
 	if hasBall:
 		setBallPosition(pos, delta)
 	set_pos(pos)
-#	update()
 
 	
 func resetButtons():
@@ -152,7 +151,7 @@ func getDirection():
 	movementDirection = Vector2(0,0)
 	var joy = Vector2(Input.get_joy_axis(controllerNum,0), Input.get_joy_axis(controllerNum,1))
 	if abs(joy.x) > variables.joyDZ or abs(joy.y) > variables.joyDZ:
-		movementDirection = Vector2(Input.get_joy_axis(0, 0), Input.get_joy_axis(0,1))
+		movementDirection = joy
 	else:
 		if (Input.is_action_pressed(movementInputs["up"])):
 			movementDirection.y -= 1
