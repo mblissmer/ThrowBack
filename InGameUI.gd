@@ -63,12 +63,12 @@ func activeMatch():
 
 func p1Scores(amount):
 	p1Score += amount
-	startGoalAnnounce(variables.ColPlayerRed)
+	startGoalAnnounce(variables.colors.playerRed)
 	return updateScoreDisplay()
 
 func p2Scores(amount):
 	p2Score += amount
-	startGoalAnnounce(variables.ColPlayerBlue)
+	startGoalAnnounce(variables.colors.playerBlue)
 	return updateScoreDisplay()
 
 func updateScoreDisplay():

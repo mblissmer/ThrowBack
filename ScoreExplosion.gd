@@ -19,14 +19,14 @@ func setup(player, pos, color):
 	var dir = 0
 	var goalColor = Color(1,1,1,1)
 	if color == "yellow":
-		goalColor = variables.ColGoalYellow
+		goalColor = variables.colors.goalYellow
 	elif color == "red":
-		goalColor = variables.ColGoalRed
+		goalColor = variables.colors.goalRed
 	if player == "p1":
-		playerColor = variables.ColPlayerRed
+		playerColor = variables.colors.playerRed
 		dir = 180
 	elif player == "p2":
-		playerColor = variables.ColPlayerBlue
+		playerColor = variables.colors.playerBlue
 		dir = 0
 	set_pos(pos)
 	set_rotd(dir)

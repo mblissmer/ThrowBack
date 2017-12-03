@@ -68,11 +68,11 @@ func setupPlayers(playerCount):
 	p2.setKeys("p2_up","p2_down","p2_left","p2_right","p2_action","p2_dash")
 	
 	# misc setup
-	p1.setup("p1", variables.ColPlayerRed, false)
+	p1.setup("p1", variables.colors.playerRed, false)
 	if playerCount == 1:
-		p2.setup("p2", variables.ColPlayerBlue, true)
+		p2.setup("p2", variables.colors.playerBlue, true)
 	else:
-		p2.setup("p2", variables.ColPlayerBlue, false)
+		p2.setup("p2", variables.colors.playerBlue, false)
 
 func setupGoals():
 	var p1RedGoal = get_node("field/rightGoal/redGoal")

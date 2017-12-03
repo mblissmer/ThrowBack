@@ -16,7 +16,7 @@ func _ready():
 		get_node("BlueLabels/Blue1Bot"),
 		get_node("BlueLabels/Blue3")
 	]
-	labelCols = [variables.ColGoalYellow, variables.ColGoalYellow, variables.ColGoalRed]
+	labelCols = [variables.colors.goalYellow, variables.colors.goalYellow, variables.colors.goalRed]
 	timer = get_node("Timer")
 
 func flashing(shouldFlash):
