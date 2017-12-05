@@ -1,24 +1,23 @@
-[gd_scene load_steps=23 format=1]
+[gd_scene load_steps=22 format=1]
 
 [ext_resource path="res://styles/theme.tres" type="Theme" id=1]
 [ext_resource path="res://mainmenu.gd" type="Script" id=2]
 [ext_resource path="res://shaders/colorFaderG.tres" type="Shader" id=3]
 [ext_resource path="res://fonts/MainMenu.tres" type="DynamicFont" id=4]
 [ext_resource path="res://mainpage.gd" type="Script" id=5]
-[ext_resource path="res://sprites/fadePlayer.png" type="Texture" id=6]
-[ext_resource path="res://sprites/player.png" type="Texture" id=7]
-[ext_resource path="res://sprites/openCircle.png" type="Texture" id=8]
-[ext_resource path="res://sprites/ball.png" type="Texture" id=9]
-[ext_resource path="res://fonts/buttons.tres" type="DynamicFont" id=10]
-[ext_resource path="res://sprites/controller.png" type="Texture" id=11]
-[ext_resource path="res://sprites/keyboard.png" type="Texture" id=12]
-[ext_resource path="res://fonts/Heading.tres" type="DynamicFont" id=13]
-[ext_resource path="res://fonts/controls.tres" type="DynamicFont" id=14]
-[ext_resource path="res://sprites/block.png" type="Texture" id=15]
-[ext_resource path="res://animations/controllines.tres" type="Animation" id=16]
-[ext_resource path="res://fonts/about.tres" type="DynamicFont" id=17]
-[ext_resource path="res://animations/about_swipe.tres" type="Animation" id=18]
-[ext_resource path="res://animations/oneplayer_swipe.tres" type="Animation" id=19]
+[ext_resource path="res://sprites/player.png" type="Texture" id=6]
+[ext_resource path="res://sprites/openCircle.png" type="Texture" id=7]
+[ext_resource path="res://sprites/ball.png" type="Texture" id=8]
+[ext_resource path="res://fonts/buttons.tres" type="DynamicFont" id=9]
+[ext_resource path="res://sprites/controller.png" type="Texture" id=10]
+[ext_resource path="res://sprites/keyboard.png" type="Texture" id=11]
+[ext_resource path="res://fonts/Heading.tres" type="DynamicFont" id=12]
+[ext_resource path="res://fonts/controls.tres" type="DynamicFont" id=13]
+[ext_resource path="res://sprites/block.png" type="Texture" id=14]
+[ext_resource path="res://animations/controllines.tres" type="Animation" id=15]
+[ext_resource path="res://fonts/about.tres" type="DynamicFont" id=16]
+[ext_resource path="res://animations/about_swipe.tres" type="Animation" id=17]
+[ext_resource path="res://animations/oneplayer_swipe.tres" type="Animation" id=18]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -104,13 +103,12 @@ script/script = ExtResource( 5 )
 
 [node name="redPlayer" type="Node2D" parent="MainPage"]
 
-editor/display_folded = true
 transform/pos = Vector2( 170, 650 )
 
 [node name="Trail" type="Particles2D" parent="MainPage/redPlayer"]
 
 process/pause_mode = 2
-config/amount = 256
+config/amount = 64
 config/lifetime = 1.0
 config/process_mode = 1
 config/local_space = false
@@ -137,13 +135,13 @@ color/color_ramp = SubResource( 2 )
 [node name="Sprite" type="Sprite" parent="MainPage/redPlayer"]
 
 visibility/light_mask = 1025
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 modulate = Color( 1, 0, 0.505882, 1 )
 
 [node name="Outline" type="Sprite" parent="MainPage/redPlayer"]
 
 visibility/light_mask = 1025
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 modulate = Color( 0, 0, 0, 1 )
 
 [node name="bluePlayer" type="Node2D" parent="MainPage"]
@@ -153,7 +151,7 @@ transform/pos = Vector2( 1750, 650 )
 [node name="Trail" type="Particles2D" parent="MainPage/bluePlayer"]
 
 process/pause_mode = 2
-config/amount = 256
+config/amount = 64
 config/lifetime = 1.0
 config/process_mode = 1
 config/local_space = false
@@ -179,13 +177,13 @@ color/color = Color( 0.258824, 0.776471, 1, 1 )
 [node name="Sprite" type="Sprite" parent="MainPage/bluePlayer"]
 
 visibility/light_mask = 1025
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 modulate = Color( 0.258824, 0.776471, 1, 1 )
 
 [node name="Outline" type="Sprite" parent="MainPage/bluePlayer"]
 
 visibility/light_mask = 1025
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 modulate = Color( 0, 0, 0, 1 )
 
 [node name="ball" type="Node2D" parent="MainPage"]
@@ -195,11 +193,11 @@ transform/pos = Vector2( 960, 650 )
 [node name="Particles2D" type="Particles2D" parent="MainPage/ball"]
 
 process/pause_mode = 2
-config/amount = 256
+config/amount = 64
 config/lifetime = 1.0
 config/process_mode = 1
 config/local_space = false
-config/texture = ExtResource( 9 )
+config/texture = ExtResource( 8 )
 params/direction = 0.0
 params/spread = 0.0
 params/linear_velocity = 0.0
@@ -216,12 +214,11 @@ params/final_size = 0.0
 params/hue_variation = 0.0
 params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
-color/color = Color( 1, 1, 1, 0.0784314 )
 
 [node name="ballSprite" type="Sprite" parent="MainPage/ball"]
 
 visibility/light_mask = 2
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 modulate = Color( 0.560784, 0.164706, 0.639216, 1 )
 
 [node name="1PGame" type="Button" parent="MainPage"]
@@ -241,7 +238,7 @@ margin/left = 600.0
 margin/top = 300.0
 margin/right = 600.0
 margin/bottom = 410.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
 custom_colors/font_color_hover = Color( 1, 0, 0.505882, 1 )
 toggle_mode = false
@@ -267,7 +264,7 @@ margin/left = 650.0
 margin/top = 450.0
 margin/right = 650.0
 margin/bottom = 560.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
 custom_colors/font_color_hover = Color( 0.258824, 0.776471, 1, 1 )
 toggle_mode = false
@@ -293,7 +290,7 @@ margin/left = 700.0
 margin/top = 600.0
 margin/right = 700.0
 margin/bottom = 710.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 custom_colors/font_color_hover = Color( 0.956863, 0.721569, 0.0470588, 1 )
 toggle_mode = false
@@ -319,7 +316,7 @@ margin/left = 750.0
 margin/top = 750.0
 margin/right = 750.0
 margin/bottom = 860.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.109804, 0.647059, 0.117647, 1 )
 custom_colors/font_color_hover = Color( 0.109804, 0.647059, 0.117647, 1 )
 toggle_mode = false
@@ -345,7 +342,7 @@ margin/left = 800.0
 margin/top = 900.0
 margin/right = 800.0
 margin/bottom = 1010.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.964706, 0.835294, 1, 1 )
 custom_colors/font_color_hover = Color( 0.964706, 0.835294, 1, 1 )
 toggle_mode = false
@@ -378,7 +375,7 @@ margin/left = 700.0
 margin/top = 457.0
 margin/right = 700.0
 margin/bottom = 186.0
-texture = ExtResource( 11 )
+texture = ExtResource( 10 )
 stretch_mode = 4
 
 [node name="keyboard" type="TextureFrame" parent="ControlsPage"]
@@ -394,7 +391,7 @@ margin/left = 500.0
 margin/top = 662.0
 margin/right = 500.0
 margin/bottom = 504.0
-texture = ExtResource( 12 )
+texture = ExtResource( 11 )
 stretch_mode = 4
 
 [node name="ContBack" type="Button" parent="ControlsPage"]
@@ -416,7 +413,7 @@ margin/left = 800.0
 margin/top = 165.0
 margin/right = 800.0
 margin/bottom = 55.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.964706, 0.835294, 1, 1 )
 custom_colors/font_color_hover = Color( 0.964706, 0.835294, 1, 1 )
 toggle_mode = false
@@ -436,7 +433,7 @@ margin/left = 500.0
 margin/top = 223.0
 margin/right = 500.0
 margin/bottom = 419.0
-custom_fonts/font = ExtResource( 13 )
+custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "Controls"
 align = 1
@@ -465,7 +462,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 364.0
 margin/bottom = 87.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "MOVEMENT"
 percent_visible = 1.0
@@ -482,7 +479,7 @@ margin/left = 0.0
 margin/top = 65.0
 margin/right = 519.0
 margin/bottom = 152.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "LeftStick/Dpad"
 percent_visible = 1.0
@@ -499,7 +496,7 @@ margin/left = 0.0
 margin/top = 130.0
 margin/right = 203.0
 margin/bottom = 217.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
 text = "WASD"
 percent_visible = 1.0
@@ -516,7 +513,7 @@ margin/left = 203.0
 margin/top = 130.0
 margin/right = 228.0
 margin/bottom = 217.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "/"
 percent_visible = 1.0
@@ -533,7 +530,7 @@ margin/left = 228.0
 margin/top = 130.0
 margin/right = 387.0
 margin/bottom = 217.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
 text = "8456"
 percent_visible = 1.0
@@ -544,7 +541,7 @@ max_lines_visible = -1
 
 transform/pos = Vector2( 1.77893, 70.7307 )
 transform/scale = Vector2( 1e-05, 0.09979 )
-texture = ExtResource( 15 )
+texture = ExtResource( 14 )
 centered = false
 modulate = Color( 0.956863, 0.721569, 0.0470588, 1 )
 
@@ -569,7 +566,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 512.0
 margin/bottom = 87.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "LAUNCH    BALL"
 percent_visible = 1.0
@@ -586,7 +583,7 @@ margin/left = 0.0
 margin/top = 65.0
 margin/right = 105.0
 margin/bottom = 152.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "R3/"
 percent_visible = 1.0
@@ -603,7 +600,7 @@ margin/left = 105.0
 margin/top = 65.0
 margin/right = 274.0
 margin/bottom = 152.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
 text = "Shift"
 percent_visible = 1.0
@@ -620,7 +617,7 @@ margin/left = 274.0
 margin/top = 65.0
 margin/right = 299.0
 margin/bottom = 152.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "/"
 percent_visible = 1.0
@@ -637,7 +634,7 @@ margin/left = 299.0
 margin/top = 65.0
 margin/right = 460.0
 margin/bottom = 152.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
 text = "Plus"
 percent_visible = 1.0
@@ -654,7 +651,7 @@ margin/left = 0.0
 margin/top = 190.0
 margin/right = 204.0
 margin/bottom = 285.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "DASH"
 percent_visible = 1.0
@@ -671,7 +668,7 @@ margin/left = 0.0
 margin/top = 256.0
 margin/right = 92.0
 margin/bottom = 343.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "L3/"
 percent_visible = 1.0
@@ -688,7 +685,7 @@ margin/left = 92.0
 margin/top = 256.0
 margin/right = 297.0
 margin/bottom = 343.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
 text = "Space"
 percent_visible = 1.0
@@ -705,7 +702,7 @@ margin/left = 297.0
 margin/top = 256.0
 margin/right = 322.0
 margin/bottom = 343.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "/"
 percent_visible = 1.0
@@ -722,7 +719,7 @@ margin/left = 322.0
 margin/top = 256.0
 margin/right = 498.0
 margin/bottom = 343.0
-custom_fonts/font = ExtResource( 14 )
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
 text = "Zero"
 percent_visible = 1.0
@@ -733,7 +730,7 @@ max_lines_visible = -1
 
 transform/pos = Vector2( 1.92969, 260.294 )
 transform/scale = Vector2( 1e-05, 0.09979 )
-texture = ExtResource( 15 )
+texture = ExtResource( 14 )
 centered = false
 modulate = Color( 0.956863, 0.721569, 0.0470588, 1 )
 
@@ -741,7 +738,7 @@ modulate = Color( 0.956863, 0.721569, 0.0470588, 1 )
 
 transform/pos = Vector2( 2.3665, 70.559 )
 transform/scale = Vector2( 1e-05, 0.09979 )
-texture = ExtResource( 15 )
+texture = ExtResource( 14 )
 centered = false
 modulate = Color( 0.956863, 0.721569, 0.0470588, 1 )
 
@@ -750,7 +747,7 @@ modulate = Color( 0.956863, 0.721569, 0.0470588, 1 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/ControlLines = ExtResource( 16 )
+anims/ControlLines = ExtResource( 15 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -779,7 +776,7 @@ margin/left = 500.0
 margin/top = 223.0
 margin/right = 500.0
 margin/bottom = 419.0
-custom_fonts/font = ExtResource( 13 )
+custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "About"
 align = 1
@@ -799,7 +796,7 @@ margin/left = 100.0
 margin/top = 419.0
 margin/right = 100.0
 margin/bottom = 172.0
-custom_fonts/font = ExtResource( 17 )
+custom_fonts/font = ExtResource( 16 )
 text = "Hi, my name is Matt. Nice to meet you. Thanks for playing my game!
 
 This entire game, such as it is, was created with zero dollars (besides, I guess, having an internet connection and a computer), using the following tools:
@@ -836,7 +833,7 @@ margin/left = 800.0
 margin/top = 165.0
 margin/right = 800.0
 margin/bottom = 55.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.964706, 0.835294, 1, 1 )
 custom_colors/font_color_hover = Color( 0.964706, 0.835294, 1, 1 )
 toggle_mode = false
@@ -873,7 +870,7 @@ margin/left = 600.0
 margin/top = 435.0
 margin/right = 600.0
 margin/bottom = 545.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.109804, 0.647059, 0.117647, 1 )
 custom_colors/font_color_hover = Color( 0.109804, 0.647059, 0.117647, 1 )
 toggle_mode = false
@@ -899,7 +896,7 @@ margin/left = 650.0
 margin/top = 595.0
 margin/right = 650.0
 margin/bottom = 675.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.258824, 0.776471, 1, 1 )
 custom_colors/font_color_hover = Color( 0.258824, 0.776471, 1, 1 )
 toggle_mode = false
@@ -925,7 +922,7 @@ margin/left = 700.0
 margin/top = 755.0
 margin/right = 700.0
 margin/bottom = 835.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 1, 0, 0.505882, 1 )
 custom_colors/font_color_hover = Color( 1, 0, 0.505882, 1 )
 toggle_mode = false
@@ -951,7 +948,7 @@ margin/left = 800.0
 margin/top = 915.0
 margin/right = 800.0
 margin/bottom = 1025.0
-custom_fonts/font = ExtResource( 10 )
+custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0.964706, 0.835294, 1, 1 )
 custom_colors/font_color_hover = Color( 0.964706, 0.835294, 1, 1 )
 toggle_mode = false
@@ -971,7 +968,7 @@ margin/left = 500.0
 margin/top = 223.0
 margin/right = 500.0
 margin/bottom = 419.0
-custom_fonts/font = ExtResource( 13 )
+custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0.956863, 0.721569, 0.0470588, 1 )
 text = "1   Player"
 align = 1
@@ -984,9 +981,9 @@ max_lines_visible = -1
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/about_swipe = ExtResource( 18 )
+anims/about_swipe = ExtResource( 17 )
 anims/controls_swipe = SubResource( 3 )
-anims/oneplayer_swipe = ExtResource( 19 )
+anims/oneplayer_swipe = ExtResource( 18 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -1005,7 +1002,7 @@ margin/left = 0.0
 margin/top = 50.0
 margin/right = 0.0
 margin/bottom = 10.0
-custom_fonts/font = ExtResource( 17 )
+custom_fonts/font = ExtResource( 16 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "2017 Fair Enough Games. Made for #GitHubGameOff. Thanks for checking it out!"
 align = 1

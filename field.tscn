@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=1]
 
-[ext_resource path="res://sprites/background.png" type="Texture" id=1]
+[ext_resource path="res://sprites/bg.png" type="Texture" id=1]
 [ext_resource path="res://sprites/divider.png" type="Texture" id=2]
 [ext_resource path="res://sprites/fadeBlock.png" type="Texture" id=3]
 [ext_resource path="res://lights.gd" type="Script" id=4]
@@ -13,6 +13,7 @@
 [node name="bgColor" type="Sprite" parent="."]
 
 visibility/light_mask = 3
+transform/scale = Vector2( 1, 44 )
 texture = ExtResource( 1 )
 centered = false
 
