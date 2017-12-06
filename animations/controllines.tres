@@ -7,7 +7,7 @@ length = 1.5
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("ControlsLeft/Sprite:transform/scale")
+tracks/0/path = NodePath("System/Sprite:transform/scale")
 tracks/0/interp = 1
 tracks/0/imported = false
 tracks/0/keys = {
@@ -17,20 +17,10 @@ tracks/0/keys = {
 "values": [ Vector2( 1e-05, 0.09979 ), Vector2( 9.41584, 0.09979 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("ControlsRight/Sprite1:transform/scale")
+tracks/1/path = NodePath("Controls/Sprite2:transform/scale")
 tracks/1/interp = 1
 tracks/1/imported = false
 tracks/1/keys = {
-"times": FloatArray( 0, 1.5 ),
-"transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1e-05, 0.09979 ), Vector2( 9.22192, 0.09979 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("ControlsRight/Sprite2:transform/scale")
-tracks/2/interp = 1
-tracks/2/imported = false
-tracks/2/keys = {
 "times": FloatArray( 0, 1.5 ),
 "transitions": FloatArray( 1, 1 ),
 "update": 0,
