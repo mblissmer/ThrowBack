@@ -17,8 +17,8 @@ func _on_2PGame_pressed():
 
 func _on_Controls_pressed():
 	player.play("controls_swipe")
-	get_node("ControlsPage/ControlLines").play("ControlLines")
-	get_node("ControlsPage/ContBack").grab_focus()
+	get_node("SettingsPage/ControlLines").play("ControlLines")
+	get_node("SettingsPage/SettingsBack").grab_focus()
 	get_node("MainPage").hideParticles(true)
 
 func _on_About_pressed():
@@ -32,7 +32,7 @@ func _on_Exit_pressed():
 
 func _on_ContBack_pressed():
 	player.play_backwards("controls_swipe")
-	get_node("MainPage/Controls").grab_focus()
+	get_node("MainPage/Settings").grab_focus()
 	get_node("MainPage").hideParticles(false)
 
 func _on_DifBack_pressed():
@@ -59,5 +59,3 @@ func _on_AbtBack_pressed():
 	player.play_backwards("about_swipe")
 	get_node("MainPage/About").grab_focus()
 	get_node("MainPage").hideParticles(false)
-
-

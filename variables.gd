@@ -5,6 +5,23 @@ var difficulty = 0
 const aiSpeeds = [2,5,8]
 const aiReturnSpeeds = [1.5,1,0.5]
 const joyDZ = 0.3
+var gameMode = 0
+var gameModes = [
+	{
+		scoreLimit = 7,
+		timeLimit = 90,
+		ballCount = 1,
+		pauseEnabled = true,
+		moveWBall = false
+	},
+	{
+		scoreLimit = 15,
+		timeLimit = 100,
+		ballCount = 5,
+		pauseEnabled = false,
+		moveWBall = true
+	}
+]
 
 const colors = {
 	playerRed = Color(1, 0, 0.506),
