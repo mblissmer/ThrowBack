@@ -19,7 +19,6 @@ func _ready():
 	}
 	setResolutionOptions()
 	setGameModes()
-	setCurrentState()
 	
 func setResolutionOptions():
 	resolutionDropdown.add_item("1920x1080")
@@ -34,12 +33,17 @@ func setGameModes():
 	gameModeDropdown.add_item("Custom")
 	gameModeDropdown.select(variables.gameMode)
 	_on_Mode_Button_item_selected(variables.gameMode)
+	variables.activeGameMode.clear()
+	var k = variables.gameModes[variables.gameMode].keys()
+	var v = variables.gameModes[variables.gameMode].values()
+	for i in range(variables.gameModes[variables.gameMode].size()):
+		variables.activeGameMode[k[i]] = v[i]
 	
-func setCurrentState():
-	pass
+
 	
 func _on_Mode_Button_item_selected( ID ):
 	if ID < variables.gameModes.size():
+		variables.gameMode = ID
 		gameModeOptions.scoreLimit.set_value(variables.gameModes[ID].scoreLimit)
 		gameModeOptions.timeLimit.set_value(variables.gameModes[ID].timeLimit)
 		gameModeOptions.ballCount.set_value(variables.gameModes[ID].ballCount)
@@ -49,11 +53,32 @@ func _on_Mode_Button_item_selected( ID ):
 
 func _on_ScoreSlider_value_changed( value ):
 	gameModeOptions.scoreLimitV.set_text(str(value))
+	variables.activeGameMode.scoreLimit = value
+	if value != variables.gameModes[variables.gameMode].scoreLimit:
+		gameModeDropdown.select(2)
 
 
 func _on_TimeSlider_value_changed( value ):
 	gameModeOptions.timeLimitV.set_text(str(value))
+	variables.activeGameMode.timeLimit = value
+	if value != variables.gameModes[variables.gameMode].timeLimit:
+		gameModeDropdown.select(2)
 
 
 func _on_BallSlider_value_changed( value ):
 	gameModeOptions.ballCountV.set_text(str(value))
+	variables.activeGameMode.ballCount = value
+	if value != variables.gameModes[variables.gameMode].ballCount:
+		gameModeDropdown.select(2)
+
+
+func _on_PauseCheckBox_toggled( pressed ):
+	variables.activeGameMode.pauseEnabled = pressed
+	if pressed != variables.gameModes[variables.gameMode].pauseEnabled:
+		gameModeDropdown.select(2)
+
+
+func _on_MoveWithBallCheckBox_toggled( pressed ):
+	variables.activeGameMode.scoreLimit = pressed
+	if pressed != variables.gameModes[variables.gameMode].moveWBall:
+		gameModeDropdown.select(2)

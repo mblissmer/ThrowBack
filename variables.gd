@@ -22,6 +22,13 @@ var gameModes = [
 		moveWBall = true
 	}
 ]
+var activeGameMode = {
+	scoreLimit = 0,
+	timeLimit = 0,
+	ballCount = 0,
+	pauseEnabled = true,
+	moveWBall = false
+}
 
 const colors = {
 	playerRed = Color(1, 0, 0.506),
